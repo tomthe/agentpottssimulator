@@ -1,0 +1,60 @@
+===================================================================
+
+@@@@@@@ @          @    @     @ @@@@@@@
+@       @         @ @   @@   @@ @
+@       @        @   @  @ @ @ @ @
+@@@@@   @       @     @ @  @  @ @@@@@
+@       @       @@@@@@@ @     @ @
+@       @       @     @ @     @ @
+@       @@@@@@@ @     @ @     @ @@@@@@@
+
+The Flexible Large-scale Agent Modelling Environment
+
+Tutorial Example: Circles - point agents under elastic forces
+
+(C) 2014 STFC Rutherford Appleton Laboratory
+
+===================================================================
+
+FLAME is a generic agent-based modelling system which can be used 
+to development applications in many areas. It generates a complete 
+agent-based application which can be compiled and built on the 
+majority of computing systems ranging from laptops to super-computers.
+
+The FLAME web site www.flame.ac.uk contains details on FLAME and the
+projects in which it has been used.
+
+===================================================================
+
+NB: To make use of this FLAME example you will need to have installed
+the complete FLAME system - xparser and libmboard.
+
+Files included
+==============
+
+     circles.xml - the circles model
+     functions.c - the state transitions functions
+     its - results directory
+				
+Building  and Running the model
+===============================
+
+Build:
+1. Install xparser and libmboard
+2. Set FLAME_DIR environment variable to xparser installation directory
+3. Edit Makefile.tmpl for libmboard install directory and compilers as necessary
+4. Parser the model with xparser - xparser circles.xml
+5. Build model - make. Should results is main executable plus a few others
+
+Intial Data:
+1. cd to its directory
+2. Run init_start_state.py <w> <h> <n>: giving domain size and number of agents
+3. Starting states files, 0.xml, created
+
+Running:
+1. Back to home directory
+2. Type ./main for usage syntax - ./ main <num iters> <initial data>
+3. Type ./main 10 its/0.xml - 10 iterations of output is in its
+
+
+

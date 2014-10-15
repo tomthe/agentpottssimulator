@@ -1,0 +1,103 @@
+<states>
+   <itno>0</itno>
+
+    <xagent>
+        <name>Circle</name>
+        <id>0</id>
+        <x>-9.18</x>
+        <y>-3.90</y>
+        <fx>0.00</fx>
+        <fy>0.00</fy>
+        <radius>2.00</radius>
+    </xagent>
+
+    <xagent>
+        <name>Circle</name>
+        <id>1</id>
+        <x>7.81</x>
+        <y>0.52</y>
+        <fx>0.00</fx>
+        <fy>0.00</fy>
+        <radius>2.00</radius>
+    </xagent>
+
+    <xagent>
+        <name>Circle</name>
+        <id>2</id>
+        <x>4.33</x>
+        <y>0.03</y>
+        <fx>0.00</fx>
+        <fy>0.00</fy>
+        <radius>2.00</radius>
+    </xagent>
+
+    <xagent>
+        <name>Circle</name>
+        <id>3</id>
+        <x>-0.92</x>
+        <y>-0.06</y>
+        <fx>0.00</fx>
+        <fy>0.00</fy>
+        <radius>2.00</radius>
+    </xagent>
+
+    <xagent>
+        <name>Circle</name>
+        <id>4</id>
+        <x>-1.22</x>
+        <y>4.02</y>
+        <fx>0.00</fx>
+        <fy>0.00</fy>
+        <radius>2.00</radius>
+    </xagent>
+
+    <xagent>
+        <name>Circle</name>
+        <id>5</id>
+        <x>-8.63</x>
+        <y>-3.67</y>
+        <fx>0.00</fx>
+        <fy>0.00</fy>
+        <radius>2.00</radius>
+    </xagent>
+
+    <xagent>
+        <name>Circle</name>
+        <id>6</id>
+        <x>-9.94</x>
+        <y>-0.12</y>
+        <fx>0.00</fx>
+        <fy>0.00</fy>
+        <radius>2.00</radius>
+    </xagent>
+
+    <xagent>
+        <name>Circle</name>
+        <id>7</id>
+        <x>-10.37</x>
+        <y>-3.87</y>
+        <fx>0.00</fx>
+        <fy>0.00</fy>
+        <radius>2.00</radius>
+    </xagent>
+
+    <xagent>
+        <name>Circle</name>
+        <id>8</id>
+        <x>4.48</x>
+        <y>1.70</y>
+        <fx>0.00</fx>
+        <fy>0.00</fy>
+        <radius>2.00</radius>
+    </xagent>
+
+    <xagent>
+        <name>Circle</name>
+        <id>9</id>
+        <x>-0.75</x>
+        <y>0.14</y>
+        <fx>0.00</fx>
+        <fy>0.00</fy>
+        <radius>2.00</radius>
+    </xagent>
+</states>
