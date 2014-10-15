@@ -9,6 +9,61 @@
     <functionFiles>
         <file>functions.c</file>
     </functionFiles>
+    <dataTypes>
+	<!-- List of user defined data types -->
+	
+	<!-- Datatype position which describes a position in 3D -->
+	<dataType>
+		<name>point</name>
+		<description>position in 3D using doubles</description>
+		<variables>
+			<variable>
+				<type>double</type>
+				<name>x</name>
+				<description>position on x-axis</description>
+			</variable>
+			<variable>
+				<type>double</type>
+				<name>y</name>
+				<description>position on y-axis</description>
+			</variable>
+			<variable>
+				<type>double</type>
+				<name>z</name>
+				<description>position on z-axis</description>
+			</variable>
+		</variables>
+	</dataType>
+
+	<!-- Datatype line which is defined by two positions in 3D -->
+	<dataType>
+		<name>fourpoints</name>
+		<description>a cell defined by four points</description>
+		<variables>
+			<variable>
+				<type>point</type>
+				<name>p0</name>
+				<description>Point 0</description>
+			</variable>
+			<variable>
+				<type>point</type>
+				<name>p1</name>
+				<description>Point 1</description>
+			</variable>
+			<variable>
+				<type>point</type>
+				<name>p2</name>
+				<description>Point 2</description>
+			</variable>
+			<variable>
+				<type>point</type>
+				<name>p3</name>
+				<description>Point 3</description>
+			</variable>
+		</variables>
+	</dataType>
+
+    </dataTypes>
 </environment>
 
 <agents>
@@ -20,7 +75,7 @@
         
         <memory>
             <variable><type>int</type><name>id</name><description></description></variable>
-            <variable><type>double</type><name>points[8]</name><description>4 points [x1,y1,x2,y2...]</description></variable>
+            <variable><type>fourpoints</type><name>points</name><description>4 points (p1,p2,p3,p4) with x,y,z. points.p1.x</description></variable>
             <variable><type>int</type><name>type</name><description></description></variable>
         </memory>
 
@@ -62,7 +117,7 @@
         <description></description>
         <variables>
             <variable><type>int</type><name>id</name><description></description></variable>
-            <variable><type>double</type><name>points[8]</name><description></description></variable>
+            <variable><type>fourpoints</type><name>points</name><description></description></variable>
             <variable><type>int</type><name>type</name><description></description></variable>
         </variables>
     </message>
