@@ -18,7 +18,7 @@ outfile = "0.xml"
 radius  = 2.0
 
 # We expect 4 input arguments
-if len(sys.argv) != 4:
+if len(sys.argv) <= 2:
     print >> sys.stderr, "\nUsage: %s <width> <height> <agent_count>" % sys.argv[0]
     print >> sys.stderr, """More info:
     <width> and <height> will determine the size of simulation space in which
@@ -29,11 +29,11 @@ if len(sys.argv) != 4:
     sys.exit(1)
 
 
-width, height, acount  = map(int, sys.argv[1:])
+acount, ida  = map(int, sys.argv[1:])
 
 
-if acount < 4:
-    print >> sys.stderr, "Error: There must be at least 5 agents"
+if acount < 2:
+    print >> sys.stderr, "Error: There must be at least 2 agents"
     sys.exit(1)
 
 
@@ -41,25 +41,23 @@ if acount < 4:
 print "Writing to file %s ... " % outfile,
 f = open(outfile, "w")
 f.write("<states>\n   <itno>0</itno>\n")
-
+z=0.0
 # write out agent data
 for id in xrange(0,acount):
-    
-    x = width/4 * (random() - 0.5)
-    y = height/4 * (random() - 0.5)
-
+    ida=id % 4
+    x1 = x2 = 0.5 + ida * 1.1
+    x3 = x4 = 1.5 + ida * 1.0
+    y1 = y4 = 1.1 + id / 4
+    y2 = y3 = 0.1 + id / 4
     # write agent values to file
     f.write("""
     <xagent>
-        <name>Circle</name>
+        <name>cell2d4</name>
         <id>%d</id>
-        <x>%.2f</x>
-        <y>%.2f</y>
-        <fx>0.00</fx>
-        <fy>0.00</fy>
-        <radius>%.2f</radius>
+        <points>{{%.2f,%.2f,%.2f},{%.2f,%.2f,%.2f},{%.2f,%.2f,%.2f},{%.2f,%.2f,%.2f}}</points>
+        <type>0</type>
     </xagent>
-""" % (id, x, y, radius,))
+""" % (id, x1,y1,z,x2,y2,z,x3,y3,z,x4,y4,z,))
 
 # End XML file and close
 f.write("</states>\n")

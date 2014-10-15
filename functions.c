@@ -23,16 +23,9 @@ int movecells()
     int id = get_id();
     int type = get_type();
     
-    int changedp = 0; //or 1;2;3
-    double changedx,changedy;
-    fourpoints points2;
-	
-	
-    printf("Hallo Welt\n");printf("Hallo Welt %d", POINTS.p1.x);
-    //  
     /* temp vars  */
-    int id2,type2;
-	
+    int type2;
+    fourpoints points2;	
     /* Loop through all messages */
     START_CELLPOSITION_MESSAGE_LOOP
         /* NOTE: this IF condition is not really required due to filters */
