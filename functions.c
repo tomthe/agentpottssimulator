@@ -8,10 +8,12 @@ int outputcellposition()
 {
     /* read agent memory */
     int id = get_id();
-    double points = get_points()
-    int type = get_type()
+    //double points[8];// = get_points();
+    double *points;
+    points = get_points();
+    int type = get_type();
     /* add message to "location" board  (id, range, x, y, z) */
-    add_location_message(id, points, type);
+    add_cellposition_message(id, points, type);
 
     return 0;  /* remain alive. 1 = death */
 }
@@ -21,7 +23,8 @@ int movecells()
 {
     /* read agent memory */
     int id = get_id();
-    double points[] = get_points();
+    double *points;
+    points = get_points();
     int type = get_type();
 
     double points_temp[] = points;    
@@ -32,12 +35,12 @@ int movecells()
     int id2,type2;
 	
     /* Loop through all messages */
-    START_LOCATION_MESSAGE_LOOP
+    START_CELLPOSITION_MESSAGE_LOOP
         /* NOTE: this IF condition is not really required due to filters */
-        if((location_message->id != id)) 
+        if((cellposition_message->id != id)) 
         {
-            points2 = location_message->points;
-            type2 = location_message->type;
+            points2 = cellposition_message->points;
+            type2 = cellposition_message->type;
 
             core_distance = distance(x1,y1,x2,y2);
             
@@ -45,7 +48,7 @@ int movecells()
 		
 		
         }
-    FINISH_LOCATION_MESSAGE_LOOP
+    FINISH_CELLPOSITION_MESSAGE_LOOP
     
     /* write forces to agent memory */
     set_points(points_temp);
