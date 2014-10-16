@@ -1,13 +1,9 @@
 #!/usr/bin/env python
-# $Id: init_start_state.py 1613 2009-03-25 14:38:18Z lsc $
-# 
-# Copyright (c) 2009 STFC Rutherford Appleton Laboratory 
-# Author: Lee-Shawn Chin 
-# Date  : Nov 2009
 #
 # Description:
-#    Quick hack to create start states (0.xml) needed by the ABM_EXP model
-#
+#    Quick hack to create start states (0.xml) needed by the cellpotts abm
+#	input: number of agents, number of agents per column
+
 import re
 import os
 import sys
@@ -19,12 +15,10 @@ radius  = 2.0
 
 # We expect 4 input arguments
 if len(sys.argv) <= 2:
-    print >> sys.stderr, "\nUsage: %s <width> <height> <agent_count>" % sys.argv[0]
-    print >> sys.stderr, """More info:
-    <width> and <height> will determine the size of simulation space in which
-    agents will be randomly placed in.
-
-    <agent_count> specifies the number of agents to initialise.
+    print >> sys.stderr, "\nUsage: %s <agent_count> <n_columns>" % sys.argv[0]
+    print >> sys.stderr, """ pleas add 2 integer numbers as arguments.
+    More info:
+    input: <agent_count> number of agents, <n_columns> number of agents per column
     """ 
     sys.exit(1)
 

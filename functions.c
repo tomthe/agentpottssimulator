@@ -26,6 +26,18 @@ int movecells()
     /* temp vars  */
     int type2;
     fourpoints points2;	
+    //choose randomly if this cell should move
+	
+	
+    //choose which of the points should move
+	
+    //move point
+	
+	
+    //calculate deltaH for the inside of the cell
+	
+    //calculate deltaH for the interactions with its neighbours
+	
     /* Loop through all messages */
     START_CELLPOSITION_MESSAGE_LOOP
         /* NOTE: this IF condition is not really required due to filters */
@@ -38,8 +50,11 @@ int movecells()
 		
         }
     FINISH_CELLPOSITION_MESSAGE_LOOP
-    
-    /* write forces to agent memory */
+	
+    // add up all delta-energies
+	
+    // decide if delta-energy is positive ... if the whole energy decreases
+    /* write new position to agent memory  or go back to old position */
     //set_points(points_temp);
     
     return 0; 
