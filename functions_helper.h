@@ -104,8 +104,10 @@ double calc_surface_length(fourpoints points)
 
 double calc_H_surface(fourpoints points)
 {
+    //always positive. near 0 -> better
     double surface = calc_surface_length(points);
     double H = pow((surface - cof_surface_target[TYPE]), 2.0) * cof_surface_alpha[TYPE];
+    printf(" | surface: %f| ", surface);
     return H;
 }
 
@@ -128,7 +130,7 @@ double calculate_fourpoints_area(fourpoints points)
 {
     double X[] = {points.p0.x,points.p1.x,points.p2.x,points.p3.x};
     double Y[] = {points.p0.y,points.p1.y,points.p2.y,points.p3.y};
-    return calculate_polygon_area(X,Y,4);
+    return -calculate_polygon_area(X,Y,4); //negative because counterclockwise...
 }
 
 
@@ -136,6 +138,7 @@ double calc_H_volume(fourpoints points)
 {
     double area = calculate_fourpoints_area(points);
     double H = pow((cof_volume_target[TYPE] - area),2.0) * cof_volume_alpha[TYPE];
+    printf(" | area: %f |",area);
     return H;
 }
 
@@ -146,19 +149,27 @@ double calculate_deltaH_inside(fourpoints points2, fourpoints points1)
     double deltaH = 0.0;
     double H1 = 0.0;
     double H2 = 0.0;
+
+    double H_vol1,H_vol2,H_surf1,H_surf2,H_conv1,H_conv2;
     
     if (cof_volume_do_calc[TYPE]){
-        H1 += calc_H_volume(points1);
-        H2 += calc_H_volume(points2);
+        H_vol1 = calc_H_volume(points1);
+        H_vol2 = calc_H_volume(points2);
     }
     if (cof_surface_do_calc[TYPE]){
-        H1 += calc_H_surface(points1);
-        H2 += calc_H_surface(points2);
+        H_surf1 = calc_H_surface(points1);
+        H_surf2 = calc_H_surface(points2);
     }
     if (cof_convex_do_calc[TYPE]){
-        H1 += calc_H_convex(points1);
-        H2 += calc_H_convex(points2);
+        H_conv1 = calc_H_convex(points1);
+        H_conv2 = calc_H_convex(points2);
     }
+    H1 = H_vol1 + H_surf1 + H_conv1;
+    H2 = H_vol2 + H_surf2 + H_conv2;
+
     deltaH = H2-H1;
+
+    printf("\n H v1: %4.2f,v2: %4.2f; s1:%4.2f, s2:%4.2f; c1:%4.2f, c2: %4.2f", H_vol1,H_vol2,H_surf1,H_surf2,H_conv1,H_conv2);
+
     return deltaH;
 }

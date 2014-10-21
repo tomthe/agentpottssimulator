@@ -34,36 +34,36 @@ int movecells()
     {
 		
         //choose which of the corners should move and  move this corner
-        print_positions(points2);
+        //print_positions(points2);
  		choose_and_move_one_of_4_corners(&points2);
-		print_positions(points2);
+        //print_positions(points2);
  
 	    //calculate deltaH for the inside of the cell
         double deltaH_inside = calculate_deltaH_inside(points2,POINTS);
-        printf("deltatH: %f\n",  deltaH_inside);
+        //printf("deltatH: %f\n",  deltaH_inside);
         double deltaH_interaction = 0.0;
 	    //calculate deltaH for the interactions with its neighbours
 		
-	 //    /* Loop through all messages */
-	 //    START_CELLPOSITION_MESSAGE_LOOP
+     //    /* Loop through all messages */
+     //    START_CELLPOSITION_MESSAGE_LOOP
 		// /* NOTE: this IF condition is not really required due to filters */
 		// if((cellposition_message->id != id)) 
 		// {
 		//     points2 = cellposition_message->points;
 		//     type2 = cellposition_message->type;
 
-		    
-			
+
+
 		// }
 	 //    FINISH_CELLPOSITION_MESSAGE_LOOP
-		
+
 	    // add up all delta-energies
 		double deltaH = deltaH_inside + deltaH_interaction;
 		printf("Type: %d, id: %d, deltatH: %f\n", TYPE, ID, deltaH);
-		if (deltaH <= 0)
+        if (deltaH <= 0)
 		{
 			POINTS = points2;
-		}
+        }
 
 	    // decide if delta-energy is negative ... if the whole energy decreases
 	    /* write new position to agent memory  or go back to old position */
