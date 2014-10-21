@@ -173,3 +173,84 @@ double calculate_deltaH_inside(fourpoints points2, fourpoints points1)
 
     return deltaH;
 }
+
+int is_point_inside_polygon(point p, fourpoints cell)
+{
+
+}
+
+int is_point_near_finite_line(point p, point start, point end)
+{
+
+}
+
+int is_point_near_edge_of_polygon(point p,fourpoints cell, double d)
+{
+    if (dist_to_segment_squared(p,cell.p0,cell.p1)<d)
+    { return 1;}
+    else if (dist_to_segment_squared(p,cell.p1,cell.p2)<d)
+    { return 1;}
+    else if (dist_to_segment_squared(p,cell.p2,cell.p3)<d)
+    { return 1;}
+    else if (dist_to_segment_squared(p,cell.p3,cell.p0)<d)
+    { return 1;}
+    else
+    { return 0;}
+}
+
+double sqr(x){ return x * x;}
+double dist2(point v, point w) { return sqr(v.x - w.x) + sqr(v.y - w.y); }
+double dist_to_segment_squared(point p,point v, point w)
+{
+  double l2 = dist2(v, w);
+  if (l2 == 0)
+      return dist2(p, v);
+  double t = ((p.x - v.x) * (w.x - v.x) + (p.y - v.y) * (w.y - v.y)) / l2;
+  if (t < 0)
+      return dist2(p, v);
+  if (t > 1)
+      return dist2(p, w);
+  point p2;
+  p2.x = v.x + t * (w.x - v.x);
+  p2.y = v.y + t * (w.y - v.y);
+  return dist2(p, p2);
+}
+double dist_to_segment(p, v, w) { return sqrt(dist_to_segment_squared(p, v, w));
+
+
+
+double calc_H_contact(fourpoints points)
+{
+    double H_contact = 0;
+    //for every near other_cell:
+      //for every corner of points:
+        //check if corner is inside other_cell
+    START_CELLPOSITION_MESSAGE_LOOP
+        //...for every other_cell...
+        if (is_point_inside_polygon(points.p0, cellposition_message->points))
+        {
+            //corner is inside other cell --> high H, according to cof...intersection
+            if(is_point_near_edge_of_polygon(points.p0,cellposition_message->points), cof_contact_distance[TYPE])
+            {
+                //corner is near the edge of a different cell --> H according to cof_contact
+                H_contact = cof_contact_edge[TYPE][cellposition_message->type];
+            }
+        }
+
+    FINISH_CELLPOSITION_MESSAGE_LOOP
+}
+
+
+double calculate_deltaH_interactions(fourpoints points2, fourpoints points1)
+{
+    double deltaH = 0;
+    double H_contact1, H_contact2;
+
+
+    if (cof_contact_do_calc[TYPE])
+    {
+        H_contact1 = calc_H_contact(points1);
+        H_contact2 = calc_H_contact(points2);
+    }
+    return H_contact2-H_contact1;
+}

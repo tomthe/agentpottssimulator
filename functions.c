@@ -41,7 +41,7 @@ int movecells()
 	    //calculate deltaH for the inside of the cell
         double deltaH_inside = calculate_deltaH_inside(points2,POINTS);
         //printf("deltatH: %f\n",  deltaH_inside);
-        double deltaH_interaction = 0.0;
+        double deltaH_interaction = calculate_deltaH_interactions(points2,POINTS);
 	    //calculate deltaH for the interactions with its neighbours
 		
      //    /* Loop through all messages */
