@@ -29,8 +29,6 @@ acount, ida  = map(int, sys.argv[1:])
 if acount < 2:
     print >> sys.stderr, "Error: There must be at least 2 agents"
     sys.exit(1)
-
-
 # Open file and write preamble
 print "Writing to file %s ... " % outfile,
 f = open(outfile, "w")

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<flame_visualiser_config version="0.1">
+    <resultsData>
+        <directory></directory>
+    </resultsData>
+    <timeScale>
+        <enable>false</enable>
+        <milliseconds>0</milliseconds>
+        <seconds>0</seconds>
+        <minutes>0</minutes>
+        <hours>0</hours>
+        <days>0</days>
+        <displayTimeInVisual>false</displayTimeInVisual>
+    </timeScale>
+    <animation>
+        <delay>0</delay>
+    </animation>
+    <visual>
+        <view>3</view>
+        <ratio>0.037037</ratio>
+        <xrotate>0</xrotate>
+        <yrotate>0</yrotate>
+        <xmove>0</xmove>
+        <ymove>0</ymove>
+        <zmove>-3</zmove>
+        <orthoZoom>1</orthoZoom>
+        <backgroundColour>
+            <r>255</r>
+            <g>255</g>
+            <b>255</b>
+        </backgroundColour>
+        <rules/>
+    </visual>
+    <graph/>
+</flame_visualiser_config>

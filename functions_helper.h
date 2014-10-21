@@ -5,13 +5,20 @@
 
 int decide_if_cell_should_move()
 {
-    if ((rand() % 10) < 2){
+    if ((rand() % 100) < cof_percent_of_cells_that_should_move_in_one_ts){
+        //move
         return 1;
     } else {
+        //dont move
         return 0;
     }
 }
 
+int print_positions(fourpoints point)
+{
+    printf("positions: (%f,%f); (%f,%f); (%f,%f); (%f,%f); \n", point.p0.x,point.p0.y,point.p1.x,point.p1.y,point.p2.x,point.p2.y,point.p3.x,point.p3.y);
+    return 0;
+}
 
 double rand_double_m_to_n(double m, double n)
 {
@@ -19,27 +26,28 @@ double rand_double_m_to_n(double m, double n)
 }
 /* move a corner in a random direction
  *  */
-int choose_and_move_one_of_4_corners(fourpoints points2)
+int choose_and_move_one_of_4_corners(fourpoints *points2)
 {
     double dx = rand_double_m_to_n(-(cof_move_step_size[TYPE]),cof_move_step_size[TYPE]);
     double dy = rand_double_m_to_n(-(cof_move_step_size[TYPE]),cof_move_step_size[TYPE]);
-
     int r = rand() % 4;
     if (r==0){
-        points2.p0.x += dx;
-        points2.p0.y += dy;
+        (*points2).p0.x += dx;
+        (*points2).p0.y += dy;
     } else if(r==1){
-        points2.p1.x += dx;
-        points2.p1.y += dy;
+        points2->p1.x += dx;
+        points2->p1.y += dy;
     } else if(r==2){
-        points2.p2.x += dx;
-        points2.p2.y += dy;
+        points2->p2.x += dx;
+        points2->p2.y += dy;
     } else if(r==3){
-        points2.p3.x += dx;
-        points2.p3.y += dy;
+        (*points2).p3.x += dx;
+        (*points2).p3.y += dy;
     }
+    //printf("move corner: dx: %f, dy: %f;\n", dx,dy);
     return 0;
 }
+
 
 int is_left_curve(point a, point c, point b){
     //true if ( you go from a --> b --> c; you turn left on point b
