@@ -21,13 +21,7 @@ int outputcellposition()
 
 int movecells()
 {
-    /* read agent memory */
-    int id = get_id();
-    int type = get_type();
-    
-    /* temp vars  */
-    int type2;
-    fourpoints points2 = POINTS;	
+    fourpoints points2 = POINTS;
 	
     //choose randomly if this cell should move
     if (decide_if_cell_should_move() !=0)
@@ -43,7 +37,7 @@ int movecells()
         //printf("deltatH: %f\n",  deltaH_inside);
         double deltaH_interaction = calculate_deltaH_interactions(points2,POINTS);
 	    //calculate deltaH for the interactions with its neighbours
-		
+        printf("\ndeltaH_interaction: %5.2f; dH_inside: %5.2f\n", deltaH_interaction,deltaH_inside);
      //    /* Loop through all messages */
      //    START_CELLPOSITION_MESSAGE_LOOP
 		// /* NOTE: this IF condition is not really required due to filters */

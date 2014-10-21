@@ -173,32 +173,35 @@ double calculate_deltaH_inside(fourpoints points2, fourpoints points1)
 
     return deltaH;
 }
-
+/*
+ *
 int is_point_inside_polygon(point p, fourpoints cell)
 {
 
 }
+*/
+
+int is_point_inside_cell(point p, fourpoints cell)
+{
+  #define nvert 4
+  double vertx[4] = {cell.p0.x,cell.p1.x,cell.p2.x,cell.p3.x};
+  double verty[4] = {cell.p0.x,cell.p1.x,cell.p2.x,cell.p3.x};
+
+  int i, j, c = 0;
+  for (i = 0, j = nvert-1; i < nvert; j = i++) {
+    if ( ((verty[i]>p.y) != (verty[j]>p.y)) &&
+     (p.x < (vertx[j]-vertx[i]) * (p.y-verty[i]) / (verty[j]-verty[i]) + vertx[i]) )
+       c = !c;
+  }
+  return c;
+}
 
 int is_point_near_finite_line(point p, point start, point end)
 {
-
+    return 0;
 }
 
-int is_point_near_edge_of_polygon(point p,fourpoints cell, double d)
-{
-    if (dist_to_segment_squared(p,cell.p0,cell.p1)<d)
-    { return 1;}
-    else if (dist_to_segment_squared(p,cell.p1,cell.p2)<d)
-    { return 1;}
-    else if (dist_to_segment_squared(p,cell.p2,cell.p3)<d)
-    { return 1;}
-    else if (dist_to_segment_squared(p,cell.p3,cell.p0)<d)
-    { return 1;}
-    else
-    { return 0;}
-}
-
-double sqr(x){ return x * x;}
+double sqr(double x){ return x * x;}
 double dist2(point v, point w) { return sqr(v.x - w.x) + sqr(v.y - w.y); }
 double dist_to_segment_squared(point p,point v, point w)
 {
@@ -215,9 +218,21 @@ double dist_to_segment_squared(point p,point v, point w)
   p2.y = v.y + t * (w.y - v.y);
   return dist2(p, p2);
 }
-double dist_to_segment(p, v, w) { return sqrt(dist_to_segment_squared(p, v, w));
+//double dist_to_segment(p, v, w) { return sqrt(dist_to_segment_squared(p, v, w));}
 
-
+int is_point_near_edge_of_polygon(point p,fourpoints cell, double d)
+{
+    if (dist_to_segment_squared(p,cell.p0,cell.p1)<d)
+    { return 1;}
+    else if (dist_to_segment_squared(p,cell.p1,cell.p2)<d)
+    { return 1;}
+    else if (dist_to_segment_squared(p,cell.p2,cell.p3)<d)
+    { return 1;}
+    else if (dist_to_segment_squared(p,cell.p3,cell.p0)<d)
+    { return 1;}
+    else
+    { return 0;}
+}
 
 double calc_H_contact(fourpoints points)
 {
@@ -227,23 +242,52 @@ double calc_H_contact(fourpoints points)
         //check if corner is inside other_cell
     START_CELLPOSITION_MESSAGE_LOOP
         //...for every other_cell...
-        if (is_point_inside_polygon(points.p0, cellposition_message->points))
+        if (is_point_inside_cell(points.p0, cellposition_message->points))
         {
             //corner is inside other cell --> high H, according to cof...intersection
-            if(is_point_near_edge_of_polygon(points.p0,cellposition_message->points), cof_contact_distance[TYPE])
+            H_contact += cof_contact_intersection[TYPE][cellposition_message->type];
+            if(is_point_near_edge_of_polygon(points.p0, cellposition_message->points, cof_contact_distance[TYPE]))
             {
                 //corner is near the edge of a different cell --> H according to cof_contact
-                H_contact = cof_contact_edge[TYPE][cellposition_message->type];
+                H_contact += cof_contact_edge[TYPE][cellposition_message->type];
+            }
+        } else if(is_point_inside_cell(points.p1, cellposition_message->points))
+        {
+            H_contact += cof_contact_intersection[TYPE][cellposition_message->type];
+            if(is_point_near_edge_of_polygon(points.p1,cellposition_message->points, cof_contact_distance[TYPE]))
+            {
+                H_contact += cof_contact_edge[TYPE][cellposition_message->type];
+            }
+        } else if(is_point_inside_cell(points.p2, cellposition_message->points))
+        {
+            H_contact += cof_contact_intersection[TYPE][cellposition_message->type];
+            if(is_point_near_edge_of_polygon(points.p2,cellposition_message->points, cof_contact_distance[TYPE]))
+            {
+                //corner is near the edge of a different cell --> H according to cof_contact
+                H_contact += cof_contact_edge[TYPE][cellposition_message->type];
+            }
+        } else if(is_point_inside_cell(points.p3, cellposition_message->points))
+        {
+            H_contact += cof_contact_intersection[TYPE][cellposition_message->type];
+            if(is_point_near_edge_of_polygon(points.p3,cellposition_message->points, cof_contact_distance[TYPE]))
+            {
+                //corner is near the edge of a different cell --> H according to cof_contact
+                H_contact += cof_contact_edge[TYPE][cellposition_message->type];
             }
         }
 
     FINISH_CELLPOSITION_MESSAGE_LOOP
+    if (H_contact >0)
+    {
+        printf("Contact! H: %5.3f",H_contact);
+    }
+    return H_contact;
 }
 
 
 double calculate_deltaH_interactions(fourpoints points2, fourpoints points1)
 {
-    double deltaH = 0;
+    //double deltaH = 0;
     double H_contact1, H_contact2;
 
 

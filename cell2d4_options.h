@@ -24,4 +24,6 @@ int cof_convex_do_calc[] = {1,1,1};
 int cof_contact_do_calc[] = {1,1,1};
 double cof_contact_distance[] = {0.2,0.1,0.1};
 
-double cof_contact_edge[][] = {{2.0,2.0,2.0},{2.0,2.0,2.0},{2.0,2.0,2.0}};
+#define n_cell_types 3
+double cof_contact_edge[n_cell_types][n_cell_types] = {{2.0,2.0,2.0},{2.0,2.0,2.0},{2.0,2.0,2.0}};
+double cof_contact_intersection[n_cell_types][n_cell_types] = {{55.0,52.0,52.0},{52.0,52.0,52.0},{52.0,52.0,52.0}};
