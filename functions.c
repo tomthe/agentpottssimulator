@@ -14,7 +14,6 @@ int outputcellposition()
     int type = get_type();
     /* add message to "location" board  (id, range, x, y, z) */
     add_cellposition_message(id, POINTS, type);
-
     return 0;  /* remain alive. 1 = death */
 }
 
@@ -31,13 +30,13 @@ int movecells()
         //print_positions(points2);
  		choose_and_move_one_of_4_corners(&points2);
         //print_positions(points2);
- 
+
 	    //calculate deltaH for the inside of the cell
         double deltaH_inside = calculate_deltaH_inside(points2,POINTS);
         //printf("deltatH: %f\n",  deltaH_inside);
         double deltaH_interaction = calculate_deltaH_interactions(points2,POINTS);
 	    //calculate deltaH for the interactions with its neighbours
-        printf("\ndeltaH_interaction: %5.2f; dH_inside: %5.2f\n", deltaH_interaction,deltaH_inside);
+        printf("deltaH_interaction: %5.2f; dH_inside: %5.2f\n ", deltaH_interaction,deltaH_inside);
      //    /* Loop through all messages */
      //    START_CELLPOSITION_MESSAGE_LOOP
 		// /* NOTE: this IF condition is not really required due to filters */
@@ -47,13 +46,12 @@ int movecells()
 		//     type2 = cellposition_message->type;
 
 
-
 		// }
 	 //    FINISH_CELLPOSITION_MESSAGE_LOOP
 
 	    // add up all delta-energies
 		double deltaH = deltaH_inside + deltaH_interaction;
-		printf("Type: %d, id: %d, deltatH: %f\n", TYPE, ID, deltaH);
+        //printf("Type: %d, id: %d, deltatH: %f\n", TYPE, ID, deltaH);
         if (deltaH <= 0)
 		{
 			POINTS = points2;

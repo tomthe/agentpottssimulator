@@ -107,7 +107,7 @@ double calc_H_surface(fourpoints points)
     //always positive. near 0 -> better
     double surface = calc_surface_length(points);
     double H = pow((surface - cof_surface_target[TYPE]), 2.0) * cof_surface_alpha[TYPE];
-    printf(" | surface: %f| ", surface);
+    //printf(" | surface: %f| ", surface);
     return H;
 }
 
@@ -138,7 +138,7 @@ double calc_H_volume(fourpoints points)
 {
     double area = calculate_fourpoints_area(points);
     double H = pow((cof_volume_target[TYPE] - area),2.0) * cof_volume_alpha[TYPE];
-    printf(" | area: %f |",area);
+    //printf(" | area: %f |",area);
     return H;
 }
 
@@ -169,7 +169,7 @@ double calculate_deltaH_inside(fourpoints points2, fourpoints points1)
 
     deltaH = H2-H1;
 
-    printf("\n H v1: %4.2f,v2: %4.2f; s1:%4.2f, s2:%4.2f; c1:%4.2f, c2: %4.2f", H_vol1,H_vol2,H_surf1,H_surf2,H_conv1,H_conv2);
+    //printf("\n H v1: %4.2f,v2: %4.2f; s1:%4.2f, s2:%4.2f; c1:%4.2f, c2: %4.2f", H_vol1,H_vol2,H_surf1,H_surf2,H_conv1,H_conv2);
 
     return deltaH;
 }
@@ -236,7 +236,7 @@ int is_point_near_edge_of_polygon(point p,fourpoints cell, double d)
 
 double calc_H_contact(fourpoints points)
 {
-    double H_contact = 0;
+    double H_contact = cof_contact_medium[TYPE];
     //for every near other_cell:
       //for every corner of points:
         //check if corner is inside other_cell
@@ -277,7 +277,7 @@ double calc_H_contact(fourpoints points)
         }
 
     FINISH_CELLPOSITION_MESSAGE_LOOP
-    if (H_contact >0)
+    if (H_contact >cof_contact_medium[TYPE])
     {
         printf("Contact! H: %5.3f",H_contact);
     }
@@ -296,5 +296,6 @@ double calculate_deltaH_interactions(fourpoints points2, fourpoints points1)
         H_contact1 = calc_H_contact(points1);
         H_contact2 = calc_H_contact(points2);
     }
+    printf("||H1: %4.2f; Hc2: %4.2f||",H_contact1,H_contact2);
     return H_contact2-H_contact1;
 }

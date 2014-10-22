@@ -36,6 +36,7 @@ f.write("<states>\n   <itno>0</itno>\n")
 z=0.0
 # write out agent data
 for id in xrange(0,acount):
+    celltype= id%2
     ida=id % 4
     x1 = x2 = 0.5 + ida * 1.1
     x3 = x4 = 1.5 + ida * 1.0
@@ -47,9 +48,9 @@ for id in xrange(0,acount):
         <name>cell2d4</name>
         <id>%d</id>
         <points>{{%.2f,%.2f,%.2f},{%.2f,%.2f,%.2f},{%.2f,%.2f,%.2f},{%.2f,%.2f,%.2f}}</points>
-        <type>0</type>
+        <type>%d</type>
     </xagent>
-""" % (id, x1,y1,z,x2,y2,z,x3,y3,z,x4,y4,z,))
+""" % (id, x1,y1,z,x2,y2,z,x3,y3,z,x4,y4,z,celltype))
 
 # End XML file and close
 f.write("</states>\n")
