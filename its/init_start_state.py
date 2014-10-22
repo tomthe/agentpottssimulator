@@ -47,10 +47,10 @@ for id in xrange(0,acount):
     <xagent>
         <name>cell2d4</name>
         <id>%d</id>
-        <points>{{%.2f,%.2f,%.2f},{%.2f,%.2f,%.2f},{%.2f,%.2f,%.2f},{%.2f,%.2f,%.2f}}</points>
+        <corners>{%.2f,%.2f,%.2f,%.2f,%.2f,%.2f,%.2f,%.2f}</corners>
         <type>%d</type>
     </xagent>
-""" % (id, x1,y1,z,x2,y2,z,x3,y3,z,x4,y4,z,celltype))
+""" % (id, x1,y1,x2,y2,x3,y3,x4,y4,celltype))
 
 # End XML file and close
 f.write("</states>\n")

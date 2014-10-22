@@ -13,8 +13,8 @@ int outputcellposition()
     int id = get_id();
     int type = get_type();
     /* add message to "location" board  (id, range, x, y, z) */
-    add_cellposition_message(id, POINTS, type);
-    MIDDLE[1]=44.4;
+    add_cellposition_message(id, CORNERS, type);
+    //MIDDLE[1]=44.4;
 
     return 0;  /* remain alive. 1 = death */
 }
@@ -22,7 +22,9 @@ int outputcellposition()
 
 int movecells()
 {
-    fourpoints points2 = POINTS;
+    double corners2[(N_CORNERS * 2)];
+    copy_array_to_array(CORNERS,corners2,N_CORNERS*2);
+    print_positions(corners2);
 	
     //choose randomly if this cell should move
     if (decide_if_cell_should_move() !=0)
@@ -30,38 +32,38 @@ int movecells()
 		
         //choose which of the corners should move and  move this corner
         //print_positions(points2);
- 		choose_and_move_one_of_4_corners(&points2);
+        choose_and_move_one_of_4_corners(corners2);
         //print_positions(points2);
 
-	    //calculate deltaH for the inside of the cell
-        double deltaH_inside = calculate_deltaH_inside(points2,POINTS);
+        //calculate deltaH for the inside of the cell
+        double deltaH_inside = calculate_deltaH_inside(corners2,CORNERS);
         //printf("deltatH: %f\n",  deltaH_inside);
-        double deltaH_interaction = calculate_deltaH_interactions(points2,POINTS);
-	    //calculate deltaH for the interactions with its neighbours
+        double deltaH_interaction = calculate_deltaH_interactions(corners2,CORNERS);
+        //calculate deltaH for the interactions with its neighbours
         printf("deltaH_interaction: %5.2f; dH_inside: %5.2f\n middle: %4.2f \n", deltaH_interaction,deltaH_inside,MIDDLE[1]);
-     //    /* Loop through all messages */
+     //      Loop through all messages
      //    START_CELLPOSITION_MESSAGE_LOOP
-		// /* NOTE: this IF condition is not really required due to filters */
-		// if((cellposition_message->id != id)) 
-		// {
-		//     points2 = cellposition_message->points;
-		//     type2 = cellposition_message->type;
+        //  NOTE: this IF condition is not really required due to filters
+        // if((cellposition_message->id != id))
+        // {
+        //     points2 = cellposition_message->points;
+        //     type2 = cellposition_message->type;
 
 
-		// }
-	 //    FINISH_CELLPOSITION_MESSAGE_LOOP
+        // }
+     //    FINISH_CELLPOSITION_MESSAGE_LOOP
 
-	    // add up all delta-energies
-		double deltaH = deltaH_inside + deltaH_interaction;
+        // add up all delta-energies
+        double deltaH = deltaH_inside + deltaH_interaction;
         //printf("Type: %d, id: %d, deltatH: %f\n", TYPE, ID, deltaH);
         if (deltaH <= 0)
-		{
-			POINTS = points2;
+        {
+            CORNERS = corners2;
         }
 
-	    // decide if delta-energy is negative ... if the whole energy decreases
-	    /* write new position to agent memory  or go back to old position */
-	    //set_points(points_temp);
+        // decide if delta-energy is negative ... if the whole energy decreases
+        // write new position to agent memory  or go back to old position //
+        //set_points(points_temp);
     }
     return 0; 
 }

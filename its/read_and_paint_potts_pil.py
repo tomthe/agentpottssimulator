@@ -64,9 +64,9 @@ def pointstring_to_positions(cell_string):
 	cell_string = cell_string.replace("}","")
 	cells = cell_string.split(",")
 	p0=[float(cells[0]),float(cells[1])]
-	p1=[float(cells[3]),float(cells[4])]
-	p2=[float(cells[6]),float(cells[7])]
-	p3=[float(cells[9]),float(cells[10])]
+	p1=[float(cells[2]),float(cells[3])]
+	p2=[float(cells[4]),float(cells[5])]
+	p3=[float(cells[6]),float(cells[7])]
 
 	corners = [p0,p1,p2,p3]
 	#print "corners: ",corners
