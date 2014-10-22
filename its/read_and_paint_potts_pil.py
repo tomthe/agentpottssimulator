@@ -46,7 +46,7 @@ def read_data_from_one_timestep(filename):
 	tree = ET.parse(filename)
 	root = tree.getroot()
 	cells = []
-	for cellxml in root.iter('points'):
+	for cellxml in root.iter('corners'):
 		pointstring = cellxml.text
 		cell_points = pointstring_to_positions(pointstring)
 		cells.append(cell_points)
@@ -69,7 +69,7 @@ def pointstring_to_positions(cell_string):
 	p3=[float(cells[6]),float(cells[7])]
 
 	corners = [p0,p1,p2,p3]
-	#print "corners: ",corners
+	print "corners: ",corners
 	return corners
 
 
@@ -90,6 +90,7 @@ def read_and_paint_many_timesteps(start,stop):
 		try:
 			filename = str(i) + ".xml"
 			read_and_paint_one_timestep(filename)
+			print "painted file: ", filename
 		except:
 			print " no xml-file: ", filename
 	pass
@@ -114,4 +115,4 @@ def just_code():
 #test_draw()
 #test_onefile()
 
-read_and_paint_many_timesteps(0,2500)
+read_and_paint_many_timesteps(0,2000)

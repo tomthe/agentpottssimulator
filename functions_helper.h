@@ -45,7 +45,7 @@ int choose_and_move_one_of_4_corners(double *corners)
 }
 
 
-int is_left_curve(double *a, double *c, double *b){
+int is_left_curve_old(double *a, double *c, double *b){
     //true if ( you go from a --> b --> c; you turn left on point b
     //Where a = line point 1; c = line point 2; b = point to check against.
 
@@ -56,20 +56,23 @@ int is_left_curve(double *a, double *c, double *b){
         return 0;
     }
 }
-
+int is_left_curve(double *corners,int a,int b, int c){
+    //true if ( you go from a --> b --> c; you turn left on point b
+    //Where a = line point 1; c = line point 2; b = point to check against.
+    if(((corners[b*2] - corners[a*2])*(corners[c*2+1] - corners[a*2+1]) - (corners[b*2+1] - corners[a*2+1])*(corners[c*2] - corners[a*2])) < 0){
+        return 1;
+    }else{
+        return 0;
+    }
+}
 double calc_H_convex(double *corners)
 {
-    for (int i=0;i<(N_CORNERS*2);i+=2)
-    {
+
     //check if the 2. point lies right of the line between point 1 and 2:
-        if (is_left_curve({corners[0],corners[1]},{corners[2],corners[3]},{corners[4],corners[5]}))
-
-    }
-
-    if (is_left_curve({corners[0],corners[1]},{corners[2],corners[3]},{corners[4],corners[5]})){
-        if (is_left_curve({corners[2],corners[3]},{corners[4],corners[5]},{corners[6],corners[7]})){
-            if (is_left_curve({corners[4],corners[5]},{corners[6],corners[7]},{corners[0],corners[1]})){
-                if (is_left_curve({corners[6],corners[7]},{corners[0],corners[1]},{corners[2],corners[3]})){
+    if (is_left_curve(corners,0,1,2)){
+        if (is_left_curve(corners,1,2,3)){
+            if (is_left_curve(corners,2,3,0)){
+                if (is_left_curve(corners,3,0,1)){
                     //yes, every corner is convex
                     return 0.0;
                 }
@@ -137,7 +140,7 @@ double calculate_polygon_area(double X[], double Y[], int num_points)
 double calculate_corners_area(double *corners)
 {
     double area = 0;         // Accumulates area in the loop
-    int j = num_points-1;  // The last vertex is the 'previous' one to the first
+    int j = N_CORNERS-1;  // The last vertex is the 'previous' one to the first
 
     for (int i=0; i<N_CORNERS; i++)
       { area = area +  (corners[j*2]+corners[i*2]) * (corners[j*2+1]-corners[i*2+1]);
@@ -210,8 +213,9 @@ int is_point_inside_cell(double *p, double *corners)
 
 
 double sqr(double x){ return x * x;}
+/*
 double dist2(double *v, double *w) { return sqr(v[0] - w[0]) + sqr(v[1] - w[1]); }
-double dist_to_segment_squared(point p,point v, point w)
+double dist_to_segment_squared(double *p,double *v, double *w)
 {
   double l2 = dist2(v, w);
   if (l2 == 0)
@@ -221,21 +225,38 @@ double dist_to_segment_squared(point p,point v, point w)
       return dist2(p, v);
   if (t > 1)
       return dist2(p, w);
-  point p2;
+  double *p2;
   p2[0] = v[0] + t * (w[0] - v[0]);
   p2[1] = v[1] + t * (w[1] - v[1]);
   return dist2(p, p2);
+}*/
+
+double dist4(double vx,double vy, double wx,double wy) { return sqr(vx - wx) + sqr(vy - wy); }
+double dist_to_segment_squared(double px,double py,double vx,double vy, double wx,double wy)
+{
+  double l2 = dist4(vx,vy, wx,wy);
+  if (l2 == 0)
+      return dist4(px,py, vx,vy);
+  double t = ((py - vy) * (wy - vy) + (px - vx) * (wx - vx)) / l2;
+  if (t < 0)
+      return dist4(px,py, vx,vy);
+  if (t > 1)
+      return dist4(px,py, wx,wy);
+  double p2x,p2y;
+  p2y = vy + t * (wy - vy);
+  p2x = vx + t * (wx - vx);
+  return dist4(px,py, p2x,p2y);
 }
 //double dist_to_segment(p, v, w) { return sqrt(dist_to_segment_squared(p, v, w));}
 
 int is_point_near_edge_of_polygon(double *p, double *cell, double d)
 {
-    if (dist_to_segment_squared(p,{cell[6],cell[7]},{cell[0],cell[1]})<d)
+    if (dist_to_segment_squared(p[0],p[1],cell[6],cell[7],cell[0],cell[1])<d)
         { return 1;}
 
-    for (int i=0;i++;i<(N_CORNERS-1))
+    for (int i=0;i<(N_CORNERS-1);i++)
     {
-        if (dist_to_segment_squared(p,{cell[i*2],cell[i*2+1]},{cell[(i+1)*2],cell[(i+1)*2+1]})<d)
+        if (dist_to_segment_squared(p[0],p[1],cell[i*2],cell[i*2+1],cell[(i+1)*2],cell[(i+1)*2+1])<d)
         {
             return 1;
         }
@@ -253,11 +274,12 @@ double calc_H_contact(double *corners)
         //...for every other_cell...
         for (int i=0;i<N_CORNERS;i++)
         {
-            if (is_point_inside_cell({corners[i*2],corners[i*2+1]}, cellposition_message->points))
+            double p[2] = {corners[i*2],corners[i*2+1]};
+            if (is_point_inside_cell(p, cellposition_message->corners))
             {
                 //corner is inside other cell --> high H, according to cof...intersection
                 H_contact += cof_contact_intersection[TYPE][cellposition_message->type];
-                if(is_point_near_edge_of_polygon({corners[i*2],corners[i*2+1]}, cellposition_message->points, cof_contact_distance[TYPE]))
+                if(is_point_near_edge_of_polygon(p, cellposition_message->corners, cof_contact_distance[TYPE]))
                 {
                     //corner is near the edge of a different cell --> H according to cof_contact
                     H_contact += cof_contact_edge[TYPE][cellposition_message->type];
