@@ -77,6 +77,7 @@
             <variable><type>int</type><name>id</name><description></description></variable>
             <variable><type>fourpoints</type><name>points</name><description>4 points (p1,p2,p3,p4) with x,y,z. points.p1.x</description></variable>
             <variable><type>int</type><name>type</name><description></description></variable>
+            <variable><type>double</type><name>middle[2]</name><description></description></variable>
         </memory>
 
         <functions>
