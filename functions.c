@@ -34,17 +34,17 @@ int movecells()
         choose_and_move_one_of_4_corners(corners2);
         //print_positions(points2);
 
-        //calculat e deltaH for the inside of the cell
+        //calculate deltaH for the inside of the cell
         double deltaH_inside = calculate_deltaH_inside(corners2,CORNERS);
         //printf("deltatH: %f\n",  deltaH_inside);
         double deltaH_interaction = calculate_deltaH_interactions(corners2,CORNERS);
         //calculate deltaH for the interactions with its neighbours
-        printf("deltaH_interaction: %5.2f; dH_inside: %5.2f\n middle: %4.2f \n", deltaH_interaction,deltaH_inside);
+        //printf("############### deltaH_interaction: %5.2f; dH_inside: %5.2f\n", deltaH_interaction,deltaH_inside);
      //      Loop through all messages
      //    START_CELLPOSITION_MESSAGE_LOOP
         //  NOTE: this IF condition is not really required due to filters
         // if((cellposition_message->id != id))
-        // {
+         // {
         //     points2 = cellposition_message->points;
         //     type2 = cellposition_message->type;
 

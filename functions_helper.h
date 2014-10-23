@@ -60,7 +60,7 @@ int is_left_curve_old(double *a, double *c, double *b){
 int is_left_curve(double *corners,int a,int b, int c){
     //true if ( you go from a --> b --> c; you turn left on point b
     //Where a = line point 1; c = line point 2; b = point to check against.
-    if(((corners[b*2] - corners[a*2])*(corners[c*2+1] - corners[a*2+1]) - (corners[b*2+1] - corners[a*2+1])*(corners[c*2] - corners[a*2])) < 0){
+    if(((corners[b*2] - corners[a*2])*(corners[c*2+1] - corners[a*2+1]) - (corners[b*2+1] - corners[a*2+1])*(corners[c*2] - corners[a*2])) > 0){
         return 1;
     }else{
         return 0;
@@ -70,16 +70,17 @@ double calc_H_convex(double *corners)
 {
 
     //check if the 2. point lies right of the line between point 1 and 2:
-    if (is_left_curve(corners,0,1,2)){
-        if (is_left_curve(corners,1,2,3)){
-            if (is_left_curve(corners,2,3,0)){
-                if (is_left_curve(corners,3,0,1)){
+    if (is_left_curve(corners,0,1,2)!=0){
+        if (is_left_curve(corners,1,2,3)!=0){
+            if (is_left_curve(corners,2,3,0)!=0){
+                if (is_left_curve(corners,3,0,1)!=0){
                     //yes, every corner is convex
                     return 0.0;
                 }
             }
         }
     }
+    //printf("  at least one corner is not convex!\n");
     //at least one corner is not convex
     return 200.0;
 }
@@ -295,6 +296,33 @@ double calc_H_contact(double *corners)
     return H_contact;
 }
 
+double calc_H_contact_sat(double *corners)
+{
+    double H_contact = cof_contact_medium[TYPE];
+    double overlap_temp, overlap=0;
+    //for every near other_cell:
+      //for every corner of points:
+        //check if corner is inside other_cell
+    START_CELLPOSITION_MESSAGE_LOOP
+        //...for every other_cell...
+
+        overlap_temp = get_intersect(corners,cellposition_message->corners,4);
+        overlap +=overlap_temp;
+        //printf(" |o%4.2f",overlap_temp);
+
+        /* todo:
+         * different energies (-levels), depending on overlap;
+         * */
+    FINISH_CELLPOSITION_MESSAGE_LOOP
+    H_contact = overlap * 10;
+    if (H_contact >3.0)
+    {
+        printf("\n Contact! H: %5.3f\n",H_contact);
+    }
+    //printf("\noverlap: %4.2f;  H: %5.3f; temp: %4.2f \n",overlap, H_contact,overlap_temp);
+    return H_contact;
+}
+
 
 double calculate_deltaH_interactions(double *corners2, double *corners1)
 {
@@ -304,9 +332,9 @@ double calculate_deltaH_interactions(double *corners2, double *corners1)
 
     if (cof_contact_do_calc[TYPE])
     {
-        H_contact1 = calc_H_contact(corners1);
-        H_contact2 = calc_H_contact(corners2);
+        H_contact1 = calc_H_contact_sat(corners1);
+        H_contact2 = calc_H_contact_sat(corners2);
     }
-    printf("||H1: %4.2f; Hc2: %4.2f||",H_contact1,H_contact2);
+    //printf("|| H1: %4.2f; Hc2: %4.2f ||",H_contact1,H_contact2);
     return H_contact2-H_contact1;
 }

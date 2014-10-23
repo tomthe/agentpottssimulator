@@ -7,8 +7,8 @@ import re
 im_width = 512
 im_height = 512
 
-sim_space_min = -4.0
-sim_space_max = 5.0
+sim_space_min = -2.0
+sim_space_max = 6.0
 
 
 def test_onefile():

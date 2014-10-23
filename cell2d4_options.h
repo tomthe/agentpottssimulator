@@ -27,5 +27,6 @@ double cof_contact_distance[] = {0.1,0.1,0.1};
 
 #define n_cell_types 3
 double cof_contact_medium[] = {1.0,2.0,2.0};
+double cof_contact_depth[] = {0.2,0.2,0.2};
 double cof_contact_edge[n_cell_types][n_cell_types] = {{0.0,2.0,2.0},{2.0,2.0,2.0},{2.0,2.0,2.0}};
 double cof_contact_intersection[n_cell_types][n_cell_types] = {{255.0,52.0,52.0},{512.0,52.0,52.0},{52.0,52.0,52.0}};

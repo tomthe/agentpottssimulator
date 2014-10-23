@@ -29,9 +29,22 @@ void project_corners_on_axis(double axis[],double corners[], double result_proje
 }
 
 
-int get_overlap(double p1[], double p2[])
+double get_overlap(double p1[], double p2[])
 {
-    return max(0, (min(p1[1], p2[1]) - max(p1[0], p2[0])));
+    return max(0.0, (min(p1[1], p2[1]) - max(p1[0], p2[0])));
+
+    if (p1[1]>p2[0] && p1[1]<p2[1])//end of p1 lies in p2
+    {
+        return min((p1[1]-p1[0]), p1[1]-p2[0]);
+    } else if (p1[0]>p2[0] && p1[0]<p2[1])//start of p1 lies in p2
+    {
+        return min((p1[1]-p1[0]), p2[1]-p1[0]);
+    } else if (p2[0]>p1[0] && p2[1]<p1[1])//p2 is surrounded by p1
+    {
+        return p2[1]-p2[0];
+    }
+    return 0;
+    //return max(0.0, (min(p1[1], p2[1]) - max(p1[0], p2[0])));
 }
 
 //
@@ -97,6 +110,7 @@ double get_intersect(double *corners1, double *corners2, int n1)
         overlap_temp = get_overlap(projection1,projection2);
         if (overlap_temp==0)
         {
+            //printf("get_intersect: i: %d; proj1:(%4.2f,%4.2f), proj2:(%4.2f,%4.2f)\n",i,projection1[0],projection1[1],projection2[0],projection2[1]);
             // then we can guarantee that the shapes do not overlap
             return 0;
         } else if (overlap_temp < overlap) {
