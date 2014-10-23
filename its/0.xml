@@ -56,4 +56,53 @@
         <corners>{3.80,2.10,3.80,1.10,4.50,1.10,4.50,2.10}</corners>
         <type>1</type>
     </xagent>
+
+    <xagent>
+        <name>cell2d4</name>
+        <id>8</id>
+        <corners>{0.50,3.10,0.50,2.10,1.50,2.10,1.50,3.10}</corners>
+        <type>0</type>
+    </xagent>
+
+    <xagent>
+        <name>cell2d4</name>
+        <id>9</id>
+        <corners>{1.60,3.10,1.60,2.10,2.50,2.10,2.50,3.10}</corners>
+        <type>1</type>
+    </xagent>
+
+    <xagent>
+        <name>cell2d4</name>
+        <id>10</id>
+        <corners>{2.70,3.10,2.70,2.10,3.50,2.10,3.50,3.10}</corners>
+        <type>0</type>
+    </xagent>
+
+    <xagent>
+        <name>cell2d4</name>
+        <id>11</id>
+        <corners>{3.80,3.10,3.80,2.10,4.50,2.10,4.50,3.10}</corners>
+        <type>1</type>
+    </xagent>
+
+    <xagent>
+        <name>cell2d4</name>
+        <id>12</id>
+        <corners>{0.50,4.10,0.50,3.10,1.50,3.10,1.50,4.10}</corners>
+        <type>0</type>
+    </xagent>
+
+    <xagent>
+        <name>cell2d4</name>
+        <id>13</id>
+        <corners>{1.60,4.10,1.60,3.10,2.50,3.10,2.50,4.10}</corners>
+        <type>1</type>
+    </xagent>
+
+    <xagent>
+        <name>cell2d4</name>
+        <id>14</id>
+        <corners>{2.70,4.10,2.70,3.10,3.50,3.10,3.50,4.10}</corners>
+        <type>0</type>
+    </xagent>
 </states>

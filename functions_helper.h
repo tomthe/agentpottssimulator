@@ -1,6 +1,7 @@
 /*
  *
  * */
+#include "sat_intersection_test.h"
 
 void copy_array_to_array(double *array1, double *array2, int n)
 {

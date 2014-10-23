@@ -23,7 +23,7 @@ int movecells()
 {
     double corners2[(N_CORNERS * 2)];
     copy_array_to_array(CORNERS,corners2,N_CORNERS*2);
-    print_positions(corners2);
+    //print_positions(corners2);
 	
     //choose randomly if this cell should move
     if (decide_if_cell_should_move() !=0)
@@ -34,7 +34,7 @@ int movecells()
         choose_and_move_one_of_4_corners(corners2);
         //print_positions(points2);
 
-        //calculate deltaH for the inside of the cell
+        //calculat e deltaH for the inside of the cell
         double deltaH_inside = calculate_deltaH_inside(corners2,CORNERS);
         //printf("deltatH: %f\n",  deltaH_inside);
         double deltaH_interaction = calculate_deltaH_interactions(corners2,CORNERS);
