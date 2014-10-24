@@ -23,7 +23,9 @@ if len(sys.argv) <= 2:
     sys.exit(1)
 
 
-acount, ida  = map(int, sys.argv[1:])
+acount, col, ncelltypes  = map(int, sys.argv[1:])
+print acount, col, ncelltypes
+
 
 
 if acount < 2:
@@ -36,12 +38,12 @@ f.write("<states>\n   <itno>0</itno>\n")
 z=0.0
 # write out agent data
 for id in xrange(0,acount):
-    celltype= id%2
-    ida=id % 4
+    celltype= id%ncelltypes
+    ida=id % col
     x1 = x2 = 0.5 + ida * 1.1
     x3 = x4 = 1.5 + ida * 1.0
-    y1 = y4 = 1.1 + id / 4
-    y2 = y3 = 0.1 + id / 4
+    y1 = y4 = 1.1 + id / col
+    y2 = y3 = 0.1 + id / col
     # write agent values to file
     f.write("""
     <xagent>

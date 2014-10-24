@@ -7,8 +7,39 @@ import re
 im_width = 512
 im_height = 512
 
-sim_space_min = -2.0
-sim_space_max = 6.0
+sim_space_min_x = -0.0
+sim_space_min_y = -0.0
+sim_space_max_x = 3.0
+sim_space_max_y = 3.0
+
+
+def set_sim_space(cells):
+	#print "---all cells", cells
+	minx=cells[0][0][0]
+	maxx=cells[0][0][0]
+	miny=cells[0][0][1]
+	maxy=cells[0][0][1]
+	for cell in cells:
+		minx = min(cell)
+		#print "cell: ", cell, "---", minx
+		for coord in cell:
+			if coord[0]<minx:
+				minx = coord[0]
+			elif coord[0]>maxx:
+				maxx = coord[0]
+			if coord[1]<miny:
+				miny = coord[1]
+			elif coord[1]>maxy:
+				maxy = coord[1]
+	global sim_space_min_x
+	sim_space_min_x = minx
+	global sim_space_min_y
+	sim_space_min_y = miny
+	global sim_space_max_x 
+	sim_space_max_x = maxx
+	global sim_space_max_y
+	sim_space_max_y = maxy
+
 
 
 def test_onefile():
@@ -17,6 +48,7 @@ def test_onefile():
 
 def read_and_paint_one_timestep(filename):
 	cells = read_data_from_one_timestep(filename)
+	#set_sim_space(cells)
 	paint_one_timestep(cells,filename)
 
 
@@ -29,7 +61,7 @@ def paint_one_timestep(cells,filename):
 
 	for cell in cells:
 		cell_im = convert_cell_coordinates(cell)
-		print "cell: ", cell_im
+		#print "cell: ", cell_im
 		pdraw.polygon(cell_im,fill=(255,255,255,127),outline=(0,255,255,255))
 		#pdraw.polygon([(128,128),(384,384),(128,384),(384,128)],
 		#              fill=(255,255,255,127),outline=(255,255,255,255))
@@ -69,13 +101,13 @@ def pointstring_to_positions(cell_string):
 	p3=[float(cells[6]),float(cells[7])]
 
 	corners = [p0,p1,p2,p3]
-	print "corners: ",corners
+	#print "corners: ",corners
 	return corners
 
 
 def sim_coord_2_paint_coord((x,y)):
-	x = float(x - sim_space_min) / (sim_space_max - sim_space_min) * im_width
-	y = float(y - sim_space_min) / (sim_space_max - sim_space_min) * im_height
+	x = float(x - sim_space_min_x) / (sim_space_max_x - sim_space_min_x) * im_width
+	y = float(y - sim_space_min_y) / (sim_space_max_y - sim_space_min_y) * im_height
 	return (x,y)
 
 def convert_cell_coordinates(cell):
@@ -85,10 +117,14 @@ def convert_cell_coordinates(cell):
 	return paint_coords
 
 def read_and_paint_many_timesteps(start,stop):
-
+	#filename = str(start) + ".xml"
+	#cells = read_data_from_one_timestep(filename)
+	#set_sim_space(cells)
 	for i in xrange(start,stop):
 		try:
 			filename = str(i) + ".xml"
+			cells = read_data_from_one_timestep(filename)
+			set_sim_space(cells)
 			read_and_paint_one_timestep(filename)
 			print "painted file: ", filename
 		except:
@@ -114,5 +150,6 @@ def just_code():
 #test_pointstring_to_positions()
 #test_draw()
 #test_onefile()
-
-read_and_paint_many_timesteps(0,2000)
+import sys
+start, stop  = map(int, sys.argv[1:])
+read_and_paint_many_timesteps(start,stop)

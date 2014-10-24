@@ -2,6 +2,7 @@
  *
  * */
 #include "sat_intersection_test.h"
+//#include "cell2d4_options.h"
 
 void copy_array_to_array(double *array1, double *array2, int n)
 {
@@ -308,16 +309,28 @@ double calc_H_contact_sat(double *corners)
 
         overlap_temp = get_intersect(corners,cellposition_message->corners,4);
         overlap +=overlap_temp;
+
+        if (overlap_temp > 0)
+        {
+            if (overlap_temp > cof_contact_depth[TYPE]) {
+                //big intersection
+                H_contact += overlap * cof_contact_intersection[TYPE][cellposition_message->type];
+                printf("Contact-big ! H: %5.3f\n",H_contact);
+            } else {
+                //small intersection --> contact
+                H_contact += cof_contact_edge[TYPE][cellposition_message->type] + overlap * 1.5;
+                printf("Contact-smal! H: %5.3f\n",H_contact);
+            }
+        }
         //printf(" |o%4.2f",overlap_temp);
 
         /* todo:
          * different energies (-levels), depending on overlap;
          * */
     FINISH_CELLPOSITION_MESSAGE_LOOP
-    H_contact = overlap * 10;
+    //H_contact = overlap * 10;
     if (H_contact >3.0)
     {
-        printf("\n Contact! H: %5.3f\n",H_contact);
     }
     //printf("\noverlap: %4.2f;  H: %5.3f; temp: %4.2f \n",overlap, H_contact,overlap_temp);
     return H_contact;
