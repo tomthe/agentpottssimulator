@@ -32,7 +32,7 @@ void project_corners_on_axis(double axis[],double corners[], double result_proje
 double get_overlap(double p1[], double p2[])
 {
     return max(0.0, (min(p1[1], p2[1]) - max(p1[0], p2[0])));
-
+/*
     if (p1[1]>p2[0] && p1[1]<p2[1])//end of p1 lies in p2
     {
         return min((p1[1]-p1[0]), p1[1]-p2[0]);
@@ -45,6 +45,7 @@ double get_overlap(double p1[], double p2[])
     }
     return 0;
     //return max(0.0, (min(p1[1], p2[1]) - max(p1[0], p2[0])));
+    */
 }
 
 //

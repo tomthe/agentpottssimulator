@@ -12,7 +12,7 @@
         <name>cell2d4</name>
         <id>1</id>
         <corners>{1.60,1.10,1.60,0.10,2.50,0.10,2.50,1.10}</corners>
-        <type>1</type>
+        <type>0</type>
     </xagent>
 
     <xagent>
@@ -26,328 +26,90 @@
         <name>cell2d4</name>
         <id>3</id>
         <corners>{3.80,1.10,3.80,0.10,4.50,0.10,4.50,1.10}</corners>
-        <type>1</type>
+        <type>0</type>
     </xagent>
 
     <xagent>
         <name>cell2d4</name>
         <id>4</id>
-        <corners>{4.90,1.10,4.90,0.10,5.50,0.10,5.50,1.10}</corners>
-        <type>0</type>
-    </xagent>
-
-    <xagent>
-        <name>cell2d4</name>
-        <id>5</id>
-        <corners>{6.00,1.10,6.00,0.10,6.50,0.10,6.50,1.10}</corners>
-        <type>1</type>
-    </xagent>
-
-    <xagent>
-        <name>cell2d4</name>
-        <id>6</id>
-        <corners>{7.10,1.10,7.10,0.10,7.50,0.10,7.50,1.10}</corners>
-        <type>0</type>
-    </xagent>
-
-    <xagent>
-        <name>cell2d4</name>
-        <id>7</id>
-        <corners>{8.20,1.10,8.20,0.10,8.50,0.10,8.50,1.10}</corners>
-        <type>1</type>
-    </xagent>
-
-    <xagent>
-        <name>cell2d4</name>
-        <id>8</id>
-        <corners>{9.30,1.10,9.30,0.10,9.50,0.10,9.50,1.10}</corners>
-        <type>0</type>
-    </xagent>
-
-    <xagent>
-        <name>cell2d4</name>
-        <id>9</id>
-        <corners>{10.40,1.10,10.40,0.10,10.50,0.10,10.50,1.10}</corners>
-        <type>1</type>
-    </xagent>
-
-    <xagent>
-        <name>cell2d4</name>
-        <id>10</id>
         <corners>{0.50,2.10,0.50,1.10,1.50,1.10,1.50,2.10}</corners>
         <type>0</type>
     </xagent>
 
     <xagent>
         <name>cell2d4</name>
-        <id>11</id>
+        <id>5</id>
         <corners>{1.60,2.10,1.60,1.10,2.50,1.10,2.50,2.10}</corners>
-        <type>1</type>
+        <type>0</type>
     </xagent>
 
     <xagent>
         <name>cell2d4</name>
-        <id>12</id>
+        <id>6</id>
         <corners>{2.70,2.10,2.70,1.10,3.50,1.10,3.50,2.10}</corners>
         <type>0</type>
     </xagent>
 
     <xagent>
         <name>cell2d4</name>
-        <id>13</id>
+        <id>7</id>
         <corners>{3.80,2.10,3.80,1.10,4.50,1.10,4.50,2.10}</corners>
-        <type>1</type>
-    </xagent>
-
-    <xagent>
-        <name>cell2d4</name>
-        <id>14</id>
-        <corners>{4.90,2.10,4.90,1.10,5.50,1.10,5.50,2.10}</corners>
         <type>0</type>
     </xagent>
 
     <xagent>
         <name>cell2d4</name>
-        <id>15</id>
-        <corners>{6.00,2.10,6.00,1.10,6.50,1.10,6.50,2.10}</corners>
-        <type>1</type>
-    </xagent>
-
-    <xagent>
-        <name>cell2d4</name>
-        <id>16</id>
-        <corners>{7.10,2.10,7.10,1.10,7.50,1.10,7.50,2.10}</corners>
-        <type>0</type>
-    </xagent>
-
-    <xagent>
-        <name>cell2d4</name>
-        <id>17</id>
-        <corners>{8.20,2.10,8.20,1.10,8.50,1.10,8.50,2.10}</corners>
-        <type>1</type>
-    </xagent>
-
-    <xagent>
-        <name>cell2d4</name>
-        <id>18</id>
-        <corners>{9.30,2.10,9.30,1.10,9.50,1.10,9.50,2.10}</corners>
-        <type>0</type>
-    </xagent>
-
-    <xagent>
-        <name>cell2d4</name>
-        <id>19</id>
-        <corners>{10.40,2.10,10.40,1.10,10.50,1.10,10.50,2.10}</corners>
-        <type>1</type>
-    </xagent>
-
-    <xagent>
-        <name>cell2d4</name>
-        <id>20</id>
+        <id>8</id>
         <corners>{0.50,3.10,0.50,2.10,1.50,2.10,1.50,3.10}</corners>
         <type>0</type>
     </xagent>
 
     <xagent>
         <name>cell2d4</name>
-        <id>21</id>
+        <id>9</id>
         <corners>{1.60,3.10,1.60,2.10,2.50,2.10,2.50,3.10}</corners>
-        <type>1</type>
+        <type>0</type>
     </xagent>
 
     <xagent>
         <name>cell2d4</name>
-        <id>22</id>
+        <id>10</id>
         <corners>{2.70,3.10,2.70,2.10,3.50,2.10,3.50,3.10}</corners>
         <type>0</type>
     </xagent>
 
     <xagent>
         <name>cell2d4</name>
-        <id>23</id>
+        <id>11</id>
         <corners>{3.80,3.10,3.80,2.10,4.50,2.10,4.50,3.10}</corners>
-        <type>1</type>
-    </xagent>
-
-    <xagent>
-        <name>cell2d4</name>
-        <id>24</id>
-        <corners>{4.90,3.10,4.90,2.10,5.50,2.10,5.50,3.10}</corners>
         <type>0</type>
     </xagent>
 
     <xagent>
         <name>cell2d4</name>
-        <id>25</id>
-        <corners>{6.00,3.10,6.00,2.10,6.50,2.10,6.50,3.10}</corners>
-        <type>1</type>
-    </xagent>
-
-    <xagent>
-        <name>cell2d4</name>
-        <id>26</id>
-        <corners>{7.10,3.10,7.10,2.10,7.50,2.10,7.50,3.10}</corners>
-        <type>0</type>
-    </xagent>
-
-    <xagent>
-        <name>cell2d4</name>
-        <id>27</id>
-        <corners>{8.20,3.10,8.20,2.10,8.50,2.10,8.50,3.10}</corners>
-        <type>1</type>
-    </xagent>
-
-    <xagent>
-        <name>cell2d4</name>
-        <id>28</id>
-        <corners>{9.30,3.10,9.30,2.10,9.50,2.10,9.50,3.10}</corners>
-        <type>0</type>
-    </xagent>
-
-    <xagent>
-        <name>cell2d4</name>
-        <id>29</id>
-        <corners>{10.40,3.10,10.40,2.10,10.50,2.10,10.50,3.10}</corners>
-        <type>1</type>
-    </xagent>
-
-    <xagent>
-        <name>cell2d4</name>
-        <id>30</id>
+        <id>12</id>
         <corners>{0.50,4.10,0.50,3.10,1.50,3.10,1.50,4.10}</corners>
         <type>0</type>
     </xagent>
 
     <xagent>
         <name>cell2d4</name>
-        <id>31</id>
+        <id>13</id>
         <corners>{1.60,4.10,1.60,3.10,2.50,3.10,2.50,4.10}</corners>
-        <type>1</type>
+        <type>0</type>
     </xagent>
 
     <xagent>
         <name>cell2d4</name>
-        <id>32</id>
+        <id>14</id>
         <corners>{2.70,4.10,2.70,3.10,3.50,3.10,3.50,4.10}</corners>
         <type>0</type>
     </xagent>
 
     <xagent>
         <name>cell2d4</name>
-        <id>33</id>
+        <id>15</id>
         <corners>{3.80,4.10,3.80,3.10,4.50,3.10,4.50,4.10}</corners>
-        <type>1</type>
-    </xagent>
-
-    <xagent>
-        <name>cell2d4</name>
-        <id>34</id>
-        <corners>{4.90,4.10,4.90,3.10,5.50,3.10,5.50,4.10}</corners>
         <type>0</type>
-    </xagent>
-
-    <xagent>
-        <name>cell2d4</name>
-        <id>35</id>
-        <corners>{6.00,4.10,6.00,3.10,6.50,3.10,6.50,4.10}</corners>
-        <type>1</type>
-    </xagent>
-
-    <xagent>
-        <name>cell2d4</name>
-        <id>36</id>
-        <corners>{7.10,4.10,7.10,3.10,7.50,3.10,7.50,4.10}</corners>
-        <type>0</type>
-    </xagent>
-
-    <xagent>
-        <name>cell2d4</name>
-        <id>37</id>
-        <corners>{8.20,4.10,8.20,3.10,8.50,3.10,8.50,4.10}</corners>
-        <type>1</type>
-    </xagent>
-
-    <xagent>
-        <name>cell2d4</name>
-        <id>38</id>
-        <corners>{9.30,4.10,9.30,3.10,9.50,3.10,9.50,4.10}</corners>
-        <type>0</type>
-    </xagent>
-
-    <xagent>
-        <name>cell2d4</name>
-        <id>39</id>
-        <corners>{10.40,4.10,10.40,3.10,10.50,3.10,10.50,4.10}</corners>
-        <type>1</type>
-    </xagent>
-
-    <xagent>
-        <name>cell2d4</name>
-        <id>40</id>
-        <corners>{0.50,5.10,0.50,4.10,1.50,4.10,1.50,5.10}</corners>
-        <type>0</type>
-    </xagent>
-
-    <xagent>
-        <name>cell2d4</name>
-        <id>41</id>
-        <corners>{1.60,5.10,1.60,4.10,2.50,4.10,2.50,5.10}</corners>
-        <type>1</type>
-    </xagent>
-
-    <xagent>
-        <name>cell2d4</name>
-        <id>42</id>
-        <corners>{2.70,5.10,2.70,4.10,3.50,4.10,3.50,5.10}</corners>
-        <type>0</type>
-    </xagent>
-
-    <xagent>
-        <name>cell2d4</name>
-        <id>43</id>
-        <corners>{3.80,5.10,3.80,4.10,4.50,4.10,4.50,5.10}</corners>
-        <type>1</type>
-    </xagent>
-
-    <xagent>
-        <name>cell2d4</name>
-        <id>44</id>
-        <corners>{4.90,5.10,4.90,4.10,5.50,4.10,5.50,5.10}</corners>
-        <type>0</type>
-    </xagent>
-
-    <xagent>
-        <name>cell2d4</name>
-        <id>45</id>
-        <corners>{6.00,5.10,6.00,4.10,6.50,4.10,6.50,5.10}</corners>
-        <type>1</type>
-    </xagent>
-
-    <xagent>
-        <name>cell2d4</name>
-        <id>46</id>
-        <corners>{7.10,5.10,7.10,4.10,7.50,4.10,7.50,5.10}</corners>
-        <type>0</type>
-    </xagent>
-
-    <xagent>
-        <name>cell2d4</name>
-        <id>47</id>
-        <corners>{8.20,5.10,8.20,4.10,8.50,4.10,8.50,5.10}</corners>
-        <type>1</type>
-    </xagent>
-
-    <xagent>
-        <name>cell2d4</name>
-        <id>48</id>
-        <corners>{9.30,5.10,9.30,4.10,9.50,4.10,9.50,5.10}</corners>
-        <type>0</type>
-    </xagent>
-
-    <xagent>
-        <name>cell2d4</name>
-        <id>49</id>
-        <corners>{10.40,5.10,10.40,4.10,10.50,4.10,10.50,5.10}</corners>
-        <type>1</type>
     </xagent>
 </states>

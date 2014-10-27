@@ -319,7 +319,7 @@ double calc_H_contact_sat(double *corners)
             } else {
                 //small intersection --> contact
                 H_contact += cof_contact_edge[TYPE][cellposition_message->type] + overlap * 1.5;
-                printf("Contact-smal! H: %5.3f\n",H_contact);
+                //printf("Contact-smal! H: %5.3f\n",H_contact);
             }
         }
         //printf(" |o%4.2f",overlap_temp);
