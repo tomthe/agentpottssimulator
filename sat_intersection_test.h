@@ -28,7 +28,6 @@ void project_corners_on_axis(double axis[],double corners[], double result_proje
     result_projection[1] = max;
 }
 
-
 double get_overlap(double p1[], double p2[])
 {
     return max(0.0, (min(p1[1], p2[1]) - max(p1[0], p2[0])));
@@ -62,6 +61,25 @@ void perp(double v1[],double result[])
     result[1] =  v1[0];
 }
 
+/**
+ * @brief perpendicular of a vector v1[2]; manipulates the vector in place
+ * @param v1 vector double
+ */
+void perpendicular(double v1[])
+{
+    // the perp method is just (x, y) => (-y, x) or (y, -x)
+    double help = v1[0];
+    v1[0] = -v1[1];
+    v1[1] =  help;
+}
+
+void normalize(double vec[])
+{
+    double length = sqrt((vec[0] * vec[0]) + (vec[1] * vec[1]));
+    vec[0] = vec[0] / length;
+    vec[1] = vec[1] / length;
+}
+
 void axes_from_corners(double *corners,int n1, double axes[])
 {
     double *p1ptr; //p1[2];
@@ -86,7 +104,35 @@ void axes_from_corners(double *corners,int n1, double axes[])
 
     }
 }
+void axes_from_corners_normalized(double *corners,int n1, double axes[])
+{
+    double *p1ptr; //p1[2];
+    double *p2ptr; //[2];
+    double vec[2];
 
+    for (int i = 0; i < n1; i++)
+    {
+      // get the current vertex
+      p1ptr = &corners[i*2];
+      // get the next vertex
+      if (i<n1-1) {p2ptr = &corners[(i+1)*2];}
+      else {p2ptr = &corners[0];}
+      // subtract the two to get the edge vector
+      subtract(p2ptr,p1ptr,vec);//p1.subtract(p2);
+      // get either perpendicular vector
+      perpendicular(vec);
+      //normalize the axes:
+      normalize(vec);
+      // the perp method is just (x, y) => (-y, x) or (y, -x)
+      axes[i*2] = vec[0];
+      axes[i*2+1] = vec[1];
+    }
+}
+
+/** SAT intersection test
+ *  input: 2 polygons
+ *
+ */
 double get_intersect(double *corners1, double *corners2, int n1)
 {
     double overlap = 20000.0;// really large value;
@@ -146,6 +192,133 @@ double get_intersect(double *corners1, double *corners2, int n1)
     return overlap;
 }
 
+void get_mtv(double *smallest_axis_ptr, double overlap, double mtv[])
+{
+    mtv[0] = smallest_axis_ptr[0];
+    mtv[1] = smallest_axis_ptr[1];
+    //perpendicular to smalles_axis;
+    perpendicular(mtv);
+    //normalize this vector (divide by its lenght);
+    normalize(mtv);
+    //multiply with the overlap
+    mtv[0] = mtv[0] * overlap;
+    mtv[1] = mtv[1] * overlap;
+}
+
+/** SAT intersection test + returns the mtv-vector to detangle the two shapes
+ *  input: 2 polygons with n1 corners
+ *  output: mtv[2]; length of intersection;
+ */
+double get_intersect_and_mtv(double *corners1, double *corners2, int n1, double mtv[])
+{
+    double overlap = 20000.0;// really large value;
+    double overlap_temp;
+    //#double smallest_axis[2], axis_temp[2];
+    double *axis_temp_ptr;
+    double projection1[2],projection2[2];
+
+    double axes1[N_CORNERS*2];
+    axes_from_corners_normalized(corners1,n1,axes1);
+    double axes2[N_CORNERS*2];
+    axes_from_corners_normalized(corners2,n1,axes2);
+
+    double *smallest_axis_ptr;
+
+    // loop over the axes1
+    for (int i = 0; i < N_CORNERS; i++)
+    {
+        axis_temp_ptr = &axes1[i*2];
+        // project both shapes onto the axis
+        project_corners_on_axis(axis_temp_ptr,corners1,projection1);
+        project_corners_on_axis(axis_temp_ptr,corners2,projection2);
+        // do the projections overlap?
+        overlap_temp = get_overlap(projection1,projection2);
+        if (overlap_temp==0)
+        {
+            //printf("get_intersect: i: %d; proj1:(%4.2f,%4.2f), proj2:(%4.2f,%4.2f)\n",i,projection1[0],projection1[1],projection2[0],projection2[1]);
+            // then we can guarantee that the shapes do not overlap
+            return 0;
+        } else if (overlap_temp < overlap) {
+            // then set this one as the smallest
+            overlap = overlap_temp;
+            smallest_axis_ptr = axis_temp_ptr;
+        }
+    }
+
+    // loop over the axes2
+    for (int i = 0; i < N_CORNERS; i++)
+    {
+        axis_temp_ptr = &axes2[i*2];
+        // project both shapes onto the axis
+        project_corners_on_axis(axis_temp_ptr,corners1,projection1);
+        project_corners_on_axis(axis_temp_ptr,corners2,projection2);
+        // do the projections overlap?
+        overlap_temp = get_overlap(projection1,projection2);
+        if (overlap_temp==0)
+        {
+            // then we can guarantee that the shapes do not overlap
+            return 0;
+        } else if (overlap_temp < overlap) {
+            // then set this one as the smallest
+            overlap = overlap_temp;
+            smallest_axis_ptr = axis_temp_ptr;
+        }
+    }
+
+    get_mtv(smallest_axis_ptr, overlap, mtv);
+    // if we get here then we know that every axis had overlap on it
+    // so we can guarantee an intersection
+    return overlap;
+}
+
+void project_point_on_axis(double axis[],double point[], double *result_projection)
+{
+    // NOTE: the axis must be normalized to get accurate projections
+    *result_projection = dot_product_2d(axis,&point[0]);//    axis.dot(shape.vertices[i]);
+}
+
+double get_overlap_point_projection(double p1, double p2[])
+{
+    //return max(0.0, (min(p1[1], p2[1]) - max(p1[0], p2[0])));
+    if((p2[0] - p1 > 0) || ((p2[1] - p1) < 0))
+    {       return 0.0; }
+    else  { return min(p2[1]- p1, p1-p2[0]);}
+}
+double get_corner_overlap(double *p1, double *corners2, int n1)
+{
+    double overlap = 20000.0;// really large value;
+    double overlap_temp;
+    //#double smallest_axis[2], axis_temp[2];
+    double *axis_temp_ptr;
+    double projection1,projection2[2];
+
+    double axes2[N_CORNERS*2];
+    axes_from_corners(corners2,n1,axes2);
+
+    // loop over the axes2
+    for (int i = 0; i < N_CORNERS; i++)
+    {
+        axis_temp_ptr = &axes2[i*2];
+        // project both shapes onto the axis
+        project_point_on_axis(axis_temp_ptr,p1,&projection1);
+        project_corners_on_axis(axis_temp_ptr,corners2,projection2);
+        // do the projections overlap?
+        overlap_temp = get_overlap_point_projection(projection1,projection2);
+        if (overlap_temp==0.0)
+        {
+            // then we can guarantee that the shapes do not overlap
+            return 0;
+        } else if (overlap_temp < overlap) {
+            // then set this one as the smallest
+            overlap = overlap_temp;
+            //#*smallest_axis = &axis_temp_ptr;
+        }
+    }
+    // MTV mtv = new MTV(smallest, overlap);
+    // if we get here then we know that every axis had overlap on it
+    // so we can guarantee an intersection
+    return overlap;
+}
 
 
 /*

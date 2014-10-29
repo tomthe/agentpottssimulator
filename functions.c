@@ -15,15 +15,16 @@ int outputcellposition()
     /* add message to "location" board  (id, range, x, y, z) */
     add_cellposition_message(id, CORNERS, type);
 
+    //printf("Type: %d, id: (%3d - ), \n", TYPE, ID);
     return 0;  /* remain alive. 1 = death */
 }
 
 
-int movecells()
+int movecornersandcalculateenergy()
 {
     double corners2[(N_CORNERS * 2)];
     int i=0;
-    //print_positions(corners2);
+    double deltaH=0.0, deltaH_interaction, deltaH_inside;
 	
     //choose randomly if this cell should move
     if (decide_if_cell_should_move() !=0)
@@ -31,6 +32,7 @@ int movecells()
         do {
             i++;
             copy_array_to_array(CORNERS,corners2,N_CORNERS*2);
+            //print_positions(corners2);
 
             //choose which of the corners should move and  move this corner
             //print_positions(points2);
@@ -39,25 +41,13 @@ int movecells()
             //print_positions(points2);
 
             //calculate deltaH for the inside of the cell
-            double deltaH_inside = calculate_deltaH_inside(corners2,CORNERS);
+            deltaH_inside = calculate_deltaH_inside(corners2,CORNERS);
             //printf("deltatH: %f\n",  deltaH_inside);
-            double deltaH_interaction = calculate_deltaH_interactions(corners2,CORNERS);
+            deltaH_interaction = calculate_deltaH_interactions(corners2,CORNERS);
             //calculate deltaH for the interactions with its neighbours
-            //printf("############### deltaH_interaction: %5.2f; dH_inside: %5.2f\n", deltaH_interaction,deltaH_inside);
-            //      Loop through all messages
-            //    START_CELLPOSITION_MESSAGE_LOOP
-            //  NOTE: this IF condition is not really required due to filters
-            // if((cellposition_message->id != id))
-             // {
-            //     points2 = cellposition_message->points;
-            //     type2 = cellposition_message->type;
-
-
-            // }
-            //    FINISH_CELLPOSITION_MESSAGE_LOOP
 
             // add up all delta-energies
-            double deltaH = deltaH_inside + deltaH_interaction;
+            deltaH = deltaH_inside + deltaH_interaction;
             //printf("Type: %d, id: %d, deltatH: %f\n", TYPE, ID, deltaH);
             if (deltaH <= 0)
             {
@@ -67,7 +57,31 @@ int movecells()
             // decide if delta-energy is negative ... if the whole energy decreases
             // write new position to agent memory  or go back to old position //
             //set_points(points_temp);
-        } while((i<4) && (deltaH > 0));
+        } while((i<4) && (deltaH > 0.0));
+        //printf("Type: %d, id: %d, deltatH: %5.3f (%4.2f, %4.2f) \n", TYPE, ID, deltaH, deltaH_inside,deltaH_interaction);
+
     }
     return 0; 
+}
+
+int pushcells()
+{
+
+    //printf("-----------------------%d--------------",get_first_repulsion_message());
+    //printf("Type: %d, id: (%3d - ww),------------------------------ \n", TYPE, ID);
+    //printf("Type: %d, id: (%3d - ), \n", TYPE, ID);
+
+    double pushsum[2] = {0};
+
+    for(repulsion_message = get_first_repulsion_message(); repulsion_message != NULL; repulsion_message = get_next_repulsion_message(repulsion_message))
+    {
+        //printf("Type: %d, id: (%3d - %3d), (%6.3f, %6.3f) \n", TYPE, ID,repulsion_message->receiver_id,repulsion_message->mtv[0],repulsion_message->mtv[1]);
+        pushsum[0] += repulsion_message->mtv[0];
+        pushsum[1] += repulsion_message->mtv[1];
+    }
+    //pushsum[0] *= 0.5;
+    //pushsum[1] *= 0.5;
+
+    move_all_corners_by_vector(CORNERS,pushsum);
+    return 0;
 }

@@ -36,7 +36,7 @@
                 </outputs>
             </function>
 
-            <function><name>movecells</name>
+            <function><name>movecornersandcalculateenergy</name>
                 <description></description>
                 <currentState>1</currentState>
                 <nextState>2</nextState>
@@ -50,8 +50,27 @@
                         </filter>
                     </input>
                 </inputs>
+                <outputs>
+                    <output><messageName>repulsion</messageName></output>
+                </outputs>
             </function>
-	    
+
+            <function><name>pushcells</name>
+                <description></description>
+                <currentState>2</currentState>
+                <nextState>3</nextState>
+                <inputs>
+                    <input>
+                        <messageName>repulsion</messageName>
+                        <filter>
+                            <lhs><value>a.id</value></lhs>
+                            <op>EQ</op>
+                            <rhs><value>m.receiver_id</value></rhs>
+                        </filter>
+                    </input>
+                </inputs>
+            </function>
+
         </functions>
     </xagent>
 
@@ -63,8 +82,17 @@
         <description></description>
         <variables>
             <variable><type>int</type><name>id</name><description></description></variable>
-            <variable><type>double*</type><name>corners</name><description></description></variable>
+            <variable><type>double</type><name>corners[8]</name><description></description></variable>
             <variable><type>int</type><name>type</name><description></description></variable>
+        </variables>
+    </message>
+    <message>
+        <name>repulsion</name>
+        <description></description>
+        <variables>
+            <variable><type>int</type><name>receiver_id</name><description></description></variable>
+            <variable><type>double</type><name>mtv[2]</name><description></description></variable>
+            <variable><type>int</type><name>sender_type</name><description></description></variable>
         </variables>
     </message>
 </messages>
