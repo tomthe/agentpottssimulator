@@ -4,6 +4,8 @@
 #include "sat_intersection_test.h"
 //#include "cell2d4_options.h"
 
+
+
 void copy_array_to_array(double *array1, double *array2, int n)
 {
     for(int i=0; i<n;i++)
@@ -55,6 +57,15 @@ int choose_and_move_one_of_4_corners(double *corners)
     return 0;
 }
 
+
+int random_extra_movement()
+{
+    if ((rand() % 100) < cof_move_random_extra_probability[TYPE]){
+        choose_and_move_one_of_4_corners(CORNERS);
+        choose_and_move_one_of_4_corners(CORNERS);
+    }
+    return 1;
+}
 
 int is_left_curve_old(double *a, double *c, double *b){
     //true if ( you go from a --> b --> c; you turn left on point b

@@ -20,7 +20,7 @@ def set_sim_space(cells):
 	miny=cells[0][0][1]
 	maxy=cells[0][0][1]
 	for cell in cells:
-		minx = min(cell)
+		#minx = min(cell)
 		#print "cell: ", cell, "---", minx
 		for coord in cell:
 			if coord[0]<minx:
@@ -56,8 +56,8 @@ def paint_one_timestep(cells,filename):
 	# create a canvas
 	# paint every cell
 	back = Image.new('RGBA', (im_width,im_height), (123,133,133,0))
-	poly = Image.new('RGBA', (im_width,im_height))
-	pdraw = ImageDraw.Draw(poly)
+	#poly = Image.new('RGBA', (im_width,im_height))
+	pdraw = ImageDraw.Draw(back)
 
 	for cell in cells:
 		cell_im = convert_cell_coordinates(cell)
@@ -65,7 +65,7 @@ def paint_one_timestep(cells,filename):
 		pdraw.polygon(cell_im,fill=(255,255,255,127),outline=(0,255,255,255))
 		#pdraw.polygon([(128,128),(384,384),(128,384),(384,128)],
 		#              fill=(255,255,255,127),outline=(255,255,255,255))
-		back.paste(poly,mask=poly)
+		#back.paste(poly,mask=poly)
 	#save and show image
 	back.save(filename[:-3] + ".png")
 	#back.show()

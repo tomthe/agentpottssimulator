@@ -61,6 +61,9 @@ int movecornersandcalculateenergy()
         //printf("Type: %d, id: %d, deltatH: %5.3f (%4.2f, %4.2f) \n", TYPE, ID, deltaH, deltaH_inside,deltaH_interaction);
 
     }
+
+    //random_extra_movement();
+
     return 0; 
 }
 
@@ -79,8 +82,8 @@ int pushcells()
         pushsum[0] += repulsion_message->mtv[0];
         pushsum[1] += repulsion_message->mtv[1];
     }
-    //pushsum[0] *= 0.5;
-    //pushsum[1] *= 0.5;
+    pushsum[0] *= 0.33;
+    pushsum[1] *= 0.33;
 
     move_all_corners_by_vector(CORNERS,pushsum);
     return 0;
