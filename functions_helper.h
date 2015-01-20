@@ -349,6 +349,26 @@ double calc_H_contact(double *corners)
     return H_contact;
 }
 
+#define distance(x1,y1,x2,y2) (sqrt((x1-x2)*(x1-x2)+(y1-y2)*(y1-y2)))
+int get_number_of_same_corners(double corners1[], double corners2[])
+{
+    double d;
+    int n=0;
+    for (int i1=0; i1<N_CORNERS;i1++)
+    {
+        for (int i2=0; i2<N_CORNERS;i2++)
+        {
+            d=distance(corners1[i1*2],corners1[i1*2+1],corners2[i2*2],corners2[i2*2+1]);
+            if (d<cof_contact_depth[TYPE])
+            {
+                n++;
+            }
+        }
+    }
+    return n;
+}
+
+
 double calc_H_contact_sat(double *corners)
 {
     double H_contact = cof_contact_medium[TYPE];
@@ -356,6 +376,8 @@ double calc_H_contact_sat(double *corners)
     double corner_overlap_status[N_CORNERS] = {0,0,0,0};
     double mtv[2];
     double repelling_vector[2];
+    double H_corner_distance;
+    int n_near_corners=0;
     //for every near other_cell:
       //for every corner of points:
         //check if corner is inside other_cell
@@ -363,6 +385,9 @@ double calc_H_contact_sat(double *corners)
         //...for every other_cell...
 
         overlap_temp = get_intersect_and_mtv(corners,cellposition_message->corners,N_CORNERS,mtv);
+
+        n_near_corners += get_number_of_same_corners(corners,cellposition_message->corners);
+
         //printf(" (overlap_temp: %5.3f", overlap_temp);
         //print_positions(cellposition_message->corners);
         if (overlap_temp > 0)
@@ -418,6 +443,7 @@ double calc_H_contact_sat(double *corners)
         }
     }
 
+    H_contact = H_contact - (n_near_corners*3.0); //cornerH
 
     if (H_contact >3.0)
     {
