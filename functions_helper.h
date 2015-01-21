@@ -50,7 +50,7 @@ int choose_and_move_one_of_4_corners(double *corners)
 {
     double dx = rand_double_m_to_n(-(cof_move_step_size[TYPE]),cof_move_step_size[TYPE]);
     double dy = rand_double_m_to_n(-(cof_move_step_size[TYPE]),cof_move_step_size[TYPE]);
-    int r = rand() % 4; //int between 0 and 3
+    int r = rand() % N_CORNERS; //int between 0 and 3
     corners[r*2] += dx; //x
     corners[r*2+1] += dy;
     //printf("move corner: dx: %f, dy: %f;\n", dx,dy);
@@ -68,9 +68,8 @@ int random_extra_movement()
 }
 
 int is_left_curve_old(double *a, double *c, double *b){
-    //true if ( you go from a --> b --> c; you turn left on point b
-    //Where a = line point 1; c = line point 2; b = point to check against.
-
+    ///true if ( you go from a --> b --> c; you turn left on point b
+    ///Where a = line point 1; c = line point 2; b = point to check against.
 
     if(((b[0] - a[0])*(c[1] - a[1]) - (b[1] - a[1])*(c[0] - a[0])) < 0){
         return 1;
@@ -87,7 +86,8 @@ int is_left_curve(double *corners,int a,int b, int c){
         return 0;
     }
 }
-double calc_H_convex(double *corners)
+
+double calc_H_convex_4corners(double *corners)
 {
 
     //check if the 2. point lies right of the line between point 1 and 2:
@@ -104,6 +104,34 @@ double calc_H_convex(double *corners)
     //printf("  at least one corner is not convex!\n");
     //at least one corner is not convex
     return 200.0;
+}
+
+/**
+ * check if the cell is convex by iterating over each adjacent corner triplet
+ * if the
+ */
+double calc_H_convex(double *corners)
+{
+    int b,c;
+    for(i=0;i++;i<N_CORNERS)
+    {
+        // i->corner 0; b ist corner 2 and c is corner number 3.
+        b=i+1; c=i+2;
+
+        if(c=N_CORNERS){
+           c=0;
+        } else if(b==N_CORNERS){
+            b=0;c=1;
+        }
+        if (is_left_curve(corners,i,b,c)==0)
+        {
+            //printf("  at least one corner is not convex!\n");
+            //at least one corner is not convex
+            //convex: always right curve. so here we are wrong:
+            return 200.0;
+        }
+    }
+    return 0.0;
 }
 
 double calc_distance_2corners(double *corners, int i1,int i2)
@@ -127,12 +155,31 @@ double calc_distance_2d(double x1,double y1, double x2,double y2)
     return sqrt(dx*dx + dy*dy);
 }
 
-double calc_surface_length(double *corners)
+double calc_surface_length_4corners(double *corners)
 {
     double l = calc_distance_2corners(corners,0,1);
     l += calc_distance_2corners(corners,1,2);
     l += calc_distance_2corners(corners,2,3);
     l += calc_distance_2corners(corners,3,0);
+    return l;
+}
+
+double calc_surface_length(double *corners)
+{
+/**
+ *
+ */
+    int b;
+    double l=0;
+    for(i=0;i++;i<N_CORNERS)
+    {
+        // i->corner 0; b ist corner 2 
+        b=i+1;
+        if(b==N_CORNERS){
+           b=0;
+        }
+        l += calc_distance_2corners(corners,i,b);
+    }
     return l;
 }
 
@@ -160,15 +207,18 @@ double calculate_polygon_area(double X[], double Y[], int num_points)
   return area/2;
 }
 
-double calculate_corners_area(double *corners)
+/* calculate the area of the (convex/konkave...) Polygon, with the *corners as input
+ * adapted from: http://www.mathopenref.com/coordpolygonarea2.html
+ * */
+double calculate_corners_area(double corners[])
 {
     double area = 0;         // Accumulates area in the loop
     int j = N_CORNERS-1;  // The last vertex is the 'previous' one to the first
 
-    for (int i=0; i<N_CORNERS; i++)
-      { area = area +  (corners[j*2]+corners[i*2]) * (corners[j*2+1]-corners[i*2+1]);
+    for (int i=0; i<N_CORNERS; i++){ 
+        area = area +  (corners[j*2]+corners[i*2]) * (corners[j*2+1]-corners[i*2+1]);
         j = i;  //j is previous vertex to i
-      }
+    }
     return -area/2;    //negative because counterclockwise...
 }
 
@@ -211,15 +261,8 @@ double calculate_deltaH_inside(double *corners2, double *corners1)
 
     return deltaH;
 }
-/*
- *
-int is_point_inside_polygon(point p, fourpoints cell)
-{
 
-}
-*/
-
-int is_point_inside_cell(double *p, double *corners)
+int is_point_inside_cell_4Corners(double *p, double *corners)
 {
   #define nvert 4
   double vertx[4] = {corners[0],corners[2],corners[4],corners[6]};
@@ -229,6 +272,24 @@ int is_point_inside_cell(double *p, double *corners)
   for (i = 0, j = nvert-1; i < nvert; j = i++) {
     if ( ((verty[i]>p[1]) != (verty[j]>p[1])) &&
      (p[0] < (vertx[j]-vertx[i]) * (p[1]-verty[i]) / (verty[j]-verty[i]) + vertx[i]) )
+       c = !c;
+  }
+  return c;
+}
+
+
+
+int is_point_inside_cell(double *p, double *corners)
+{
+  double vertx[4] = {corners[0],corners[2],corners[4],corners[6]};
+  double verty[4] = {corners[1],corners[3],corners[5],corners[7]};
+
+  int i, j, c = 0;
+  
+  for (i = 0, j = N_CORNERS-1; i < N_CORNERS; j = i++) {
+    //i: 0,1,2,3,...
+    //j: 3,0,1,2,...
+    if ( ((corners[i*2+1]>p[1]) != (corners[j*2+1]>p[1])) && (p[0] < (corners[j*2]-corners[i*2]) * (p[1]-corners[i*2+1]) / (corners[j*2+1]-corners[i*2+1]) + corners[i*2]) )
        c = !c;
   }
   return c;
@@ -289,14 +350,17 @@ int is_point_near_edge_of_polygon(double *p, double *cell, double d)
 
 void get_middle_point(double corners[], double middle_point[])
 {
+    middle_point[0] = 0.0;
+    middle_point[1] = 0.0;
+
     for (int i_corner=0; i_corner<N_CORNERS;i_corner++)
     {
         middle_point[0] += corners[i_corner*2];
         middle_point[1] += corners[i_corner*2+1];
     }
 
-    middle_point[0] = middle_point[0] / 4.0;//N_CORNERS;
-    middle_point[1] = middle_point[1] / 4.0;//N_CORNERS;
+    middle_point[0] = middle_point[0] / N_CORNERS;
+    middle_point[1] = middle_point[1] / N_CORNERS;
 }
 
 void get_repelling_vector(double corners1[], double corners2[], double overlap, double rep1[])
