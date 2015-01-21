@@ -5,7 +5,7 @@
 
 
 #define CO_TARGET_VOLUME 2
-#define N_CORNERS 4
+#define N_CORNERS 5
 #define n_cell_types 3
 
 double cof_move_step_size[] = {0.06,0.07,0.03,0.04};

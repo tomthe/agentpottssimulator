@@ -32,7 +32,6 @@ int movecornersandcalculateenergy()
         do {
             i++;
             copy_array_to_array(CORNERS,corners2,N_CORNERS*2);
-            //print_positions(corners2);
 
             //choose which of the corners should move and  move this corner
             //print_positions(points2);
@@ -44,6 +43,7 @@ int movecornersandcalculateenergy()
             deltaH_inside = calculate_deltaH_inside(corners2,CORNERS);
             //printf("deltatH: %f\n",  deltaH_inside);
             deltaH_interaction = calculate_deltaH_interactions(corners2,CORNERS);
+            //printf("-------- deltaHinside: %f | deltaH_interaction: %f  \n ", deltaH_inside,deltaH_interaction);
             //calculate deltaH for the interactions with its neighbours
 
             // add up all delta-energies
@@ -61,6 +61,7 @@ int movecornersandcalculateenergy()
         //printf("Type: %d, id: %d, deltatH: %5.3f (%4.2f, %4.2f) \n", TYPE, ID, deltaH, deltaH_inside,deltaH_interaction);
 
     }
+    //printf("-------------------------donedone -------------i: %d \n ",i );
 
     //random_extra_movement();
 
@@ -74,6 +75,7 @@ int pushcells()
     //printf("Type: %d, id: (%3d - ww),------------------------------ \n", TYPE, ID);
     //printf("Type: %d, id: (%3d - ), \n", TYPE, ID);
 
+    //printf("----wwwwwwwwwwwwwwwwwww pushcells -------------i:  \n " );
     double pushsum[2] = {0};
 
     for(repulsion_message = get_first_repulsion_message(); repulsion_message != NULL; repulsion_message = get_next_repulsion_message(repulsion_message))
@@ -84,7 +86,9 @@ int pushcells()
     }
     pushsum[0] *= 0.33;
     pushsum[1] *= 0.33;
+    //printf("----wwwwwwwwwwwwwwwwwww pushcells oooooooooooooooooooooooo end-----i:  \n " );
 
     move_all_corners_by_vector(CORNERS,pushsum);
+    //printf("----wwwwwwwwwwwwwwwwwww pushcells oooooooooooooooooooooooo end-end-----i:  \n " );
     return 0;
 }

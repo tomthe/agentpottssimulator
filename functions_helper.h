@@ -112,13 +112,13 @@ double calc_H_convex_4corners(double *corners)
  */
 double calc_H_convex(double *corners)
 {
-    int b,c;
-    for(i=0;i++;i<N_CORNERS)
+    int i,b,c;
+    for(i=0;i<N_CORNERS;i++)
     {
         // i->corner 0; b ist corner 2 and c is corner number 3.
         b=i+1; c=i+2;
 
-        if(c=N_CORNERS){
+        if(c==N_CORNERS){
            c=0;
         } else if(b==N_CORNERS){
             b=0;c=1;
@@ -169,9 +169,9 @@ double calc_surface_length(double *corners)
 /**
  *
  */
-    int b;
+    int i,b;
     double l=0;
-    for(i=0;i++;i<N_CORNERS)
+    for(i=0;i<N_CORNERS;i++)
     {
         // i->corner 0; b ist corner 2 
         b=i+1;
@@ -281,9 +281,6 @@ int is_point_inside_cell_4Corners(double *p, double *corners)
 
 int is_point_inside_cell(double *p, double *corners)
 {
-  double vertx[4] = {corners[0],corners[2],corners[4],corners[6]};
-  double verty[4] = {corners[1],corners[3],corners[5],corners[7]};
-
   int i, j, c = 0;
   
   for (i = 0, j = N_CORNERS-1; i < N_CORNERS; j = i++) {
