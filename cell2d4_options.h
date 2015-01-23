@@ -14,12 +14,12 @@ int cof_move_random_extra_probability[] = {2,4,0};
 int cof_percent_of_cells_that_should_move_in_one_ts = 40;
 
 int cof_volume_do_calc[] = {1,1,1};
-double cof_volume_target[] = {8.9,7.0,2.0};
+double cof_volume_target[] = {7.5,5.0,2.0};
 double cof_volume_alpha[] = {4.0,3.0,2.0};
 
 int cof_surface_do_calc[] = {1,1,1};
-double cof_surface_target[] = {7.0,7.1,6.0};
-double cof_surface_alpha[] = {0.15,0.17,2.0};
+double cof_surface_target[] = {5.0,5.1,6.0};
+double cof_surface_alpha[] = {0.55,0.7,2.0};
 
 int cof_convex_do_calc[] = {1,1,1};
 //double cof_convex_alpha[] = {2.0,2.0,2.0};
