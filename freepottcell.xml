@@ -22,7 +22,7 @@
         <memory>
             <variable><type>int</type><name>id</name><description></description></variable>
             <variable><type>int</type><name>type</name><description></description></variable>
-            <variable><type>double</type><name>corners[10]</name><description>4 points {x1,y1,x2,y2...}</description></variable>
+            <variable><type>double</type><name>corners[12]</name><description>4 points {x1,y1,x2,y2...}</description></variable>
         </memory>
 
         <functions>
@@ -82,7 +82,7 @@
         <description></description>
         <variables>
             <variable><type>int</type><name>id</name><description></description></variable>
-            <variable><type>double</type><name>corners[10]</name><description></description></variable>
+            <variable><type>double</type><name>corners[12]</name><description></description></variable>
             <variable><type>int</type><name>type</name><description></description></variable>
         </variables>
     </message>

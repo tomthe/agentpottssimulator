@@ -2,6 +2,7 @@
  *
  * */
 #include "sat_intersection_test.h"
+#include "line_intersection.h"
 //#include "cell2d4_options.h"
 
 
@@ -411,6 +412,7 @@ double calc_H_contact(double *corners)
 }
 
 #define distance(x1,y1,x2,y2) (sqrt((x1-x2)*(x1-x2)+(y1-y2)*(y1-y2)))
+
 int get_number_of_same_corners(double corners1[], double corners2[])
 {
     double d;
@@ -433,11 +435,12 @@ int get_number_of_same_corners(double corners1[], double corners2[])
 double calc_H_contact_sat(double *corners)
 {
     double H_contact = cof_contact_medium[TYPE];
+    double contact_length;
+    double H_contact_length = 0.0;
     double overlap_temp, overlap=0, corner_overlap;
     double corner_overlap_status[N_CORNERS] = {0,0,0,0};
     double mtv[2];
     double repelling_vector[2];
-    double H_corner_distance;
     int n_near_corners=0;
     //for every near other_cell:
       //for every corner of points:
@@ -469,7 +472,15 @@ double calc_H_contact_sat(double *corners)
                 //small intersection --> contact
                 //H_contact += cof_contact_edge[TYPE][cellposition_message->type] + overlap * 1.5;
                 //printf("Contact-smal! H: %5.3f\n",H_contact);
+                //printf("\n-----------------contaaaaaaaa????????????????????????: %f, %f", H_contact,H_contact_length);
 
+                contact_length = lineSegmentIntersection_Corners_intersection_length(corners,cellposition_message->corners);
+                if (contact_length>0.0){
+                    H_contact_length += contact_length * cof_contact_edge[TYPE][cellposition_message->type];
+                    //printf("\n-----------------contaaaaaaaaaaaaaaaaaaact!!!!!jo: %f, %f", H_contact,H_contact_length);
+                }
+
+                /*
                 for (int i_corner=0; i_corner<N_CORNERS;i_corner++)
                 {
                     corner_overlap = get_corner_overlap(&corners[i_corner*2],cellposition_message->corners,N_CORNERS);
@@ -480,6 +491,7 @@ double calc_H_contact_sat(double *corners)
                         //H_contact += cof_contact_edge[TYPE][cellposition_message->type] + corner_overlap * 1.5;
                     }
                 }
+                */
             }
 
         }
@@ -491,24 +503,29 @@ double calc_H_contact_sat(double *corners)
     FINISH_CELLPOSITION_MESSAGE_LOOP
     //H_contact = overlap * 10;
 
+    /*
     for (int i_corner=0; i_corner<N_CORNERS;i_corner++)
     {
         //printf("coner_h: %5.3f; id(%2d-%2d)corner: %d \n", corner_overlap_status[i_corner],ID, 0, i_corner);
 
         if (corner_overlap_status > 0)
         {
-            H_contact += corner_overlap_status[i_corner] / cof_contact_distance[TYPE] + cof_contact_edge[TYPE][0] ;
+            H_contact += 0.5 * corner_overlap_status[i_corner] / cof_contact_distance[TYPE] + cof_contact_edge[TYPE][0] ;
         } else
         {
             H_contact += cof_contact_medium[TYPE];
         }
     }
-
-    H_contact = H_contact - (n_near_corners*3.0); //cornerH
+    */
+    
+    //H_contact = H_contact - (n_near_corners*3.0); //cornerH
 
     if (H_contact >3.0)
     {
     }
+    //printf("\nH_contact: %f, %f", H_contact,H_contact_length);
+    H_contact = H_contact + H_contact_length;
+    
     //printf("overlap: %4.2f;  H: %5.3f; o_temp: %4.2f; ID: %d contact_edge: %4.2f type: %d \n",overlap, H_contact,overlap_temp, ID,cof_contact_edge[TYPE][0],TYPE);
     return H_contact;
 }
