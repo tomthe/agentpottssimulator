@@ -8,17 +8,17 @@
 #define N_CORNERS 6
 #define n_cell_types 3
 
-double cof_move_step_size[] = {0.09,0.1,0.03,0.04};
-int cof_move_random_extra_probability[] = {2,4,0};
+double cof_move_step_size[] = {0.09,0.04,0.03,0.04};
+int cof_move_random_extra_probability[] = {2,1,0};
 
-int cof_percent_of_cells_that_should_move_in_one_ts = 40;
+int cof_percent_of_cells_that_should_move_in_one_ts = 30;
 
 int cof_volume_do_calc[] = {1,1,1};
-double cof_volume_target[] = {7.5,5.0,2.0};
+double cof_volume_target[] = {4.5,5.0,2.0};
 double cof_volume_alpha[] = {4.0,3.0,2.0};
 
 int cof_surface_do_calc[] = {1,1,1};
-double cof_surface_target[] = {5.0,5.1,6.0};
+double cof_surface_target[] = {4.0,5.1,6.0};
 double cof_surface_alpha[] = {0.55,0.7,2.0};
 
 int cof_convex_do_calc[] = {1,1,1};
