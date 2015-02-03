@@ -23,8 +23,8 @@ if len(sys.argv) <= 2:
     sys.exit(1)
 
 
-acount, col, ncelltypes  = map(int, sys.argv[1:])
-print acount, col, ncelltypes
+acount, col, n_corners, ncelltypes  = map(int, sys.argv[1:])
+print "input: ", acount, col, ncelltypes
 
 
 
@@ -44,15 +44,20 @@ for id in xrange(0,acount):
     x3 = x4 = 1.5 + ida * 1.0
     y1 = y4 = 1.1 + id / col
     y2 = y3 = 0.1 + id / col
+
+    x5 = float(x1 + x4)/2
+    y5 = float(y1 + y4)/2
+    x6 = float(x1 + x5)/2
+    y6 = float(y1 + y5)/2
     # write agent values to file
     f.write("""
     <xagent>
         <name>cell2d4</name>
         <id>%d</id>
-        <corners>{%.2f,%.2f,%.2f,%.2f,%.2f,%.2f,%.2f,%.2f}</corners>
+        <corners>{%.2f,%.2f,%.2f,%.2f,%.2f,%.2f,%.2f,%.2f,%.2f,%.2f,%.2f,%.2f}</corners>
         <type>%d</type>
     </xagent>
-""" % (id, x1,y1,x2,y2,x3,y3,x4,y4,celltype))
+""" % (id, x1,y1,x2,y2,x3,y3,x4,y4,x5,y5,x6,y6,celltype))
 
 # End XML file and close
 f.write("</states>\n")
