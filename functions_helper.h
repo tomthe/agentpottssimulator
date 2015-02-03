@@ -434,11 +434,11 @@ int get_number_of_same_corners(double corners1[], double corners2[])
 
 double calc_H_contact_sat(double *corners)
 {
-    double H_contact = cof_contact_medium[TYPE];
-    double contact_length;
+    double H_contact = 0;
+    double contact_length,contact_length_total = 0;
     double H_contact_length = 0.0;
     double overlap_temp, overlap=0, corner_overlap;
-    double corner_overlap_status[N_CORNERS] = {0,0,0,0};
+    //double corner_overlap_status[N_CORNERS] = {0,0,0,0};
     double mtv[2];
     double repelling_vector[2];
     int n_near_corners=0;
@@ -476,6 +476,7 @@ double calc_H_contact_sat(double *corners)
 
                 contact_length = lineSegmentIntersection_Corners_intersection_length(corners,cellposition_message->corners);
                 if (contact_length>0.0){
+                    contact_length_total += contact_length;
                     H_contact_length += contact_length * cof_contact_edge[TYPE][cellposition_message->type];
                     //printf("\n-----------------contaaaaaaaaaaaaaaaaaaact!!!!!jo: %f, %f", H_contact,H_contact_length);
                 }
@@ -519,6 +520,10 @@ double calc_H_contact_sat(double *corners)
     */
     
     //H_contact = H_contact - (n_near_corners*3.0); //cornerH
+
+    double contact_length_medium;
+    contact_length_medium = calc_surface_length(corners) - contact_length_total;
+    H_contact_length += contact_length_medium * cof_contact_medium[TYPE];
 
     if (H_contact >3.0)
     {

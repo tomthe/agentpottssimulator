@@ -47,25 +47,38 @@ def test_onefile():
 	pass
 
 def read_and_paint_one_timestep(filename):
-	cells = read_data_from_one_timestep(filename)
+	cells, cell_types = read_data_from_one_timestep(filename)
 	#set_sim_space(cells)
-	paint_one_timestep(cells,filename)
+	paint_one_timestep(cells, cell_types,filename)
+
+def get_color_from_cell_type(cell_type):
+	if cell_type==0:
+		color=(180,120,100)
+	elif cell_type==1:
+		color=(115,165,125)
+	elif cell_type==2:
+		color=(180,100,125)
+	else:
+		color=(255,255,255)
+	return color
 
 
-def paint_one_timestep(cells,filename):
+def paint_one_timestep(cells,cell_types,filename):
 	# create a canvas
 	# paint every cell
 	back = Image.new('RGBA', (im_width,im_height), (123,133,133,0))
 	#poly = Image.new('RGBA', (im_width,im_height))
 	pdraw = ImageDraw.Draw(back)
-
+	i=0
 	for cell in cells:
 		cell_im = convert_cell_coordinates(cell)
 		#print "cell: ", cell_im
-		pdraw.polygon(cell_im,fill=(255,255,255,127),outline=(0,255,255,255))
+		color = get_color_from_cell_type(cell_types[i])
+		pdraw.polygon(cell_im,fill=color,outline=(0,155,155,155))
 		#pdraw.polygon([(128,128),(384,384),(128,384),(384,128)],
 		#              fill=(255,255,255,127),outline=(255,255,255,255))
 		#back.paste(poly,mask=poly)
+		i+=1
 	#save and show image
 	back.save(filename[:-3] + ".png")
 	#back.show()
@@ -78,11 +91,14 @@ def read_data_from_one_timestep(filename):
 	tree = ET.parse(filename)
 	root = tree.getroot()
 	cells = []
+	cell_types = []
 	for cellxml in root.iter('corners'):
 		pointstring = cellxml.text
 		cell_points = pointstring_to_positions(pointstring)
 		cells.append(cell_points)
-	return cells
+	for cellxml in root.iter('type'):
+		cell_types.append(int(cellxml.text))
+	return cells, cell_types
 
 def test_pointstring_to_positions():
 	positions = pointstring_to_positions("{{1.600000, 1.100000, 0.000000}, {1.600000, 0.100000, 0.000000}, {2.500000, 0.100000, 0.000000}, {2.386227, 1.058769, 0.000000}}")
@@ -95,13 +111,11 @@ def pointstring_to_positions(cell_string):
 	cell_string = cell_string.replace("{","")
 	cell_string = cell_string.replace("}","")
 	cells = cell_string.split(",")
-	p0=[float(cells[0]),float(cells[1])]
-	p1=[float(cells[2]),float(cells[3])]
-	p2=[float(cells[4]),float(cells[5])]
-	p3=[float(cells[6]),float(cells[7])]
+	corners = []
+	for i in xrange(0,len(cells),2):
+		corners.append([float(cells[i]),float(cells[i+1])])
 
-	corners = [p0,p1,p2,p3]
-	#print "corners: ",corners
+	#print "corners: ",corners, ";  len(cells): ",len(cells),len(cells)/2
 	return corners
 
 
@@ -123,12 +137,12 @@ def read_and_paint_many_timesteps(start,stop):
 	for i in xrange(start,stop):
 		try:
 			filename = str(i) + ".xml"
-			cells = read_data_from_one_timestep(filename)
+			cells,cell_types = read_data_from_one_timestep(filename)
 			set_sim_space(cells)
 			read_and_paint_one_timestep(filename)
 			print "painted file: ", filename
-		except:
-			print " no xml-file: ", filename
+		except Exception, e:
+			print " no xml-file: ", filename, str(e)
 	pass
 
 
