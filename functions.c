@@ -65,6 +65,7 @@ int movecornersandcalculateenergy()
 
     //random_extra_movement();
 
+    divide_cell_random(2000);
     return 0; 
 }
 

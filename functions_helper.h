@@ -42,7 +42,7 @@ int print_positions(double corners[])
 
 double rand_double_m_to_n(double m, double n)
 {
-    return m + (rand() / ( RAND_MAX / (n-m) ) ) ;
+    return m + (rand() / (RAND_MAX / (n-m)));
 }
 
 /** move a corner in a random direction
@@ -58,6 +58,79 @@ int choose_and_move_one_of_4_corners(double *corners)
     return 0;
 }
 
+void get_divide_cell_new_corner_positions(double corners_old[],double corners_new1[],double corners_new2[])
+{
+    copy_array_to_array(corners_old,corners_new1,N_CORNERS*2);
+    copy_array_to_array(corners_old,corners_new2,N_CORNERS*2);
+
+
+    double d0x,d0y, dmx,dmy,x,y;
+    int km,i_corner1,i_corner2;
+    //define the new point d0: halfway between point 0 and max:
+    d0x = (corners_old[0] + corners_old[(N_CORNERS-1)*2]) / 2.0;
+    d0y = (corners_old[0+1] + corners_old[(N_CORNERS-1)*2+1]) /2.0;
+
+
+    //define the new point dm: on opposit side of d0:
+    if (N_CORNERS%2==0)
+    {
+        printf("\ndivide_cell! inside ncorners is even");
+        km = N_CORNERS / 2;
+        dmx = (corners_old[(km-1)*2] + corners_old[(km)*2]) / 2.0;
+        dmy = (corners_old[(km-1)*2+1] + corners_old[(km)*2+1]) / 2.0;
+/*
+        corners_new1[(N_CORNERS/2)*2] =dmx;
+        corners_new1[(N_CORNERS/2)*2+1] =dmy;
+        corners_new1[(N_CORNERS-1)*2] =d0x;
+        corners_new1[(N_CORNERS-1)*2+1] =d0y;
+*/
+        
+        int n_middle_points = N_CORNERS / 2; //(N_CORNERS-1) - (N_CORNERS/2+1);
+        for(int i=0; i<n_middle_points;i++)
+        {
+            i_corner2 = i;
+            i_corner1 = N_CORNERS - 1 - i;
+
+            x = d0x + (dmx-d0x) * (float)(i) / (float)(n_middle_points-1);
+            y = d0y + (dmy-d0y) * (float)(i) / (float)(n_middle_points-1);
+            // (N_CORNERS/2+1) + i;
+            corners_new1[i_corner1*2] = x;
+            corners_new1[i_corner1*2+1] = y;
+            corners_new2[i_corner2*2] = x;
+            corners_new2[i_corner2*2+1] = y;
+        }
+    }
+    else
+    {
+        //not implemented yet for odd numbers of corners...!!todo
+        km = N_CORNERS / 2;
+        dmx = corners_old[(km)*2];
+        dmy = corners_old[(km)*2+1];
+    }
+}
+
+void divide_cell(double corners[])
+{    
+    print_positions(corners);
+    double corners1[N_CORNERS*2],corners2[N_CORNERS*2];
+    get_divide_cell_new_corner_positions(corners,corners1,corners2);
+    print_positions(corners1);
+    print_positions(corners2);
+    copy_array_to_array(corners1,CORNERS, N_CORNERS*2);
+    int id = rand();
+    add_cell2d4_agent(id, TYPE, corners2);
+}
+
+int divide_cell_random(int propability_fraction)
+{
+    if ((rand() % propability_fraction)==0)
+        {
+            printf("\ndivide_cell!  .start");
+            divide_cell(CORNERS);
+            return 1;
+        }
+    return 0;
+}
 
 int random_extra_movement()
 {
