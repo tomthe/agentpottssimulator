@@ -74,7 +74,7 @@ void get_divide_cell_new_corner_positions(double corners_old[],double corners_ne
     //define the new point dm: on opposit side of d0:
     if (N_CORNERS%2==0)
     {
-        printf("\ndivide_cell! inside ncorners is even");
+        //printf("\ndivide_cell! inside ncorners is even");
         km = N_CORNERS / 2;
         dmx = (corners_old[(km-1)*2] + corners_old[(km)*2]) / 2.0;
         dmy = (corners_old[(km-1)*2+1] + corners_old[(km)*2+1]) / 2.0;
@@ -111,11 +111,11 @@ void get_divide_cell_new_corner_positions(double corners_old[],double corners_ne
 
 void divide_cell(double corners[])
 {    
-    print_positions(corners);
+    //print_positions(corners);
     double corners1[N_CORNERS*2],corners2[N_CORNERS*2];
     get_divide_cell_new_corner_positions(corners,corners1,corners2);
-    print_positions(corners1);
-    print_positions(corners2);
+    //print_positions(corners1);
+    //print_positions(corners2);
     copy_array_to_array(corners1,CORNERS, N_CORNERS*2);
     int id = rand();
     add_cell2d4_agent(id, TYPE, corners2);
