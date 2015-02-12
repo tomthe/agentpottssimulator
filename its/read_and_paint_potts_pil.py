@@ -69,6 +69,9 @@ def paint_one_timestep(cells,cell_types,filename):
 	back = Image.new('RGBA', (im_width,im_height), (123,133,133,0))
 	#poly = Image.new('RGBA', (im_width,im_height))
 	pdraw = ImageDraw.Draw(back)
+
+	#draw a black background:
+	pdraw.rectangle([(0,0),(im_width,im_height)],fill=(12,7,0))
 	i=0
 	for cell in cells:
 		cell_im = convert_cell_coordinates(cell)
