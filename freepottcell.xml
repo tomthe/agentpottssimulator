@@ -55,10 +55,16 @@
                 </outputs>
             </function>
 
-            <function><name>pushcells</name>
-                <description></description>
+            <function><name>cell_functions</name>
+                <description>User defined functions for Cell behaviour. Acts only on its own variables... e.g.: Cell division, secrete signal_agents...</description>
                 <currentState>2</currentState>
                 <nextState>3</nextState>
+            </function>
+
+            <function><name>pushcells</name>
+                <description></description>
+                <currentState>3</currentState>
+                <nextState>4</nextState>
                 <inputs>
                     <input>
                         <messageName>repulsion</messageName>

@@ -65,9 +65,22 @@ int movecornersandcalculateenergy()
 
     //random_extra_movement();
 
-    divide_cell_random(2000);
     return 0; 
 }
+
+int cell_functions()
+{
+    
+    divide_cell_random(3000);
+
+    if ((rand() % 5000) ==0)
+    {
+        printf("        -celldeath.  .\n");
+        return 1;
+    }
+    return 0;
+}
+
 
 int pushcells()
 {
