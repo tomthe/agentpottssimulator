@@ -579,13 +579,15 @@ double calc_H_contact_sat(double *corners, int moved_corner)
 
 
     double H_signal=0;
-    double dist;
+    double dist, attraction;
+    
     START_SIGNALPOSITION_MESSAGE_LOOP
         //printf("signalposloooop.... %f \n", signalposition_message->x);
         dist = distance(corners[moved_corner*2],corners[moved_corner*2+1],signalposition_message->x,signalposition_message->y);
-        if (dist < 3.0)
-        {
-            H_signal += 1 * 1 / dist * signalposition_message->amount;
+        if (dist < 24.0)
+        {   
+            attraction = cof_cell_signal[TYPE][signalposition_message->type];            
+            H_signal += attraction / dist;
         }
     FINISH_SIGNALPOSITION_MESSAGE_LOOP
     //H_contact = overlap * 10;

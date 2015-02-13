@@ -1,4 +1,3 @@
-
 double max(double a, double b) { return a > b ? a : b; }
 double max3(double a, double b, double c) { return max(a,c) > b ? max(a,c) : b; }
 double min(double a, double b) { return a < b ? a : b; }
