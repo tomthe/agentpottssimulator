@@ -2,6 +2,8 @@
 #include "cell2d4_agent_header.h"
 #include "cell2d4_options.h"
 #include "functions_helper.h"
+#include "signalagent_agent_header.h"
+#include "functions_signal.c"
 
 #define kr 0.1 /* Stiffness variable for repulsion */
 #define distance(x1,y1,x2,y2) (sqrt((x1-x2)*(x1-x2)+(y1-y2)*(y1-y2)))
@@ -25,6 +27,8 @@ int movecornersandcalculateenergy()
     double corners2[(N_CORNERS * 2)];
     int i=0;
     double deltaH=0.0, deltaH_interaction, deltaH_inside;
+    int moved_corner;
+
 	
     //choose randomly if this cell should move
     if (decide_if_cell_should_move() !=0)
@@ -35,14 +39,13 @@ int movecornersandcalculateenergy()
 
             //choose which of the corners should move and  move this corner
             //print_positions(points2);
-            choose_and_move_one_of_4_corners(corners2);
-            choose_and_move_one_of_4_corners(corners2);
+            moved_corner = choose_and_move_one_of_4_corners(corners2);
             //print_positions(points2);
 
             //calculate deltaH for the inside of the cell
             deltaH_inside = calculate_deltaH_inside(corners2,CORNERS);
             //printf("deltatH: %f\n",  deltaH_inside);
-            deltaH_interaction = calculate_deltaH_interactions(corners2,CORNERS);
+            deltaH_interaction = calculate_deltaH_interactions(corners2,CORNERS,moved_corner);
             //printf("-------- deltaHinside: %f | deltaH_interaction: %f  \n ", deltaH_inside,deltaH_interaction);
             //calculate deltaH for the interactions with its neighbours
 
@@ -71,13 +74,26 @@ int movecornersandcalculateenergy()
 int cell_functions()
 {
     
-    divide_cell_random(3000);
+    divide_cell_random(52000);
 
-    if ((rand() % 5000) ==0)
+    //random cell-death:
+    if ((rand() % 50000) ==0)
     {
         printf("        -celldeath.  .\n");
         return 1;
     }
+    //
+
+    //create a signal-agent:
+    if ((rand() % 96) ==0)
+    {
+        //printf("        -add signalagent...  .\n");
+        //add_signalagent_agent(ID,TYPE,X,Y,FADE,SPEED,REMAINDERLIFE);
+        int ic = rand() % N_CORNERS;
+        add_signalagent_agent(rand(), 0,CORNERS[ic*2],CORNERS[ic*2+1],2.0,1.0,0.2,100);
+    }
+    
+
     return 0;
 }
 

@@ -29,8 +29,8 @@
 
             <function><name>outputcellposition</name>
                 <description></description>
-                <currentState>start</currentState>
-                <nextState>1</nextState>
+                <currentState>1</currentState>
+                <nextState>2</nextState>
                 <outputs>
                     <output><messageName>cellposition</messageName></output>
                 </outputs>
@@ -38,8 +38,8 @@
 
             <function><name>movecornersandcalculateenergy</name>
                 <description></description>
-                <currentState>1</currentState>
-                <nextState>2</nextState>
+                <currentState>2</currentState>
+                <nextState>3</nextState>
                 <inputs>
                     <input>
                         <messageName>cellposition</messageName>
@@ -49,6 +49,9 @@
                             <rhs><value>m.id</value></rhs>
                         </filter>
                     </input>
+                    <input>
+                        <messageName>signalposition</messageName>
+                    </input>
                 </inputs>
                 <outputs>
                     <output><messageName>repulsion</messageName></output>
@@ -56,15 +59,15 @@
             </function>
 
             <function><name>cell_functions</name>
-                <description>User defined functions for Cell behaviour. Acts only on its own variables... e.g.: Cell division, secrete signal_agents...</description>
-                <currentState>2</currentState>
-                <nextState>3</nextState>
+                <description>User defined functions for Cell behaviour. Acts only on its own variables.</description>
+                <currentState>3</currentState>
+                <nextState>4</nextState>
             </function>
 
             <function><name>pushcells</name>
                 <description></description>
-                <currentState>3</currentState>
-                <nextState>4</nextState>
+                <currentState>4</currentState>
+                <nextState>5</nextState>
                 <inputs>
                     <input>
                         <messageName>repulsion</messageName>
@@ -80,6 +83,42 @@
         </functions>
     </xagent>
 
+    <xagent>
+    
+        <name>signalagent</name>
+        <description></description>
+        
+        <memory>
+            <variable><type>int</type><name>sid</name><description></description></variable>
+            <variable><type>int</type><name>stype</name><description></description></variable>
+            <variable><type>double</type><name>x</name><description>x-position</description></variable>
+            <variable><type>double</type><name>y</name><description>y-position</description></variable>
+            <variable><type>double</type><name>amount</name><description>intensity</description></variable>
+            <variable><type>double</type><name>fade</name><description>relative fade of the intensity</description></variable>
+            <variable><type>double</type><name>speed</name><description>distance per timestep</description></variable>
+            <variable><type>int</type><name>remainderlife</name><description>remaining timesteps before destruction</description></variable>
+        </memory>
+
+        <functions>
+
+            <function><name>moveandadjustsignal</name>
+                <description></description>
+                <currentState>a1</currentState>
+                <nextState>a2</nextState>
+            </function>
+
+            <function><name>outputsignalposition</name>
+                <description></description>
+                <currentState>a2</currentState>
+                <nextState>a3</nextState>
+                <outputs>
+                    <output><messageName>signalposition</messageName></output>
+                </outputs>
+            </function>
+
+        </functions>
+    </xagent>
+
 </agents>
 
 <messages>
@@ -90,6 +129,17 @@
             <variable><type>int</type><name>id</name><description></description></variable>
             <variable><type>double</type><name>corners[12]</name><description></description></variable>
             <variable><type>int</type><name>type</name><description></description></variable>
+        </variables>
+    </message>
+    <message>
+        <name>signalposition</name>
+        <description></description>
+        <variables>
+            <variable><type>int</type><name>id</name><description></description></variable>
+            <variable><type>int</type><name>type</name><description></description></variable>
+            <variable><type>double</type><name>x</name><description></description></variable>
+            <variable><type>double</type><name>y</name><description></description></variable>
+            <variable><type>double</type><name>amount</name><description></description></variable>
         </variables>
     </message>
     <message>

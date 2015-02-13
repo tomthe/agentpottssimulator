@@ -51,11 +51,11 @@ int choose_and_move_one_of_4_corners(double *corners)
 {
     double dx = rand_double_m_to_n(-(cof_move_step_size[TYPE]),cof_move_step_size[TYPE]);
     double dy = rand_double_m_to_n(-(cof_move_step_size[TYPE]),cof_move_step_size[TYPE]);
-    int r = rand() % N_CORNERS; //int between 0 and 3
+    int r = rand() % N_CORNERS; //int between 0 and N_CORNERS (=6)
     corners[r*2] += dx; //x
     corners[r*2+1] += dy;
     //printf("move corner: dx: %f, dy: %f;\n", dx,dy);
-    return 0;
+    return r;
 }
 
 void get_divide_cell_new_corner_positions(double corners_old[],double corners_new1[],double corners_new2[])
@@ -505,7 +505,7 @@ int get_number_of_same_corners(double corners1[], double corners2[])
 }
 
 
-double calc_H_contact_sat(double *corners)
+double calc_H_contact_sat(double *corners, int moved_corner)
 {
     double H_contact = 0;
     double contact_length,contact_length_total = 0;
@@ -575,6 +575,19 @@ double calc_H_contact_sat(double *corners)
          * different energies (-levels), depending on overlap;
          * */
     FINISH_CELLPOSITION_MESSAGE_LOOP
+
+
+
+    double H_signal=0;
+    double dist;
+    START_SIGNALPOSITION_MESSAGE_LOOP
+        //printf("signalposloooop.... %f \n", signalposition_message->x);
+        dist = distance(corners[moved_corner*2],corners[moved_corner*2+1],signalposition_message->x,signalposition_message->y);
+        if (dist < 3.0)
+        {
+            H_signal += 1 * 1 / dist * signalposition_message->amount;
+        }
+    FINISH_SIGNALPOSITION_MESSAGE_LOOP
     //H_contact = overlap * 10;
 
     /*
@@ -602,14 +615,14 @@ double calc_H_contact_sat(double *corners)
     {
     }
     //printf("\nH_contact: %f, %f", H_contact,H_contact_length);
-    H_contact = H_contact + H_contact_length;
+    H_contact = H_contact + H_contact_length + H_signal;
     
     //printf("overlap: %4.2f;  H: %5.3f; o_temp: %4.2f; ID: %d contact_edge: %4.2f type: %d \n",overlap, H_contact,overlap_temp, ID,cof_contact_edge[TYPE][0],TYPE);
     return H_contact;
 }
 
 
-double calculate_deltaH_interactions(double *corners2, double *corners1)
+double calculate_deltaH_interactions(double *corners2, double *corners1, int moved_corner)
 {
     //double deltaH = 0;
     double H_contact1, H_contact2;
@@ -617,8 +630,8 @@ double calculate_deltaH_interactions(double *corners2, double *corners1)
 
     if (cof_contact_do_calc[TYPE])
     {
-        H_contact1 = calc_H_contact_sat(corners1);
-        H_contact2 = calc_H_contact_sat(corners2);
+        H_contact1 = calc_H_contact_sat(corners1, moved_corner);
+        H_contact2 = calc_H_contact_sat(corners2, moved_corner);
     }
     //printf("|| H1: %4.2f; Hc2: %4.2f ||",H_contact1,H_contact2);
     return H_contact2-H_contact1;
