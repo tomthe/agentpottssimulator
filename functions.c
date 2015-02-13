@@ -74,10 +74,10 @@ int movecornersandcalculateenergy()
 int cell_functions()
 {
     
-    divide_cell_random(52000);
+    divide_cell_random(cof_divide_rate[TYPE]);
 
     //random cell-death:
-    if ((rand() % 50000) ==0)
+    if ((rand() % cof_death_rate[TYPE]) ==0)
     {
         printf("        -celldeath.  .\n");
         return 1;
@@ -85,12 +85,12 @@ int cell_functions()
     //
 
     //create a signal-agent:
-    if ((rand() % 96) ==0)
+    if ((rand() % 290) ==0)
     {
         //printf("        -add signalagent...  .\n");
         //add_signalagent_agent(ID,TYPE,X,Y,FADE,SPEED,REMAINDERLIFE);
-        int ic = rand() % N_CORNERS;
-        add_signalagent_agent(rand(), 0,CORNERS[ic*2],CORNERS[ic*2+1],2.0,1.0,0.2,100);
+        int ic = rand() % N_CORNERS; //choose a random corner
+        add_signalagent_agent(rand(), 0,CORNERS[ic*2],CORNERS[ic*2+1],2.0,1.0,0.4,300);
     }
     
 
