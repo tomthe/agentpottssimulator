@@ -32,7 +32,7 @@ double cof_contact_depth[] = {0.2,0.2,0.2};
 double cof_contact_edge[n_cell_types][n_cell_types] = {{-4.5,-2.0,-1.0},{-2.0,-4.5,0.5},{-1.0,0.0,-5.0}};
 double cof_contact_intersection[n_cell_types][n_cell_types] = {{180.0,180.0,52.0},{180.0,180.0,52.0},{52.0,52.0,52.0}};
 
-double cof_cell_signal[n_cell_types][n_cell_types] = {{-1.0,2.0,0.0},{0.0,-2.0,0.0},{-1.0,2.0,0.0}};
+double cof_cell_signal[n_cell_types][n_cell_types] = {{-12.0,12.0,0.0},{12.0,-5.0,0.0},{-1.0,2.0,0.0}};
 
-int cof_death_rate[] = {31000,11000,5500};
-int cof_divide_rate[] = {30000,10000,5000};
+int cof_death_rate[] = {50000,40000,5000};
+int cof_divide_rate[]= {50000,40000,5000};

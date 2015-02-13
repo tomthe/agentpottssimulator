@@ -85,12 +85,12 @@ int cell_functions()
     //
 
     //create a signal-agent:
-    if ((rand() % 290) ==0)
+    if ((rand() % 50) ==0)
     {
         //printf("        -add signalagent...  .\n");
-        //add_signalagent_agent(ID,TYPE,X,Y,FADE,SPEED,REMAINDERLIFE);
+        //add_signalagent_agent(ID,TYPE,X,Y,AMOUNT,FADE,SPEED,REMAINDERLIFE);
         int ic = rand() % N_CORNERS; //choose a random corner
-        add_signalagent_agent(rand(), 0,CORNERS[ic*2],CORNERS[ic*2+1],2.0,1.0,0.4,300);
+        add_signalagent_agent(rand(),TYPE,CORNERS[ic*2],CORNERS[ic*2+1],2.0,1.0,0.4,100);
     }
     
 
