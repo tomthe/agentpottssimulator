@@ -75,7 +75,8 @@ int cell_functions()
 {
 
     //stochastic_
-    asymettric_stem_cell_division(cof_divide_rate[TYPE]);
+    //asymettric_stem_cell_division(cof_divide_rate[TYPE]);
+    stochastic_stem_cell_division(cof_divide_rate[TYPE]);
     //divide_cell_random(cof_divide_rate[TYPE]);
 
     //random cell-death:
