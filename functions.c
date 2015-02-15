@@ -73,8 +73,10 @@ int movecornersandcalculateenergy()
 
 int cell_functions()
 {
-    
-    divide_cell_random(cof_divide_rate[TYPE]);
+
+    //stochastic_
+    asymettric_stem_cell_division(cof_divide_rate[TYPE]);
+    //divide_cell_random(cof_divide_rate[TYPE]);
 
     //random cell-death:
     if ((rand() % cof_death_rate[TYPE]) ==0)
@@ -85,7 +87,7 @@ int cell_functions()
     //
 
     //create a signal-agent:
-    if ((rand() % 50) ==0)
+    if ((rand() % 50000) ==0)
     {
         //printf("        -add signalagent...  .\n");
         //add_signalagent_agent(ID,TYPE,X,Y,AMOUNT,FADE,SPEED,REMAINDERLIFE);

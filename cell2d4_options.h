@@ -18,7 +18,7 @@ double cof_volume_target[] = {6.0,6.0,4.5};
 double cof_volume_alpha[] = {1.0,2.0,1.0};
 
 int cof_surface_do_calc[] = {1,1,1};
-double cof_surface_target[] = {6.0,6.0,6.0};
+double cof_surface_target[] = {5.0,5.0,6.0};
 double cof_surface_alpha[] = {1.0,1.0,3.0};
 
 int cof_convex_do_calc[] = {1,1,1};
@@ -29,10 +29,10 @@ double cof_contact_alpha[] = {15.0,15.0,9.0};
 double cof_contact_distance[] = {0.4,0.4,0.1};
 double cof_contact_medium[] = {1.0,2.0,1.0};
 double cof_contact_depth[] = {0.2,0.2,0.2};
-double cof_contact_edge[n_cell_types][n_cell_types] = {{-5.5,-2.0,-1.0},{-2.0,-5.5,0.5},{-1.0,0.0,-5.0}};
+double cof_contact_edge[n_cell_types][n_cell_types] = {{-7.5,-4.0,-1.0},{-4.0,-7.5,0.5},{-1.0,0.0,-5.0}};
 double cof_contact_intersection[n_cell_types][n_cell_types] = {{180.0,180.0,52.0},{180.0,180.0,52.0},{52.0,52.0,52.0}};
 
 double cof_cell_signal[n_cell_types][n_cell_types] = {{-10.0,0.0,0.0},{0.0,-10.0,0.0},{-1.0,2.0,0.0}};
 
-int cof_death_rate[] = {490000,490000,20000};
-int cof_divide_rate[] = {490000,490000,20000};
+int cof_death_rate[] = {49000000,3000,20000};
+int cof_divide_rate[] = {3200,490000000,20000};

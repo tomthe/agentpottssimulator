@@ -126,7 +126,7 @@ int divide_cell_random(int propability_fraction)
     if ((rand() % propability_fraction)==0)
         {
             printf("\ndivide_cell!  .start");
-            divide_cell(CORNERS);
+            divide_cell(CORNERS,TYPE);
             return 1;
         }
     return 0;
@@ -146,6 +146,7 @@ int asymettric_stem_cell_division(int propability_fraction){
         return 0;
 
     }
+    return 0;
 }
 
 int stochastic_stem_cell_division(int propability_fraction){
@@ -169,6 +170,7 @@ int stochastic_stem_cell_division(int propability_fraction){
             }
         return 0;
     }
+    return 0;
 }
 
 int random_extra_movement()
