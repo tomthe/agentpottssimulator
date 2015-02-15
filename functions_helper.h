@@ -109,7 +109,7 @@ void get_divide_cell_new_corner_positions(double corners_old[],double corners_ne
     }
 }
 
-void divide_cell(double corners[])
+void divide_cell(double corners[], int cell_type)
 {    
     //print_positions(corners);
     double corners1[N_CORNERS*2],corners2[N_CORNERS*2];
@@ -118,7 +118,7 @@ void divide_cell(double corners[])
     //print_positions(corners2);
     copy_array_to_array(corners1,CORNERS, N_CORNERS*2);
     int id = rand();
-    add_cell2d4_agent(id, TYPE, corners2);
+    add_cell2d4_agent(id, cell_type, corners2);
 }
 
 int divide_cell_random(int propability_fraction)
@@ -130,6 +130,45 @@ int divide_cell_random(int propability_fraction)
             return 1;
         }
     return 0;
+}
+
+
+int asymettric_stem_cell_division(int propability_fraction){
+    if (TYPE==0)
+    {
+
+        if ((rand() % propability_fraction)==0)
+            {
+                printf("\ndivide_cell!  .start");
+                divide_cell(CORNERS, 1);
+                return 1;
+            }
+        return 0;
+
+    }
+}
+
+int stochastic_stem_cell_division(int propability_fraction){
+    if (TYPE==0)
+    {
+
+        if ((rand() % propability_fraction)==0)
+            {
+                if(rand() % 2 == 0){
+                    //both child-cells become stem-cells:
+                    TYPE = 0;
+                    divide_cell(CORNERS, 0);
+                    printf("\ndivide_cell!  . 2 stem-cells");
+                }else{
+                    //both child-cells become differentiated-cells:
+                    TYPE = 1;
+                    divide_cell(CORNERS, 1);
+                    printf("\ndivide_cell!  . 2 differentiated-cells");
+                }
+                return 1;
+            }
+        return 0;
+    }
 }
 
 int random_extra_movement()
@@ -580,7 +619,7 @@ double calc_H_contact_sat(double *corners, int moved_corner)
 
     double H_signal=0;
     double dist, attraction;
-    
+
     START_SIGNALPOSITION_MESSAGE_LOOP
         //printf("signalposloooop.... %f \n", signalposition_message->x);
         dist = distance(corners[moved_corner*2],corners[moved_corner*2+1],signalposition_message->x,signalposition_message->y);
