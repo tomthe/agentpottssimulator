@@ -47,7 +47,7 @@ def test_onefile():
 	pass
 
 def read_and_paint_one_timestep(filename):
-	cells, cell_types, signals_pos = read_data_from_one_timestep(filename)
+	cells, cell_types, signals_pos,types = read_data_from_one_timestep(filename)
 	#set_sim_space(cells)
 	paint_one_timestep(cells, cell_types, signals_pos,filename)
 
@@ -102,19 +102,29 @@ def read_data_from_one_timestep(filename):
 	cell_types = []
 	xlist=[]
 	ylist=[]
+	types=[0,0,0,0,0,0]
 	for cellxml in root.iter('corners'):
 		pointstring = cellxml.text
 		cell_points = pointstring_to_positions(pointstring)
 		cells.append(cell_points)
 	for cellxml in root.iter('type'):
 		cell_types.append(int(cellxml.text))
+		if cellxml.text=='0':
+			types[0] += 1
+		elif cellxml.text=='1':
+			types[1] += 1
+		elif cellxml.text=='2':
+			types[2] += 1
+		elif cellxml.text=='3':
+			types[3] += 1
 	for cellxml in root.iter('x'):
 		xlist.append(float(cellxml.text))
 	for cellxml in root.iter('y'):
 		ylist.append(float(cellxml.text))
+	#print "inside,,,,, types: ", types
 	signals_pos = zip(xlist,ylist)
 
-	return cells, cell_types, signals_pos
+	return cells, cell_types, signals_pos,types
 
 def test_pointstring_to_positions():
 	positions = pointstring_to_positions("{{1.600000, 1.100000, 0.000000}, {1.600000, 0.100000, 0.000000}, {2.500000, 0.100000, 0.000000}, {2.386227, 1.058769, 0.000000}}")
@@ -150,16 +160,46 @@ def read_and_paint_many_timesteps(start,stop):
 	#filename = str(start) + ".xml"
 	#cells = read_data_from_one_timestep(filename)
 	#set_sim_space(cells)
+	types_over_time=[]
 	for i in xrange(start,stop):
 		try:
 			filename = str(i) + ".xml"
-			cells,cell_types,signals_pos = read_data_from_one_timestep(filename)
+			cells,cell_types,signals_pos,types = read_data_from_one_timestep(filename)
+			#print "types: ", types
+			types_over_time.append(types)
 			set_sim_space(cells)
 			read_and_paint_one_timestep(filename)
 			print "painted file: ", filename
 		except Exception, e:
 			print " no xml-file: ", filename, str(e)
-	pass
+	
+	plot_types_over_time(types_over_time)
+
+def plot_types_over_time(types_over_time):
+	import matplotlib.pyplot as plt
+	#types_over_time: [[5,2,0,0],[5,3,0,0],[...]..]
+	#needed: x1: [5,5,...] x2
+	lenn = len(types_over_time)
+	#print "types_over time: ", types_over_time,lenn
+	types = zip(*types_over_time)
+	#print "types: ", types
+
+	x = range(lenn)
+	with plt.xkcd():
+		fig, axes = plt.subplots()
+		axes.plot(x,types[0], 'r', label="stem-cells")
+		axes.plot(x,types[1], 'b', label="differentiated")
+		axes.plot(x,types[2], 'y')
+		axes.set_xlabel('time step')
+		axes.set_ylabel('number of cells')
+		axes.set_title('cell_types over time');
+		axes.legend(loc=0)
+
+		fig.savefig("types.png",dpi=200)
+		print "show..."
+		plt.show()
+
+
 
 
 
