@@ -155,7 +155,7 @@ int stochastic_stem_cell_division(int propability_fraction){
 
         if ((rand() % propability_fraction)==0)
             {
-                if(rand() % 2 == 0){
+                if(rand() % 2 == 1){
                     //both child-cells become stem-cells:
                     TYPE = 0;
                     divide_cell(CORNERS, 0);
