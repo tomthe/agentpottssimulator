@@ -109,6 +109,21 @@ void get_divide_cell_new_corner_positions(double corners_old[],double corners_ne
     }
 }
 
+void get_middle_point(double corners[], double middle_point[])
+{
+    middle_point[0] = 0.0;
+    middle_point[1] = 0.0;
+
+    for (int i_corner=0; i_corner<N_CORNERS;i_corner++)
+    {
+        middle_point[0] += corners[i_corner*2];
+        middle_point[1] += corners[i_corner*2+1];
+    }
+
+    middle_point[0] = middle_point[0] / N_CORNERS;
+    middle_point[1] = middle_point[1] / N_CORNERS;
+}
+
 void divide_cell(double corners[], int cell_type)
 {    
     //print_positions(corners);
@@ -118,7 +133,9 @@ void divide_cell(double corners[], int cell_type)
     //print_positions(corners2);
     copy_array_to_array(corners1,CORNERS, N_CORNERS*2);
     int id = rand();
-    add_cell2d4_agent(id, cell_type, corners2);
+    double middle_point[2];
+    get_middle_point(corners,middle_point);
+    add_cell2d4_agent(id, cell_type, corners2,middle_point[0],middle_point[1]);
 }
 
 int divide_cell_random(int propability_fraction)
@@ -270,6 +287,9 @@ double calc_distance_2d(double x1,double y1, double x2,double y2)
     return sqrt(dx*dx + dy*dy);
 }
 
+
+/**deprecated - use cals_surface_length with any number of corners
+*/
 double calc_surface_length_4corners(double *corners)
 {
     double l = calc_distance_2corners(corners,0,1);
@@ -307,16 +327,16 @@ double calc_H_surface(double *corners)
     return H;
 }
 
-/* X - x-coordinates [x0,x1,x2,x3]
+/* Xv - x-coordinates [x0,x1,x2,x3]
  * adapted from: http://www.mathopenref.com/coordpolygonarea2.html
  * */
-double calculate_polygon_area(double X[], double Y[], int num_points)
+double calculate_polygon_area(double Xv[], double Yv[], int num_points)
 {
   double area = 0;         // Accumulates area in the loop
   int j = num_points-1;  // The last vertex is the 'previous' one to the first
 
   for (int i=0; i<num_points; i++)
-    { area = area +  (X[j]+X[i]) * (Y[j]-Y[i]);
+    { area = area +  (Xv[j]+Xv[i]) * (Yv[j]-Yv[i]);
       j = i;  //j is previous vertex to i
     }
   return area/2;
@@ -377,6 +397,7 @@ double calculate_deltaH_inside(double *corners2, double *corners1)
     return deltaH;
 }
 
+/*deprecated*/
 int is_point_inside_cell_4Corners(double *p, double *corners)
 {
   #define nvert 4
@@ -391,8 +412,6 @@ int is_point_inside_cell_4Corners(double *p, double *corners)
   }
   return c;
 }
-
-
 
 int is_point_inside_cell(double *p, double *corners)
 {
@@ -460,20 +479,6 @@ int is_point_near_edge_of_polygon(double *p, double *cell, double d)
     return 0;
 }
 
-void get_middle_point(double corners[], double middle_point[])
-{
-    middle_point[0] = 0.0;
-    middle_point[1] = 0.0;
-
-    for (int i_corner=0; i_corner<N_CORNERS;i_corner++)
-    {
-        middle_point[0] += corners[i_corner*2];
-        middle_point[1] += corners[i_corner*2+1];
-    }
-
-    middle_point[0] = middle_point[0] / N_CORNERS;
-    middle_point[1] = middle_point[1] / N_CORNERS;
-}
 
 void get_repelling_vector(double corners1[], double corners2[], double overlap, double rep1[])
 {
@@ -564,7 +569,7 @@ double calc_H_contact_sat(double *corners, int moved_corner)
 
         overlap_temp = get_intersect_and_mtv(corners,cellposition_message->corners,N_CORNERS,mtv);
 
-        n_near_corners += get_number_of_same_corners(corners,cellposition_message->corners);
+        //n_near_corners += get_number_of_same_corners(corners,cellposition_message->corners);
 
         //printf(" (overlap_temp: %5.3f", overlap_temp);
         //print_positions(cellposition_message->corners);

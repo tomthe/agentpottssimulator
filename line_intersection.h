@@ -4,8 +4,8 @@
 /**
 * Determines the intersection point of the line segment defined by points A and B
 * with the line segment defined by points C and D.
-* Returns 1 if the intersection point was found, and stores that point in X,Y.
-* Returns 0 if there is no determinable intersection point, in which case X,Y will
+* Returns 1 if the intersection point was found, and stores that point in Xv,Yv.
+* Returns 0 if there is no determinable intersection point, in which case Xv,Yv will
 * be unmodified.
 */
 int lineSegmentIntersection(
@@ -13,7 +13,7 @@ double Ax, double Ay,
 double Bx, double By,
 double Cx, double Cy,
 double Dx, double Dy,
-double *X, double *Y) {
+double *Xv, double *Yv) {
 
   double  distAB, theCos, theSin, newX, ABpos ;
 
@@ -32,7 +32,7 @@ double *X, double *Y) {
   //  Discover the length of segment A-B.
   distAB=sqrt(Bx*Bx+By*By);
 
-  //  (2) Rotate the system so that point B is on the positive X axis.
+  //  (2) Rotate the system so that point B is on the positive Xv axis.
   theCos=Bx/distAB;
   theSin=By/distAB;
   newX=Cx*theCos+Cy*theSin;
@@ -50,8 +50,8 @@ double *X, double *Y) {
   if (ABpos<0. || (ABpos>distAB)) {return 0;}
 
   //  (4) Apply the discovered position to line A-B in the original coordinate system.
-  *X=Ax+ABpos*theCos;
-  *Y=Ay+ABpos*theSin;
+  *Xv=Ax+ABpos*theCos;
+  *Yv=Ay+ABpos*theSin;
 
   //  Success.
   return 1;
@@ -93,7 +93,7 @@ int lineSegmentIntersection_Corners(double corners1[], int i_line1, double corne
   //  Discover the length of segment A-B.
   distAB=sqrt(Bx*Bx+By*By);
 
-  //  (2) Rotate the system so that point B is on the positive X axis.
+  //  (2) Rotate the system so that point B is on the positive Xv axis.
   theCos=Bx/distAB;
   theSin=By/distAB;
   newX=Cx*theCos+Cy*theSin;

@@ -13,9 +13,9 @@ int outputcellposition()
 {
     /* read agent memory */
     int id = get_id();
-    int type = get_type();
+    //int type = get_type();
     /* add message to "location" board  (id, range, x, y, z) */
-    add_cellposition_message(id, CORNERS, type);
+    add_cellposition_message(id, CORNERS, TYPE,current_xmachine_cell2d4->x,current_xmachine_cell2d4->y);
 
     //printf("Type: %d, id: (%3d - ), \n", TYPE, ID);
     return 0;  /* remain alive. 1 = death */
@@ -55,6 +55,10 @@ int movecornersandcalculateenergy()
             if (deltaH <= 0)
             {
                 copy_array_to_array(corners2,CORNERS,N_CORNERS*2);
+                double middle_point[2];
+                get_middle_point(CORNERS, middle_point);
+                current_xmachine_cell2d4->x = middle_point[0];
+                current_xmachine_cell2d4->y = middle_point[1];
             }
 
             // decide if delta-energy is negative ... if the whole energy decreases
@@ -80,12 +84,14 @@ int cell_functions()
     //divide_cell_random(cof_divide_rate[TYPE]);
 
     //random cell-death:
-    if ((rand() % cof_death_rate[TYPE]) ==0)
-    {
-        printf("        -celldeath.  .\n");
-        //return 1;
+
+    if (cof_death_rate[TYPE]!=-1){
+        if ((rand() % cof_death_rate[TYPE]) ==0)
+        {
+            printf("        -celldeath.  .\n");
+            return 1;
+        }
     }
-    //
 
     //create a signal-agent:
     if ((rand() % 5000000) ==0)
