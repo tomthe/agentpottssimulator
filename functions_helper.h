@@ -5,6 +5,7 @@
 #include "line_intersection.h"
 //#include "cell2d4_options.h"
 
+#define sqdistance(x1,y1,x2,y2) (((x1-x2)*(x1-x2)+(y1-y2)*(y1-y2)))
 
 
 void copy_array_to_array(double *array1, double *array2, int n)
@@ -135,7 +136,7 @@ void divide_cell(double corners[], int cell_type)
     int id = rand();
     double middle_point[2];
     get_middle_point(corners,middle_point);
-    add_cell2d4_agent(id, cell_type, corners2,middle_point[0],middle_point[1]);
+    add_cell2d4_agent(id, cell_type, corners2,middle_point[0],middle_point[1],0);
 }
 
 int divide_cell_random(int propability_fraction)
@@ -564,56 +565,65 @@ double calc_H_contact_sat(double *corners, int moved_corner)
     //for every near other_cell:
       //for every corner of points:
         //check if corner is inside other_cell
+
+    double r = 2.2;
     START_CELLPOSITION_MESSAGE_LOOP
         //...for every other_cell...
 
-        overlap_temp = get_intersect_and_mtv(corners,cellposition_message->corners,N_CORNERS,mtv);
-
-        //n_near_corners += get_number_of_same_corners(corners,cellposition_message->corners);
-
-        //printf(" (overlap_temp: %5.3f", overlap_temp);
-        //print_positions(cellposition_message->corners);
-        if (overlap_temp > 0)
+        if ((cellposition_message->x > (current_xmachine_cell2d4->x - r)) && (cellposition_message->x < (current_xmachine_cell2d4->x + r)))
         {
-            overlap +=overlap_temp;
+            if ((cellposition_message->y > (current_xmachine_cell2d4->y - r)) && (cellposition_message->y < (current_xmachine_cell2d4->y + r)))
+            {
+                
+                overlap_temp = get_intersect_and_mtv(corners,cellposition_message->corners,N_CORNERS,mtv);
 
-            if (overlap_temp > cof_contact_depth[TYPE]) {
-                //big intersection
-                //printf(" 88overlap_temp_big: %5.3f", overlap_temp);
-                H_contact += overlap_temp * cof_contact_intersection[TYPE][cellposition_message->type];
-                get_repelling_vector(corners,cellposition_message->corners,0.1,repelling_vector);
-                add_repulsion_message(cellposition_message->id, repelling_vector, TYPE);
+                //n_near_corners += get_number_of_same_corners(corners,cellposition_message->corners);
 
-                break;
-                //printf("Contact-big ! H: %5.3f\n",H_contact);
-                //send repellation-message
-            } else {
-                //small intersection --> contact
-                //H_contact += cof_contact_edge[TYPE][cellposition_message->type] + overlap * 1.5;
-                //printf("Contact-smal! H: %5.3f\n",H_contact);
-                //printf("\n-----------------contaaaaaaaa????????????????????????: %f, %f", H_contact,H_contact_length);
-
-                contact_length = lineSegmentIntersection_Corners_intersection_length(corners,cellposition_message->corners);
-                if (contact_length>0.0){
-                    contact_length_total += contact_length;
-                    H_contact_length += contact_length * cof_contact_edge[TYPE][cellposition_message->type];
-                    //printf("\n-----------------contaaaaaaaaaaaaaaaaaaact!!!!!jo: %f, %f", H_contact,H_contact_length);
-                }
-
-                /*
-                for (int i_corner=0; i_corner<N_CORNERS;i_corner++)
+                //printf(" (overlap_temp: %5.3f", overlap_temp);
+                //print_positions(cellposition_message->corners);
+                if (overlap_temp > 0)
                 {
-                    corner_overlap = get_corner_overlap(&corners[i_corner*2],cellposition_message->corners,N_CORNERS);
-                    if (corner_overlap > 0.0)
-                    {
-                        //printf("coner_overlap: %5.3f; id(%d-%d)corner: %d \n", corner_overlap,ID, cellposition_message->id, i_corner);
-                        corner_overlap_status[i_corner] = corner_overlap;
-                        //H_contact += cof_contact_edge[TYPE][cellposition_message->type] + corner_overlap * 1.5;
-                    }
-                }
-                */
-            }
+                    overlap +=overlap_temp;
 
+                    if (overlap_temp > cof_contact_depth[TYPE]) {
+                        //big intersection
+                        //printf(" 88overlap_temp_big: %5.3f", overlap_temp);
+                        H_contact += overlap_temp * cof_contact_intersection[TYPE][cellposition_message->type];
+                        get_repelling_vector(corners,cellposition_message->corners,0.1,repelling_vector);
+                        add_repulsion_message(cellposition_message->id, repelling_vector, TYPE);
+
+                        break;
+                        //printf("Contact-big ! H: %5.3f\n",H_contact);
+                        //send repellation-message
+                    } else {
+                        //small intersection --> contact
+                        //H_contact += cof_contact_edge[TYPE][cellposition_message->type] + overlap * 1.5;
+                        //printf("Contact-smal! H: %5.3f\n",H_contact);
+                        //printf("\n-----------------contaaaaaaaa????????????????????????: %f, %f", H_contact,H_contact_length);
+
+                        contact_length = lineSegmentIntersection_Corners_intersection_length(corners,cellposition_message->corners);
+                        if (contact_length>0.0){
+                            contact_length_total += contact_length;
+                            H_contact_length += contact_length * cof_contact_edge[TYPE][cellposition_message->type];
+                            //printf("\n-----------------contaaaaaaaaaaaaaaaaaaact!!!!!jo: %f, %f", H_contact,H_contact_length);
+                        }
+
+                        /*
+                        for (int i_corner=0; i_corner<N_CORNERS;i_corner++)
+                        {
+                            corner_overlap = get_corner_overlap(&corners[i_corner*2],cellposition_message->corners,N_CORNERS);
+                            if (corner_overlap > 0.0)
+                            {
+                                //printf("coner_overlap: %5.3f; id(%d-%d)corner: %d \n", corner_overlap,ID, cellposition_message->id, i_corner);
+                                corner_overlap_status[i_corner] = corner_overlap;
+                                //H_contact += cof_contact_edge[TYPE][cellposition_message->type] + corner_overlap * 1.5;
+                            }
+                        }
+                        */
+                    }
+
+                }
+            }
         }
         //printf(" |o%4.2f",overlap_temp);
 
@@ -625,15 +635,15 @@ double calc_H_contact_sat(double *corners, int moved_corner)
 
 
     double H_signal=0;
-    double dist, attraction;
+    double sqdist, attraction;
 
     START_SIGNALPOSITION_MESSAGE_LOOP
         //printf("signalposloooop.... %f \n", signalposition_message->x);
-        dist = distance(corners[moved_corner*2],corners[moved_corner*2+1],signalposition_message->x,signalposition_message->y);
-        if (dist < 24.0)
+        sqdist = sqdistance(corners[moved_corner*2],corners[moved_corner*2+1],signalposition_message->x,signalposition_message->y);
+        if (sqdist < 25.0)
         {   
             attraction = cof_cell_signal[TYPE][signalposition_message->type];            
-            H_signal += attraction / dist;
+            H_signal += attraction / sqrt(sqdist);
         }
     FINISH_SIGNALPOSITION_MESSAGE_LOOP
     //H_contact = overlap * 10;

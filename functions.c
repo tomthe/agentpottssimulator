@@ -77,29 +77,32 @@ int movecornersandcalculateenergy()
 
 int cell_functions()
 {
+    //increase age by one timestep:
+    AGE++;
 
     //stochastic_
-    asymettric_stem_cell_division(cof_divide_rate[TYPE]);
-    //stochastic_stem_cell_division(cof_divide_rate[TYPE]);
+    if ((cof_divide_rate[TYPE] != -1) && ((AGE % cof_divide_rate[TYPE]) ==0)){
+        printf("        -celldivision.  type: %d; age: %d; divide-rate: %d .\n",TYPE,AGE,cof_divide_rate[TYPE]);
+        asymettric_stem_cell_division(1);
+        //stochastic_stem_cell_division(1);
+    }
     //divide_cell_random(cof_divide_rate[TYPE]);
 
     //random cell-death:
 
-    if (cof_death_rate[TYPE]!=-1){
-        if ((rand() % cof_death_rate[TYPE]) ==0)
-        {
-            printf("        -celldeath.  .\n");
-            return 1;
-        }
+    if ((TYPE[cof_death_rate]!=-1) && ( AGE > cof_death_rate[TYPE]))
+    {
+        printf("        -celldeath.  type: %d; age: %d; death-rate: %d .\n",TYPE,AGE,cof_death_rate[TYPE]);
+        return 1;
     }
 
     //create a signal-agent:
-    if ((rand() % 5000000) ==0)
+    if ((cof_signal_release_propab[TYPE] != -1) && ((rand() % cof_signal_release_propab[TYPE]) ==0))
     {
         //printf("        -add signalagent...  .\n");
         //add_signalagent_agent(ID,TYPE,X,Y,AMOUNT,FADE,SPEED,REMAINDERLIFE);
         int ic = rand() % N_CORNERS; //choose a random corner
-        //add_signalagent_agent(rand(),TYPE,CORNERS[ic*2],CORNERS[ic*2+1],2.0,1.0,0.4,100);
+        add_signalagent_agent(rand(),TYPE,CORNERS[ic*2],CORNERS[ic*2+1],2.0,1.0,0.4,100);
     }
     
 

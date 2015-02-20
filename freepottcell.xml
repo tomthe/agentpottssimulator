@@ -24,7 +24,8 @@
             <variable><type>int</type><name>type</name><description></description></variable>
             <variable><type>double</type><name>corners[12]</name><description>4 points {x1,y1,x2,y2...}</description></variable>
             <variable><type>double</type><name>x</name><description>middle_point_x</description></variable>
-            <variable><type>double</type><name>y</name><description>middle_point_y</description></variable>            
+            <variable><type>double</type><name>y</name><description>middle_point_y</description></variable>
+            <variable><type>int</type><name>age</name><description>age in timesteps since last division</description></variable>            
         </memory>
 
         <functions>
@@ -50,9 +51,9 @@
                             <op>NEQ</op>
                             <rhs><value>m.id</value></rhs>
                         </filter>
-                        <filter>
+                        <!--<filter>
                             <box2d>0.10</box2d>
-                        </filter>
+                        </filter>-->
                     </input>
                     <input>
                         <messageName>signalposition</messageName>

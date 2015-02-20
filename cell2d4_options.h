@@ -32,7 +32,8 @@ double cof_contact_depth[] = {0.2,0.2,0.2};
 double cof_contact_edge[n_cell_types][n_cell_types] = {{-7.5,-4.0,-1.0},{-4.0,-7.5,0.5},{-1.0,0.0,-5.0}};
 double cof_contact_intersection[n_cell_types][n_cell_types] = {{180.0,180.0,52.0},{180.0,180.0,52.0},{52.0,52.0,52.0}};
 
+int cof_signal_release_propab[] = {-1,-1,-1,-1};
 double cof_cell_signal[n_cell_types][n_cell_types] = {{-10.0,0.0,0.0},{0.0,-10.0,0.0},{-1.0,2.0,0.0}};
 
 long int cof_death_rate[] = {-1,2000,20000};
-long int cof_divide_rate[] = {1000,1000000000,20000};
+long int cof_divide_rate[] = {1000,-1,20000};
