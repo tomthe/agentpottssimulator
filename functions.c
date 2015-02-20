@@ -81,19 +81,28 @@ int cell_functions()
     AGE++;
 
     //stochastic_
-    if ((cof_divide_rate[TYPE] != -1) && ((AGE % cof_divide_rate[TYPE]) ==0)){
-        printf("        -celldivision.  type: %d; age: %d; divide-rate: %d .\n",TYPE,AGE,cof_divide_rate[TYPE]);
-        asymettric_stem_cell_division(1);
-        //stochastic_stem_cell_division(1);
+    if (cof_divide_rate[TYPE] != -1)
+    {
+        double p = ((double)AGE * AGE / (cof_divide_rate[TYPE] * cof_divide_rate[TYPE])) / cof_divide_rate[TYPE];
+        if (((double)rand() / RAND_MAX) < p)
+        {
+            printf("        -celldivision.  type: %d; age: %d; divide-rate: %d .\n",TYPE,AGE,cof_divide_rate[TYPE]);
+            //asymettric_stem_cell_division(1);
+            stochastic_stem_cell_division(1);
+        }
     }
     //divide_cell_random(cof_divide_rate[TYPE]);
 
     //random cell-death:
 
-    if ((TYPE[cof_death_rate]!=-1) && ( AGE > cof_death_rate[TYPE]))
+    if ((cof_death_rate[TYPE]!=-1))
     {
-        printf("        -celldeath.  type: %d; age: %d; death-rate: %d .\n",TYPE,AGE,cof_death_rate[TYPE]);
-        return 1;
+        double p = ((double)AGE * AGE / (cof_death_rate[TYPE] * cof_death_rate[TYPE])) / cof_death_rate[TYPE];
+        if (((double)rand() / RAND_MAX) < p)
+        {
+            printf("        -celldeath.  type: %d; age: %d; death-rate: %d .\n",TYPE,AGE,cof_death_rate[TYPE]);
+            return 1;
+        }
     }
 
     //create a signal-agent:

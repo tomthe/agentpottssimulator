@@ -136,6 +136,7 @@ void divide_cell(double corners[], int cell_type)
     int id = rand();
     double middle_point[2];
     get_middle_point(corners,middle_point);
+    AGE=0;
     add_cell2d4_agent(id, cell_type, corners2,middle_point[0],middle_point[1],0);
 }
 
