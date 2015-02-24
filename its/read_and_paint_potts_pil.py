@@ -72,6 +72,9 @@ def paint_one_timestep(cells,cell_types,signals_pos,filename):
 
 	#draw a black background:
 	pdraw.rectangle([(0,0),(im_width,im_height)],fill=(12,7,0))
+	#draw a "reference"-rectangle:
+	print sim_coord_2_paint_coord((0,0)),sim_coord_2_paint_coord((1.0,1.0))
+	pdraw.rectangle([sim_coord_2_paint_coord((0,0)),sim_coord_2_paint_coord((1.0,1.0))],fill=(180,180,180))
 	i=0
 	for cell in cells:
 		cell_im = convert_cell_coordinates(cell)
@@ -87,6 +90,7 @@ def paint_one_timestep(cells,cell_types,signals_pos,filename):
 		r = 2
 		pdraw.ellipse((x-r, y-r, x+r, y+r), fill=(211,211,255))
 
+	pdraw.rectangle([sim_coord_2_paint_coord((0,0)),sim_coord_2_paint_coord((1.0,1.0))],fill=(180,180,180))
 	#save and show image
 	back.save(filename[:-3] + ".png")
 	#back.show()
@@ -156,12 +160,12 @@ def convert_cell_coordinates(cell):
 		paint_coords.append(sim_coord_2_paint_coord(corner))
 	return paint_coords
 
-def read_and_paint_many_timesteps(start,stop):
+def read_and_paint_many_timesteps(start,stop,step):
 	#filename = str(start) + ".xml"
 	#cells = read_data_from_one_timestep(filename)
 	#set_sim_space(cells)
 	types_over_time=[]
-	for i in xrange(start,stop):
+	for i in xrange(start,stop,step):
 		try:
 			filename = str(i) + ".xml"
 			cells,cell_types,signals_pos,types = read_data_from_one_timestep(filename)
@@ -221,5 +225,5 @@ def just_code():
 #test_draw()
 #test_onefile()
 import sys
-start, stop  = map(int, sys.argv[1:])
-read_and_paint_many_timesteps(start,stop)
+start, stop, step  = map(int, sys.argv[1:])
+read_and_paint_many_timesteps(start,stop,step)

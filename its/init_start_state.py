@@ -40,7 +40,7 @@ z=0.0
 for id in xrange(0,acount):
     celltype= id%ncelltypes
     ida=id % col
-    x1 = x2 = 0.5 + ida * 1.1
+    x1 = x2 = 0.5 + ida * 1.0
     x3 = x4 = 1.5 + ida * 1.0
     y1 = y4 = 1.1 + id / col
     y2 = y3 = 0.1 + id / col
@@ -56,6 +56,9 @@ for id in xrange(0,acount):
         <id>%d</id>
         <corners>{%.2f,%.2f,%.2f,%.2f,%.2f,%.2f,%.2f,%.2f,%.2f,%.2f,%.2f,%.2f}</corners>
         <type>%d</type>
+        <x>0.0</x>
+        <y>0.0</y>
+        <age>0</age>
     </xagent>
 """ % (id, x1,y1,x2,y2,x3,y3,x4,y4,x5,y5,x6,y6,celltype))
 
