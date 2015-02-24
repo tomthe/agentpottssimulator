@@ -75,6 +75,11 @@ int movecornersandcalculateenergy()
     return 0; 
 }
 
+
+
+#define mu 1000
+//sqrt2Sigmasquare: squareroot(2*Sigma**2)    //so: Sigma=20 --> ca 30
+#define sqrt2Sigmasquare 30
 int cell_functions()
 {
     //increase age by one timestep:
@@ -83,12 +88,17 @@ int cell_functions()
     //stochastic_
     if (cof_divide_rate[TYPE] != -1)
     {
-        double p = ((double)AGE * AGE / (cof_divide_rate[TYPE] * cof_divide_rate[TYPE])) / cof_divide_rate[TYPE];
-        if (((double)rand() / RAND_MAX) < p)
+
+        //Verteilungsfunktion der Normalverteilung:
+        //mu: erwartungswert; sqrt2Sigmasquare: squareroot(2*Sigma**2)
+        double p_now = 0.5 * (1 + erf((AGE-cof_divide_rate[TYPE])/sqrt2Sigmasquare));
+
+        //double p = ((double)AGE * AGE / (cof_divide_rate[TYPE] * cof_divide_rate[TYPE])) / cof_divide_rate[TYPE];
+        if (((double)rand() / RAND_MAX) < p_now)
         {
             printf("        -celldivision.  type: %d; age: %d; divide-rate: %d .\n",TYPE,AGE,cof_divide_rate[TYPE]);
-            //asymettric_stem_cell_division(1);
-            stochastic_stem_cell_division(1);
+            asymettric_stem_cell_division(1);
+            //stochastic_stem_cell_division(1);
         }
     }
     //divide_cell_random(cof_divide_rate[TYPE]);
@@ -97,8 +107,10 @@ int cell_functions()
 
     if ((cof_death_rate[TYPE]!=-1))
     {
-        double p = ((double)AGE * AGE / (cof_death_rate[TYPE] * cof_death_rate[TYPE])) / cof_death_rate[TYPE];
-        if (((double)rand() / RAND_MAX) < p)
+        //double p = ((double)AGE * AGE / (cof_death_rate[TYPE] * cof_death_rate[TYPE])) / cof_death_rate[TYPE];
+        double p_now = 0.5 * (1 + erf((AGE-((float)cof_death_rate[TYPE]))/sqrt2Sigmasquare));
+
+        if (((double)rand() / RAND_MAX) < p_now)
         {
             printf("        -celldeath.  type: %d; age: %d; death-rate: %d .\n",TYPE,AGE,cof_death_rate[TYPE]);
             return 1;
