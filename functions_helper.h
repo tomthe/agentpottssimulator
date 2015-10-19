@@ -46,6 +46,38 @@ double rand_double_m_to_n(double m, double n)
     return m + (rand() / (RAND_MAX / (n-m)));
 }
 
+/** Return a random Number from a Normal-Distribution with mu and sigma..
+*
+*/
+double rand_normal_distr(double mu, double sigma)
+{
+  double U1, U2, W, mult;
+  static double X1, X2;
+  static int call = 0;
+ 
+  if (call == 1)
+    {
+      call = !call;
+      return (mu + sigma * (double) X2);
+    }
+ 
+  do
+    {
+      U1 = -1 + ((double) rand () / RAND_MAX) * 2;
+      U2 = -1 + ((double) rand () / RAND_MAX) * 2;
+      W = pow (U1, 2) + pow (U2, 2);
+    }
+  while (W >= 1 || W == 0);
+ 
+  mult = sqrt ((-2 * log (W)) / W);
+  X1 = U1 * mult;
+  X2 = U2 * mult;
+ 
+  call = !call;
+ 
+  return (mu + sigma * (double) X1);
+}
+
 /** move a corner in a random direction
  *  */
 int choose_and_move_one_of_4_corners(double *corners)

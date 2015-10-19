@@ -77,9 +77,9 @@ int movecornersandcalculateenergy()
 
 
 
-#define mu 1000
+//#define mu 1000
 //sqrt2Sigmasquare: squareroot(2*Sigma**2)    //so: Sigma=20 --> ca 30
-#define sqrt2Sigmasquare 30
+#define sqrt2Sigmasquare 30.0
 int cell_functions()
 {
     //increase age by one timestep:
@@ -91,12 +91,14 @@ int cell_functions()
 
         //Verteilungsfunktion der Normalverteilung:
         //mu: erwartungswert; sqrt2Sigmasquare: squareroot(2*Sigma**2)
-        double p_now = 0.5 * (1 + erf((AGE-cof_divide_rate[TYPE])/sqrt2Sigmasquare));
-
+        double p_now =  0.5 /sqrt2Sigmasquare * (1 + erf(((double)AGE-(double)cof_divide_rate[TYPE])/sqrt2Sigmasquare));
+        if (p_now>0.44){
+            printf("\n| %4.2f; %d; %d |",p_now,cof_divide_rate[TYPE],AGE);
+        }
         //double p = ((double)AGE * AGE / (cof_divide_rate[TYPE] * cof_divide_rate[TYPE])) / cof_divide_rate[TYPE];
-        if (((double)rand() / RAND_MAX) < p_now)
+        if (((double)rand() / (double)RAND_MAX) < p_now)
         {
-            printf("        -celldivision.  type: %d; age: %d; divide-rate: %d .\n",TYPE,AGE,cof_divide_rate[TYPE]);
+            printf("        -celldivision.  type: %d; age: %d; divide-rate: %d  p_now: %5.3f \n",TYPE,AGE,cof_divide_rate[TYPE],p_now);
             asymettric_stem_cell_division(1);
             //stochastic_stem_cell_division(1);
         }
@@ -108,11 +110,11 @@ int cell_functions()
     if ((cof_death_rate[TYPE]!=-1))
     {
         //double p = ((double)AGE * AGE / (cof_death_rate[TYPE] * cof_death_rate[TYPE])) / cof_death_rate[TYPE];
-        double p_now = 0.5 * (1 + erf((AGE-((float)cof_death_rate[TYPE]))/sqrt2Sigmasquare));
+        double p_now = 0.5  /sqrt2Sigmasquare * (1 + erf(((double)AGE-(double)cof_death_rate[TYPE])/sqrt2Sigmasquare));
 
         if (((double)rand() / RAND_MAX) < p_now)
         {
-            printf("        -celldeath.  type: %d; age: %d; death-rate: %d .\n",TYPE,AGE,cof_death_rate[TYPE]);
+            printf("        -celldeath.  type: %d; age: %d; death-rate: %d   p_now: %5.3f \n",TYPE,AGE,cof_death_rate[TYPE],p_now);
             return 1;
         }
     }

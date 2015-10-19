@@ -35,5 +35,5 @@ double cof_contact_intersection[n_cell_types][n_cell_types] = {{180.0,180.0,52.0
 int cof_signal_release_propab[] = {-1,-1,-1,-1};
 double cof_cell_signal[n_cell_types][n_cell_types] = {{-10.0,0.0,0.0},{0.0,-10.0,0.0},{-1.0,2.0,0.0}};
 
-long int cof_death_rate[] = {-1,2000,20000};
-long int cof_divide_rate[] = {1000,-1,20000};
+long int cof_death_rate[] = {-1,80,20000};
+long int cof_divide_rate[] = {100,-1,20000};
