@@ -91,6 +91,34 @@ int choose_and_move_one_of_4_corners(double *corners)
     return r;
 }
 
+/** move 1...N_CORNERS/2 corners in the same random direction
+ *
+ * not completly anisotrop!
+ */
+int choose_and_move_some_corners(double *corners)
+{
+
+    double dx = rand_double_m_to_n(-(cof_move_step_size[TYPE]),cof_move_step_size[TYPE]);
+    double dy = rand_double_m_to_n(-(cof_move_step_size[TYPE]),cof_move_step_size[TYPE]);
+    int start_corner = rand() % N_CORNERS;
+    int number_of_corners = rand() % (N_CORNERS/2);
+    int middle_point = (start_corner + number_of_corners/2) % N_CORNERS;
+    int i_corner;
+    double factor = 0.0;
+    for(int i=0;i<number_of_corners;i++)
+    {
+        if (i<=number_of_corners/2){
+            factor += 2.0/(float)number_of_corners;
+        } else {
+            factor -= 2.0/(float)number_of_corners;
+        }
+        i_corner = (i + start_corner) % N_CORNERS;
+        corners[i_corner*2] += dx * factor; 
+        corners[i_corner*2+1] += dy;
+    }
+    return middle_point; //moved_corner: the one in the middle
+}
+
 void get_divide_cell_new_corner_positions(double corners_old[],double corners_new1[],double corners_new2[])
 {
     copy_array_to_array(corners_old,corners_new1,N_CORNERS*2);
@@ -253,6 +281,9 @@ int is_left_curve(double *corners,int a,int b, int c){
     }
 }
 
+/**
+ * deprecated
+ */
 double calc_H_convex_4corners(double *corners)
 {
 

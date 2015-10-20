@@ -22,7 +22,7 @@
         <memory>
             <variable><type>int</type><name>id</name><description></description></variable>
             <variable><type>int</type><name>type</name><description></description></variable>
-            <variable><type>double</type><name>corners[12]</name><description>4 points {x1,y1,x2,y2...}</description></variable>
+            <variable><type>double</type><name>corners[40]</name><description>4 points {x1,y1,x2,y2...}</description></variable>
             <variable><type>double</type><name>x</name><description>middle_point_x</description></variable>
             <variable><type>double</type><name>y</name><description>middle_point_y</description></variable>
             <variable><type>int</type><name>age</name><description>age in timesteps since last division</description></variable>            
@@ -136,7 +136,7 @@
         <description></description>
         <variables>
             <variable><type>int</type><name>id</name><description></description></variable>
-            <variable><type>double</type><name>corners[12]</name><description></description></variable>
+            <variable><type>double</type><name>corners[40]</name><description></description></variable>
             <variable><type>int</type><name>type</name><description></description></variable>
             <variable><type>double</type><name>x</name><description>middle_point_x</description></variable>
             <variable><type>double</type><name>y</name><description>middle_point_y</description></variable>
