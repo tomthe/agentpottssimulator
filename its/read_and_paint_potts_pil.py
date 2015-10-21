@@ -201,7 +201,7 @@ def plot_types_over_time(types_over_time):
 
 		fig.savefig("types.png",dpi=200)
 		print "show..."
-		plt.show()
+		#plt.show()
 
 
 

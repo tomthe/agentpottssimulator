@@ -649,11 +649,12 @@ double calc_H_contact(double *corners)
             if (is_point_inside_cell(p, cellposition_message->corners))
             {
                 //corner is inside other cell --> high H, according to cof...intersection
-                H_contact += cof_contact_intersection[TYPE][cellposition_message->type];
                 if(is_point_near_edge_of_polygon(p, cellposition_message->corners, cof_contact_distance[TYPE]))
                 {
                     //corner is near the edge of a different cell --> H according to cof_contact
                     H_contact += cof_contact_edge[TYPE][cellposition_message->type];
+                } else{
+                    H_contact += cof_contact_intersection[TYPE][cellposition_message->type];
                 }
             }
         }
