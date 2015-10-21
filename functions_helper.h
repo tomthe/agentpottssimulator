@@ -303,11 +303,13 @@ double calc_H_convex_4corners(double *corners)
     return 200.0;
 }
 
+
+
 /**
  * check if the cell is convex by iterating over each adjacent corner triplet
  * if the
  */
-double calc_H_convex(double *corners)
+double calc_H_convex_strict(double *corners)
 {
     int i,b,c;
     for(i=0;i<N_CORNERS;i++)
@@ -329,6 +331,70 @@ double calc_H_convex(double *corners)
         }
     }
     return 0.0;
+}
+
+/**
+ * check if the cell is convex by iterating over each adjacent corner triplet
+ * if the
+ */
+double calc_H_convex(double *corners)
+{
+    int i,b,c;
+    int n_concave=0;
+    for(i=0;i<N_CORNERS;i++)
+    {
+        // i->corner 0; b ist corner 2 and c is corner number 3.
+        b=i+1; c=i+2;
+
+        if(c==N_CORNERS){
+           c=0;
+        } else if(b==N_CORNERS){
+            b=0;c=1;
+        }
+        if (is_left_curve(corners,i,b,c)==0)
+        {
+            //printf("  at least one corner is not convex!\n");
+            //at least one corner is not convex
+            //convex: always right curve. so here we are wrong:
+            n_concave += 1;
+        }
+    }
+    return n_concave;
+}
+
+double calc_H_straight_hull_3_corners(double *corners,int a,int b, int c)
+{
+    double point_between[2];
+    point_between[0] = (corners[a*2] + corners[c*2]) / 2.0;
+    point_between[1] = (corners[a*2+1] + corners[c*2+1]) / 2.0;
+
+    return sqdistance(point_between[0],point_between[1],corners[b*2],corners[b*2+1]);
+}
+
+
+double calc_H_straight_hull(double *corners)
+{
+    int i,b,c;
+    double sum_straightness = 0.0;
+    for(i=0;i<N_CORNERS;i++)
+    {
+        // i->corner 0; b ist corner 2 and c is corner number 3.
+        b=i+1; c=i+2;
+
+        if(c==N_CORNERS){
+           c=0;
+        } else if(b==N_CORNERS){
+            b=0;c=1;
+        }
+
+        if (is_left_curve(corners,i,b,c)==0)
+        {
+            sum_straightness += 3 * calc_H_straight_hull_3_corners(corners,i,b,c);
+        } else {
+            sum_straightness += 0.8 * calc_H_straight_hull_3_corners(corners,i,b,c);
+        }
+    }
+    return sum_straightness;
 }
 
 double calc_distance_2corners(double *corners, int i1,int i2)
@@ -438,7 +504,7 @@ double calculate_deltaH_inside(double *corners2, double *corners1)
     double H1 = 0.0;
     double H2 = 0.0;
 
-    double H_vol1,H_vol2,H_surf1,H_surf2,H_conv1,H_conv2;
+    double H_vol1,H_vol2,H_surf1,H_surf2,H_conv1,H_conv2,H_straight1,H_straight2;
 
     if (cof_volume_do_calc[TYPE]){
         H_vol1 = calc_H_volume(corners1);
@@ -452,8 +518,12 @@ double calculate_deltaH_inside(double *corners2, double *corners1)
         H_conv1 = calc_H_convex(corners1);
         H_conv2 = calc_H_convex(corners2);
     }
-    H1 = H_vol1 + H_surf1 + H_conv1;
-    H2 = H_vol2 + H_surf2 + H_conv2;
+    if (cof_straight_hull_do_calc[TYPE]){
+        H_straight1 = cof_straight_hull_alpha[TYPE] * calc_H_straight_hull(corners1);
+        H_straight2 = cof_straight_hull_alpha[TYPE] * calc_H_straight_hull(corners2);
+    }
+    H1 = H_vol1 + H_surf1 + H_conv1 + H_straight1;
+    H2 = H_vol2 + H_surf2 + H_conv2 + H_straight2;
 
     deltaH = H2-H1;
 
