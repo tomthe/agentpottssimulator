@@ -1,0 +1,6 @@
+# use glob syntax
+syntax: glob
+
+*.exe
+*.png
+it*/*.xml

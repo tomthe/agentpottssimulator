@@ -26,7 +26,7 @@ double abs_tom(double num)
 
 int decide_if_cell_should_move()
 {
-    if ((rand() % 100) < cof_percent_of_cells_that_should_move_in_one_ts){
+    if ((rand() % 100) < cof_percent_of_cells_that_should_move_in_one_ts[TYPE]){
         //move
         return 1;
     } else {
@@ -701,7 +701,7 @@ double calc_H_contact_sat(double *corners, int moved_corner)
       //for every corner of points:
         //check if corner is inside other_cell
 
-    double r = 2.2;
+    double r = 2.8;
     START_CELLPOSITION_MESSAGE_LOOP
         //...for every other_cell...
 

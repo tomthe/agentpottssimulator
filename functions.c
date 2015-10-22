@@ -150,8 +150,8 @@ int pushcells()
         pushsum[0] += repulsion_message->mtv[0];
         pushsum[1] += repulsion_message->mtv[1];
     }
-    pushsum[0] *= 0.05;
-    pushsum[1] *= 0.05;
+    pushsum[0] *= cof_push_alpha[TYPE];
+    pushsum[1] *= cof_push_alpha[TYPE];
     //printf("----wwwwwwwwwwwwwwwwwww pushcells oooooooooooooooooooooooo end-----i:  \n " );
 
     move_all_corners_by_vector(CORNERS,pushsum);
