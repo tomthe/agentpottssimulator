@@ -776,6 +776,8 @@ double calc_H_contact_sat(double *corners, int moved_corner)
     //move cell according to attraction:
     attraction_vector[0] *= cof_attraction_alpha[TYPE];
     attraction_vector[1] *= cof_attraction_alpha[TYPE];
+    if (attraction_vector[0] >= 0.0007) {attraction_vector[0] = 0.0007;}
+    if (attraction_vector[1] >= 0.0007) {attraction_vector[1] = 0.0007;}
     move_all_corners_by_vector(corners,attraction_vector);
 
     double H_signal=0;
