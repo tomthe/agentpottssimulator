@@ -122,27 +122,41 @@ int lineSegmentIntersection_Corners(double corners1[], int i_line1, double corne
 
 #define distance(x1,y1,x2,y2) (sqrt((x1-x2)*(x1-x2)+(y1-y2)*(y1-y2)))
 
+/**
+ * should do: get the length of the intersection between cell 1 and 2
+ * input: corners of cell1, corners of cell2
+ * checks for every combination of 2 segments (line between 2 corners of one cell)
+ * wether they intersect.
+ * saves intersection points
+ * returns distance between intersection-points
+ *
+ * Problem: more than 2 intersection points. it will ignore some randomly (almost)
+ */
 double lineSegmentIntersection_Corners_intersection_length(double corners1[],double corners2[]){
   int i_line1,i_line2, i_crosspoint=0;
   double crosspoint_temp[2];
+  double crosspoints_all[N_CORNERS];
   double crosspoints[4];
 
+  //for every line segment of cell1:
   for (i_line1 = 0; i_line1<N_CORNERS; i_line1++){
     //i: 0,1,2,3,...
     //j: 3,0,1,2,...
+      //for every line segment of cell2:
     for (i_line2 = 0; i_line2<N_CORNERS; i_line2++){
       //i: 0,1,2,3,...
       //j: 3,0,1,2,...
         //printf("-na%d",i_crosspoint);
+      //check wether line1  and line2 intersect. intersection point is saved in crosspoint_temp:
       if (lineSegmentIntersection_Corners(corners1,i_line1,corners2,i_line2,crosspoint_temp)!=0){
         //printf("-nU%d",i_crosspoint);
-        crosspoints[i_crosspoint*2] = crosspoint_temp[0];
-        crosspoints[i_crosspoint*2+1] = crosspoint_temp[1];
+        crosspoints_all[i_crosspoint*2] = crosspoint_temp[0];
+        crosspoints_all[i_crosspoint*2+1] = crosspoint_temp[1];
         i_crosspoint++;
         if (i_crosspoint>2){
-          
           //printf("\n too many crossspoints!! --------------------------------%d \n",i_crosspoint);
-          i_crosspoint--;
+          //i_crosspoint--;
+
         }
       }
     }
@@ -151,8 +165,22 @@ double lineSegmentIntersection_Corners_intersection_length(double corners1[],dou
 
   if (i_crosspoint > 0){
     //printf("\n exactly so many crosspoints::::::::::----------------------%d distance: %f \n",i_crosspoint,distance(crosspoints[0],crosspoints[1],crosspoints[2],crosspoints[3]));
-    return distance(crosspoints[0],crosspoints[1],crosspoints[2],crosspoints[3]);
-  } 
+    if (i_crosspoint==2){
+      return distance(crosspoints_all[0],crosspoints_all[1],crosspoints_all[2],crosspoints_all[3]);
+    } else {
+      //go throug all combinations of crosspoints and look for the longest distance:
+      double maxdist = 0.0;
+      for(int i_cp2=0;i_cp2<i_crosspoint; i_cp2++){
+        for(int j_cp2=0;j_cp2<i_crosspoint; j_cp2++){
+          if(maxdist<distance(crosspoints_all[i_cp2*2],crosspoints_all[i_cp2*2+1],crosspoints_all[j_cp2*2],crosspoints_all[j_cp2*2+1])) {
+            maxdist = distance(crosspoints_all[i_cp2*2],crosspoints_all[i_cp2*2+1],crosspoints_all[j_cp2*2],crosspoints_all[j_cp2*2+1]);
+          }
+        }
+      }
+      printf("\n maxdist:%f exactly so many crosspoints::::::::::----------------------%d distance: %f \n",maxdist,i_crosspoint,distance(crosspoints[0],crosspoints[1],crosspoints[2],crosspoints[3]));
+      return maxdist;
+    }
+  }
   else {
     return 0.0;
   }
