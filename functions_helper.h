@@ -54,13 +54,13 @@ double rand_normal_distr(double mu, double sigma)
   double U1, U2, W, mult;
   static double X1, X2;
   static int call = 0;
- 
+
   if (call == 1)
     {
       call = !call;
       return (mu + sigma * (double) X2);
     }
- 
+
   do
     {
       U1 = -1 + ((double) rand () / RAND_MAX) * 2;
@@ -68,13 +68,13 @@ double rand_normal_distr(double mu, double sigma)
       W = pow (U1, 2) + pow (U2, 2);
     }
   while (W >= 1 || W == 0);
- 
+
   mult = sqrt ((-2 * log (W)) / W);
   X1 = U1 * mult;
   X2 = U2 * mult;
- 
+
   call = !call;
- 
+
   return (mu + sigma * (double) X1);
 }
 
@@ -113,7 +113,7 @@ int choose_and_move_some_corners(double *corners)
             factor -= 2.0/(float)number_of_corners;
         }
         i_corner = (i + start_corner) % N_CORNERS;
-        corners[i_corner*2] += dx * factor; 
+        corners[i_corner*2] += dx * factor;
         corners[i_corner*2+1] += dy;
     }
     return middle_point; //moved_corner: the one in the middle
@@ -145,7 +145,7 @@ void get_divide_cell_new_corner_positions(double corners_old[],double corners_ne
         corners_new1[(N_CORNERS-1)*2] =d0x;
         corners_new1[(N_CORNERS-1)*2+1] =d0y;
 */
-        
+
         int n_middle_points = N_CORNERS / 2; //(N_CORNERS-1) - (N_CORNERS/2+1);
         for(int i=0; i<n_middle_points;i++)
         {
@@ -186,7 +186,7 @@ void get_middle_point(double corners[], double middle_point[])
 }
 
 void divide_cell(double corners[], int cell_type)
-{    
+{
     //print_positions(corners);
     double corners1[N_CORNERS*2],corners2[N_CORNERS*2];
     get_divide_cell_new_corner_positions(corners,corners1,corners2);
@@ -439,7 +439,7 @@ double calc_surface_length(double *corners)
     double l=0;
     for(i=0;i<N_CORNERS;i++)
     {
-        // i->corner 0; b ist corner 2 
+        // i->corner 0; b ist corner 2
         b=i+1;
         if(b==N_CORNERS){
            b=0;
@@ -481,7 +481,7 @@ double calculate_corners_area(double corners[])
     double area = 0;         // Accumulates area in the loop
     int j = N_CORNERS-1;  // The last vertex is the 'previous' one to the first
 
-    for (int i=0; i<N_CORNERS; i++){ 
+    for (int i=0; i<N_CORNERS; i++){
         area = area +  (corners[j*2]+corners[i*2]) * (corners[j*2+1]-corners[i*2+1]);
         j = i;  //j is previous vertex to i
     }
@@ -551,7 +551,7 @@ int is_point_inside_cell_4Corners(double *p, double *corners)
 int is_point_inside_cell(double *p, double *corners)
 {
   int i, j, c = 0;
-  
+
   for (i = 0, j = N_CORNERS-1; i < N_CORNERS; j = i++) {
     //i: 0,1,2,3,...
     //j: 3,0,1,2,...
@@ -708,6 +708,7 @@ double calc_H_contact_sat(double *corners, int moved_corner)
     START_CELLPOSITION_MESSAGE_LOOP
         //...for every other_cell...
 
+        //simple check, if other_cell is inside of a bounding box with l*h = 2*r * 2*r:
         if ((cellposition_message->x > (current_xmachine_cell2d4->x - r)) && (cellposition_message->x < (current_xmachine_cell2d4->x + r)))
         {
             if ((cellposition_message->y > (current_xmachine_cell2d4->y - r)) && (cellposition_message->y < (current_xmachine_cell2d4->y + r)))
@@ -716,6 +717,7 @@ double calc_H_contact_sat(double *corners, int moved_corner)
                 attraction_vector[0] += (cellposition_message->x - current_xmachine_cell2d4->x) / sqdistance_cells;
                 attraction_vector[1] += (cellposition_message->y - current_xmachine_cell2d4->y) / sqdistance_cells;
 
+                // sophisticated intersection-test:
                 overlap_temp = get_intersect_and_mtv(corners,cellposition_message->corners,N_CORNERS,mtv);
 
                 //n_near_corners += get_number_of_same_corners(corners,cellposition_message->corners);
@@ -745,6 +747,7 @@ double calc_H_contact_sat(double *corners, int moved_corner)
                         contact_length = lineSegmentIntersection_Corners_intersection_length(corners,cellposition_message->corners);
                         if (contact_length>0.0){
                             contact_length_total += contact_length;
+                            //todo: check if this is correct
                             H_contact_length += contact_length * cof_contact_edge[TYPE][cellposition_message->type];
                             //printf("\n-----------------contaaaaaaaaaaaaaaaaaaact!!!!!jo: %f, %f", H_contact,H_contact_length);
                         }
@@ -787,8 +790,8 @@ double calc_H_contact_sat(double *corners, int moved_corner)
         //printf("signalposloooop.... %f \n", signalposition_message->x);
         sqdist = sqdistance(corners[moved_corner*2],corners[moved_corner*2+1],signalposition_message->x,signalposition_message->y);
         if (sqdist < 25.0)
-        {   
-            attraction = cof_cell_signal[TYPE][signalposition_message->type];            
+        {
+            attraction = cof_cell_signal[TYPE][signalposition_message->type];
             H_signal += attraction / sqrt(sqdist);
         }
     FINISH_SIGNALPOSITION_MESSAGE_LOOP
@@ -808,7 +811,7 @@ double calc_H_contact_sat(double *corners, int moved_corner)
         }
     }
     */
-    
+
     //H_contact = H_contact - (n_near_corners*3.0); //cornerH
 
     double contact_length_medium;
@@ -820,7 +823,7 @@ double calc_H_contact_sat(double *corners, int moved_corner)
     }
     //printf("\nH_contact: %f, %f", H_contact,H_contact_length);
     H_contact = H_contact + H_contact_length + H_signal;
-    
+
     //printf("overlap: %4.2f;  H: %5.3f; o_temp: %4.2f; ID: %d contact_edge: %4.2f type: %d \n",overlap, H_contact,overlap_temp, ID,cof_contact_edge[TYPE][0],TYPE);
     return H_contact;
 }
@@ -849,4 +852,3 @@ void move_all_corners_by_vector(double *corners, double vector[])
         corners[i_corner*2+1] += vector[1];
     }
 }
-
