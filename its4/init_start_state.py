@@ -8,7 +8,7 @@ import re
 import os
 import sys
 from math import pi
-from random import random
+from random import random,randint
 
 outfile = "0.xml"
 radius  = 2.0
@@ -38,7 +38,7 @@ f.write("<states>\n   <itno>0</itno>\n")
 z=0.0
 # write out agent data
 for id in xrange(0,acount):
-    celltype = id % ncelltypes
+    celltype = randint(0,ncelltypes-1) #int(float(id)/acount * ncelltypes)#id % ncelltypes
     ida=id % col
     x1 = x2 = 0.5 + ida * 1.0
     x3 = x4 = 1.5 + ida * 1.0

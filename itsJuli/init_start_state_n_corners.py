@@ -34,11 +34,11 @@ if acount < 2:
 # Open file and write preamble
 print "Writing to file %s ... " % outfile
 
-
-n_corners = 20
+do_stiff_edge=False
+n_corners = 10
 r = 1.0
 spacing = r * 2.0
-nix, niy = 3,3
+nix, niy = 7,7
 
 f = open(outfile, "w")
 f.write("<states>\n   <itno>0</itno>\n")
@@ -48,7 +48,7 @@ for ix in xrange(nix):
     for iy in xrange(niy):
         id += 1
         celltype = uniform(0, ncelltypes)
-        if ix==0 or ix==nix-1 or iy==0 or iy==niy-1:
+        if do_stiff_edge and (ix==0 or ix==nix-1 or iy==0 or iy==niy-1):
             celltype = 2
             r = 1.4
         else:
