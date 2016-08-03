@@ -130,7 +130,8 @@ int lineSegmentIntersection_Corners(double corners1[], int i_line1, double corne
  * saves intersection points
  * returns distance between intersection-points
  *
- * Problem: more than 2 intersection points. it will ignore some randomly (almost)
+ * fixed:Problem: more than 2 intersection points. it will ignore some randomly (almost)
+ * problem: more than 1 intersection...it will only tell you one overall distance.
  */
 double lineSegmentIntersection_Corners_intersection_length(double corners1[],double corners2[]){
   int i_line1,i_line2, i_crosspoint=0;
@@ -177,7 +178,7 @@ double lineSegmentIntersection_Corners_intersection_length(double corners1[],dou
           }
         }
       }
-      printf("\n maxdist:%f exactly so many crosspoints::::::::::----------------------%d distance: %f \n",maxdist,i_crosspoint,distance(crosspoints[0],crosspoints[1],crosspoints[2],crosspoints[3]));
+      //printf("\n maxdist:%f exactly so many crosspoints::::::::::----------------------%d distance: %f \n",maxdist,i_crosspoint,distance(crosspoints[0],crosspoints[1],crosspoints[2],crosspoints[3]));
       return maxdist;
     }
   }
