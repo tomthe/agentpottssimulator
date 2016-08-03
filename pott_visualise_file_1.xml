@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <flame_visualiser_config version="0.1">
     <resultsData>
-        <directory></directory>
+        <directory>itsJuli</directory>
     </resultsData>
     <timeScale>
         <enable>false</enable>
@@ -17,7 +17,7 @@
     </animation>
     <visual>
         <view>3</view>
-        <ratio>0.037037</ratio>
+        <ratio>0.086577</ratio>
         <xrotate>0</xrotate>
         <yrotate>0</yrotate>
         <xmove>0</xmove>
@@ -29,7 +29,140 @@
             <g>255</g>
             <b>255</b>
         </backgroundColour>
-        <rules/>
+        <rules>
+            <rule>
+                <agentType>cell2d4</agentType>
+                <condition>
+                    <enable>true</enable>
+                    <lhs>
+                        <type>variable</type>
+                        <variable>type</variable>
+                    </lhs>
+                    <operator>==</operator>
+                    <rhs>
+                        <type>value</type>
+                        <value>0</value>
+                    </rhs>
+                </condition>
+                <x>
+                    <useVariable>true</useVariable>
+                    <variable>x</variable>
+                    <offSet>0</offSet>
+                </x>
+                <y>
+                    <useVariable>true</useVariable>
+                    <variable>y</variable>
+                    <offSet>0</offSet>
+                </y>
+                <z>
+                    <useVariable>true</useVariable>
+                    <variable></variable>
+                    <offSet>0</offSet>
+                </z>
+                <shape>
+                    <object>sphere</object>
+                    <dimension>1</dimension>
+                    <useVariable>false</useVariable>
+                    <dimensionVariable></dimensionVariable>
+                    <fromCentreX>false</fromCentreX>
+                    <dimensionY>1</dimensionY>
+                    <useVariableY>false</useVariableY>
+                    <dimensionVariableY></dimensionVariableY>
+                    <fromCentreY>false</fromCentreY>
+                    <dimensionZ>1</dimensionZ>
+                    <useVariableZ>false</useVariableZ>
+                    <dimensionVariableZ></dimensionVariableZ>
+                    <fromCentreZ>false</fromCentreZ>
+                </shape>
+                <colour>
+                    <r>33</r>
+                    <g>9</g>
+                    <b>128</b>
+                    <a>255</a>
+                </colour>
+                <enable>true</enable>
+            </rule>
+            <rule>
+                <agentType>cell2d4</agentType>
+                <condition>
+                    <enable>true</enable>
+                    <lhs>
+                        <type>variable</type>
+                        <variable>type</variable>
+                    </lhs>
+                    <operator>==</operator>
+                    <rhs>
+                        <type>value</type>
+                        <value>1</value>
+                    </rhs>
+                </condition>
+                <x>
+                    <useVariable>true</useVariable>
+                    <variable>x</variable>
+                    <offSet>0</offSet>
+                </x>
+                <y>
+                    <useVariable>true</useVariable>
+                    <variable>y</variable>
+                    <offSet>0</offSet>
+                </y>
+                <z>
+                    <useVariable>true</useVariable>
+                    <variable></variable>
+                    <offSet>0</offSet>
+                </z>
+                <shape>
+                    <object>sphere</object>
+                    <dimension>1</dimension>
+                    <useVariable>false</useVariable>
+                    <dimensionVariable></dimensionVariable>
+                    <fromCentreX>false</fromCentreX>
+                    <dimensionY>1</dimensionY>
+                    <useVariableY>false</useVariableY>
+                    <dimensionVariableY></dimensionVariableY>
+                    <fromCentreY>false</fromCentreY>
+                    <dimensionZ>1</dimensionZ>
+                    <useVariableZ>false</useVariableZ>
+                    <dimensionVariableZ></dimensionVariableZ>
+                    <fromCentreZ>false</fromCentreZ>
+                </shape>
+                <colour>
+                    <r>128</r>
+                    <g>21</g>
+                    <b>35</b>
+                    <a>255</a>
+                </colour>
+                <enable>true</enable>
+            </rule>
+        </rules>
     </visual>
-    <graph/>
+    <graph>
+        <plot>
+            <graphNumber>Graph 1</graphNumber>
+            <xAxis>
+                <type>iteration</type>
+            </xAxis>
+            <yAxis>
+                <type>agent</type>
+                <agentType>cell2d4</agentType>
+            </yAxis>
+            <condition>
+                <enable>false</enable>
+                <lhs>
+                    <type>variable</type>
+                    <variable></variable>
+                </lhs>
+                <operator>==</operator>
+                <rhs>
+                    <type>value</type>
+                    <value>0</value>
+                </rhs>
+            </condition>
+            <colour>
+                <r>0</r>
+                <g>0</g>
+                <b>0</b>
+            </colour>
+        </plot>
+    </graph>
 </flame_visualiser_config>
