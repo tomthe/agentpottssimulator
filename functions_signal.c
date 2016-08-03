@@ -11,17 +11,18 @@ int outputsignalposition()
     /* read agent memory */
     //....
     /* add message to "location" board  (id, range, x, y, z) */
-    //printf("        -post signal position.  %d, %d, xy:(%f,%f), %f,.\n",SID,STYPE,X,Y,AMOUNT);
+    printf("        -post signal position.  %d, %d, xy:(%f,%f), %f,.\n",SID,STYPE,X,Y,AMOUNT);
     add_signalposition_message(SID, STYPE,current_xmachine_signalagent->x,current_xmachine_signalagent->y,AMOUNT);
 
     //printf("Type: %d, id: (%3d - ), \n", TYPE, ID);
-    return 0;  /* remain alive. 1 = death */
+    return 0;  /* 0-remain alive. 1 = death */
 }
 
 
 int moveandadjustsignal()
 {
 
+     printf("        -,pveamdadjustsignal.....  %d, %d, xy:(%f,%f), %f,.\n",SID,STYPE,X,Y,AMOUNT);
     //adjust the signal-agent variables:
 
     //remaining lifespan:
@@ -41,5 +42,5 @@ int moveandadjustsignal()
     //intensity/amount:
     AMOUNT *= FADE;
 
-    return 0; 
+    return 0;
 }

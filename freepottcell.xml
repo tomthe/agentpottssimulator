@@ -15,17 +15,17 @@
 <agents>
 
     <xagent>
-    
+
         <name>cell2d4</name>
         <description></description>
-        
+
         <memory>
             <variable><type>int</type><name>id</name><description></description></variable>
             <variable><type>int</type><name>type</name><description></description></variable>
             <variable><type>double</type><name>corners[40]</name><description>4 points {x1,y1,x2,y2...}</description></variable>
             <variable><type>double</type><name>x</name><description>middle_point_x</description></variable>
             <variable><type>double</type><name>y</name><description>middle_point_y</description></variable>
-            <variable><type>int</type><name>age</name><description>age in timesteps since last division</description></variable>            
+            <variable><type>int</type><name>age</name><description>age in timesteps since last division</description></variable>
         </memory>
 
         <functions>
@@ -93,10 +93,10 @@
     </xagent>
 
     <xagent>
-    
+
         <name>signalagent</name>
         <description></description>
-        
+
         <memory>
             <variable><type>int</type><name>sid</name><description></description></variable>
             <variable><type>int</type><name>stype</name><description></description></variable>
@@ -118,8 +118,8 @@
 
             <function><name>outputsignalposition</name>
                 <description></description>
-                <currentState>a2</currentState>
-                <nextState>a3</nextState>
+                <currentState>a0</currentState>
+                <nextState>a1</nextState>
                 <outputs>
                     <output><messageName>signalposition</messageName></output>
                 </outputs>
