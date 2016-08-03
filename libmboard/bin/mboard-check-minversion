@@ -1,0 +1,171 @@
+#!/bin/bash
+# $Id: mboard-check-minversion.in 1871 2009-06-12 13:58:18Z lsc $
+# ===========================================================================
+#
+# Copyright (c) 2009 STFC Rutherford Appleton Laboratory 
+# Author: Lee-Shawn Chin 
+# Date  : May 2009
+#
+# File  : mboard-check-minversion
+# Desc  : Script to check if this version of libmboard meets a minimum
+#         version requirement. Note that this script was only introduced
+#         in version 0.2.0
+#
+# It can be used in Makefile as such:
+# --------------Example snippet from Makefile--------------------------------
+# MBOARD_INSTALL_DIR="/opt/libmboard"
+# export PATH=$MBOARD_INSTALL_DIR/bin:$PATH
+#
+# MBOARD_CHECKVERSION="mboard-check-minversion"
+# MIN_LIBMBOARD_VERSION="0.2.9"
+# 
+# # example Makefile target 
+# check-version: 
+#     which $MBOARD_CHECKVERSION &> /dev/null
+#     if [ $? -ne 0 ]
+#     then
+#         echo "Could not locate the $MBOARD_CHECKVERSION script"
+#         echo "Your version of libmboard is probably too old (pre-0.2)"
+#         echo "We require version $MIN_LIBMBOARD_VERSION or newer"
+#         exit 1
+#     else
+#         $MBOARD_CHECKVERSION $MIN_LIBMBOARD_VERSION > /dev/null
+#         if [ $? -eq 1]
+#         then
+#             echo "We require version $MIN_LIBMBOARD_VERSION or newer"
+#             exit 1
+#         fi
+#     fi
+#
+# ===========================================================================
+
+function check_only_digits_and_dots {
+	e1=`echo $1 | cut -d. -f1`
+	e2=`echo $1 | cut -d. -f2`
+	e3=`echo $1 | cut -d. -f3`
+	str="${e1}.${e2}.${e3}"
+	str=`echo $str | tr -d ".[:digit:]"`
+	if [ "$str" == "" ]; then return 0; fi
+	return 1
+}
+
+function sanitise_version_string {
+	VER=$1 # we assume this will not be empty
+	
+	check_only_digits_and_dots "$VER"
+	if [ $? -ne 0 ]; then return 1; fi
+	
+	MAJOR=`echo $VER | cut -d. -f1`
+	if [ "$MAJOR" == "$VER" ]; then # no delim
+		MAJOR=$VER
+		MINOR=0
+		MICRO=0
+	else
+		MINOR=`echo $VER | cut -d. -f2`
+		MICRO=`echo $VER | cut -d. -f3`
+	fi
+	
+	# Convert empty string to "0"
+	if [ "$MAJOR" == "" ]; then MAJOR=0; fi
+	if [ "$MINOR" == "" ]; then MINOR=0; fi
+	if [ "$MICRO" == "" ]; then MICRO=0; fi
+
+	echo "${MAJOR}.${MINOR}.${MICRO}"
+	
+	return 0
+}
+
+function compare_ver {
+	
+	CUR_VER=$1
+	MIN_VER=$2
+	
+	OK="Requirements met?         : YES"
+	NOK="Requirements met?         : NO"
+	
+	echo "Current libmboard version : $CUR_VER"
+	echo "Minimum version required  : $MIN_VER"
+	
+	CUR_VER_MAJOR=`echo $CUR_VER | cut -d. -f1`
+	CUR_VER_MINOR=`echo $CUR_VER | cut -d. -f2`
+	CUR_VER_MICRO=`echo $CUR_VER | cut -d. -f3`
+	
+	MIN_VER_MAJOR=`echo $MIN_VER | cut -d. -f1`
+	MIN_VER_MINOR=`echo $MIN_VER | cut -d. -f2`
+	MIN_VER_MICRO=`echo $MIN_VER | cut -d. -f3`
+
+	
+	# first check VER_MAJOR
+	if   [ $CUR_VER_MAJOR -lt $MIN_VER_MAJOR ]; then
+		echo "$NOK"
+		return 1
+	elif [ $CUR_VER_MAJOR -gt $MIN_VER_MAJOR ]; then
+		echo "$OK"
+		return 0
+	fi
+	
+	# if VER_MAJOR equal, check VER_MINOR
+	if   [ $CUR_VER_MINOR -lt $MIN_VER_MINOR ]; then
+		echo "$NOK"
+		return 1
+	elif [ $CUR_VER_MINOR -gt $MIN_VER_MINOR ]; then
+		echo "$OK"
+		return 0
+	fi
+	
+	# if VER_MINOR equal, check VER_MICRO
+	if   [ $CUR_VER_MICRO -lt $MIN_VER_MICRO ]; then
+		echo "$NOK"
+		return 1
+	fi
+	
+	echo "$OK"
+	return 0
+}
+
+function print_usage {
+	cat << EOF
+ Usage: $0 VERSION_STRING
+
+ Description:
+  Use this script to check if the current installed version of libmboard meets
+  your minimum version requirement. For example:
+
+    ---------------------------------------------------------------
+    MINVER="0.2.3"
+    mboard-check-minversion \$MINVER
+    if [ \$? -ne 0 ]; then
+        echo "Sorry, we need libmboard version \$MINVER of higher" 
+        exit 1
+    fi 
+    ---------------------------------------------------------------
+EOF
+
+    exit 1
+}
+
+####################### CODE BODY ###########################################
+
+# check input params
+if [ $# -ne 1 ]; then print_usage; fi
+
+# Get user provided version string
+MINVER=`sanitise_version_string $1`
+if [ $? -ne 0 ]; then
+	echo "ERROR: Version string should only contain digits and dots" >&2
+	exit 1
+fi 
+
+# Retrieve current version number
+VERSION=`sanitise_version_string "0.2.1"`
+if [ $? -ne 0 ]; then
+	echo "ERROR: Incorrect version string return by package" >&2
+	echo "       Please contact the package maintainer at shawn.chin@_NOSPAM_stfc.ac.uk" >&2
+	exit 1
+fi 
+
+# compare version strings
+compare_ver $VERSION $MINVER
+exit $?
+
+
