@@ -81,7 +81,7 @@ int movecornersandcalculateenergy()
             // decide if delta-energy is negative ... if the whole energy decreases
             // write new position to agent memory  or go back to old position //
             //set_points(points_temp);
-        } while((i<4) && (do_move==0));
+        } while((i<1) && (do_move==0));
         //printf("Type: %d, id: %d, deltatH: %5.3f (%4.2f, %4.2f) \n", TYPE, ID, deltaH, deltaH_inside,deltaH_interaction);
 
     }

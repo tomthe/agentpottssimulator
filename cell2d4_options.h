@@ -10,7 +10,7 @@
 
 #define cof_use_hamiltonian 1
 
-#define cof_T 5.0
+#define cof_T 20.0
 
 double cof_move_step_size[] = {0.09,0.09,0.0,0.01};
 int cof_move_random_extra_probability[] = {10,10,0};
@@ -24,20 +24,20 @@ double cof_volume_target[] = {5.0,5.0,0.5};
 double cof_volume_alpha[] = {15.0,15.0,1.0};
 
 int cof_surface_do_calc[] = {1,1,0};
-double cof_surface_target[] = {24.0,24.0,6.0};
+double cof_surface_target[] = {14.0,14.0,6.0};
 double cof_surface_alpha[] = {2.0,1.0,3.0};
 
 int cof_convex_do_calc[] = {0,1,1};
 //double cof_convex_alpha[] = {2.0,2.0,2.0};
 int cof_straight_hull_do_calc[] = {1,1,1};
-double cof_straight_hull_alpha[] = {200.0,100.0,1};
+double cof_straight_hull_alpha[] = {100.0,100.0,1};
 
 int cof_contact_do_calc[] = {1,1,1};
-double cof_contact_alpha[] = {77.0,88.0,9.0};
+double cof_contact_alpha[] = {10.0,20.0,9.0};
 double cof_contact_distance[] = {0.4,0.4,0.1};
-double cof_contact_medium[] = {2.0,2.0,1.0};
+double cof_contact_medium[] = {5.0,0.0,1.0};
 double cof_contact_depth[] = {0.6,0.6,0.6};
-double cof_contact_edge[n_cell_types][n_cell_types] = {{-25.5,-10.0,-5.0},{-10.0,-25.5,55},{0.0,0.0,0.0}};
+double cof_contact_edge[n_cell_types][n_cell_types] = {{-25.5,-5.0,-5.0},{-5.0,-25.5,55},{0.0,0.0,0.0}};
 double cof_contact_intersection[n_cell_types][n_cell_types] = {{1.0,1.0,10.0},{1.0,1.0,10.0},{52.0,52.0,52.0}};
 
 int cof_signal_release_propab[] = {-1,-1,-1,-1};
