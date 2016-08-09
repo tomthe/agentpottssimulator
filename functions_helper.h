@@ -84,11 +84,11 @@ int choose_and_move_one_of_4_corners(double *corners)
 {
     double dx = rand_double_m_to_n(-(cof_move_step_size[TYPE]),cof_move_step_size[TYPE]);
     double dy = rand_double_m_to_n(-(cof_move_step_size[TYPE]),cof_move_step_size[TYPE]);
-    int r = rand() % N_CORNERS; //int between 0 and N_CORNERS (=6)
-    corners[r*2] += dx; //x
-    corners[r*2+1] += dy;
+    int ir = rand() % N_CORNERS; //int between 0 and N_CORNERS (=6)
+    corners[ir*2] += dx; //x
+    corners[ir*2+1] += dy;
     //printf("move corner: dx: %f, dy: %f;\n", dx,dy);
-    return r;
+    return ir;
 }
 
 /** move 1...N_CORNERS/2 corners in the same random direction
@@ -700,8 +700,6 @@ double calc_H_contact_sat(double *corners, int moved_corner)
     //for every near other_cell:
       //for every corner of points:
         //check if corner is inside other_cell
-
-    double r = 2.8;
 
     double attraction_vector[2] = {0.0,0.0};
 
