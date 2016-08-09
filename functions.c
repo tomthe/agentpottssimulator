@@ -7,6 +7,7 @@
 
 #define kr 0.1 /* Stiffness variable for repulsion */
 #define distance(x1,y1,x2,y2) (sqrt((x1-x2)*(x1-x2)+(y1-y2)*(y1-y2)))
+#define M_E 2.7182818284590452
 
 
 int outputcellposition()
@@ -28,8 +29,9 @@ int movecornersandcalculateenergy()
     int i=0;
     double deltaH=0.0, deltaH_interaction, deltaH_inside;
     int moved_corner;
+    int do_move=0;
 
-	
+
     //choose randomly if this cell should move
     if (decide_if_cell_should_move() !=0)
     {
@@ -52,9 +54,23 @@ int movecornersandcalculateenergy()
 
             // add up all delta-energies
             deltaH = deltaH_inside + deltaH_interaction;
+
+            do_move = 0;
+            if (deltaH < 0){
+              do_move = 1;
+            } else {
+              double probability_to_move = pow(M_E, -(deltaH/cof_T));
+              if (probability_to_move > ((double) rand()/RAND_MAX )){
+                do_move = 1;
+              } else {
+                do_move = 0;
+              }
+            }
+
             //printf("Type: %d, id: %d, deltatH: %f\n", TYPE, ID, deltaH);
-            if (deltaH <= 0)
+            if (do_move !=0)
             {
+                // if change in Energy is negative: take new corners2 as new corners - change position
                 copy_array_to_array(corners2,CORNERS,N_CORNERS*2);
                 double middle_point[2];
                 get_middle_point(CORNERS, middle_point);
@@ -65,7 +81,7 @@ int movecornersandcalculateenergy()
             // decide if delta-energy is negative ... if the whole energy decreases
             // write new position to agent memory  or go back to old position //
             //set_points(points_temp);
-        } while((i<4) && (deltaH > 0.0));
+        } while((i<4) && (do_move==0));
         //printf("Type: %d, id: %d, deltatH: %5.3f (%4.2f, %4.2f) \n", TYPE, ID, deltaH, deltaH_inside,deltaH_interaction);
 
     }
@@ -73,7 +89,7 @@ int movecornersandcalculateenergy()
 
     //random_extra_movement();
 
-    return 0; 
+    return 0;
 }
 
 
@@ -128,7 +144,7 @@ int cell_functions()
         int ic = rand() % N_CORNERS; //choose a random corner
         add_signalagent_agent(rand(),TYPE,CORNERS[ic*2],CORNERS[ic*2+1],2.0,1.0,0.4,100);
     }
-    
+
 
     return 0;
 }

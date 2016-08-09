@@ -8,6 +8,10 @@
 #define N_CORNERS 10
 #define n_cell_types 3
 
+#define cof_use_hamiltonian 1
+
+#define cof_T 5.0
+
 double cof_move_step_size[] = {0.09,0.09,0.0,0.01};
 int cof_move_random_extra_probability[] = {10,10,0};
 double cof_push_alpha[] = {0.1,0.1,0.0};
