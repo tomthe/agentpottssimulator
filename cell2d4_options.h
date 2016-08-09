@@ -26,7 +26,7 @@ double cof_volume_target[] = {5.0,5.0,0.5};
 double cof_volume_alpha[] = {15.0,15.0,1.0};
 
 int cof_surface_do_calc[] = {1,1,0};
-double cof_surface_target[] = {14.0,14.0,6.0};
+double cof_surface_target[] = {9.0,9.0,6.0};
 double cof_surface_alpha[] = {2.0,1.0,3.0};
 
 int cof_convex_do_calc[] = {0,1,1};

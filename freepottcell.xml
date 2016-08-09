@@ -112,18 +112,13 @@
 
             <function><name>moveandadjustsignal</name>
                 <description></description>
-                <currentState>a1</currentState>
-                <nextState>a2</nextState>
-            </function>
-
-            <function><name>outputsignalposition</name>
-                <description></description>
-                <currentState>a0</currentState>
-                <nextState>a1</nextState>
+                <currentState>0</currentState>
+                <nextState>1</nextState>
                 <outputs>
                     <output><messageName>signalposition</messageName></output>
                 </outputs>
             </function>
+
 
         </functions>
     </xagent>
