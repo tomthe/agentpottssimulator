@@ -59,7 +59,7 @@ int movecornersandcalculateenergy()
             if (deltaH < 0){
               do_move = 1;
             } else {
-              double probability_to_move = pow(M_E, -(deltaH/cof_T));
+              double probability_to_move = pow(M_E, -(deltaH/cof_T)); //calculate the probability to move with the formula p=e^(-deltaH/temperature)
               if (probability_to_move > ((double) rand()/RAND_MAX )){
                 do_move = 1;
               } else {
