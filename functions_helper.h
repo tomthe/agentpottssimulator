@@ -43,7 +43,7 @@ int print_positions(double corners[])
 
 double rand_double_m_to_n(double m, double n)
 {
-    return m + (rand() / (RAND_MAX / (n-m)));
+    return m + ((double) rand() / (RAND_MAX / (n-m)));
 }
 
 /** Return a random Number from a Normal-Distribution with mu and sigma..
