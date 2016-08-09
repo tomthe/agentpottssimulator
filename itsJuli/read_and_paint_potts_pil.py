@@ -92,7 +92,7 @@ def paint_one_timestep(cells,cell_types,signals_pos,filename):
 
 	pdraw.rectangle([sim_coord_2_paint_coord((0,0)),sim_coord_2_paint_coord((1.0,1.0))],fill=(180,180,180))
 	#save and show image
-	back.save(filename[:-3] + ".png")
+	back.save(str(filename[:-3]).zfill(7) + ".png")
 	#back.show()
 
 
