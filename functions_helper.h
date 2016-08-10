@@ -750,8 +750,8 @@ double calc_H_contact_sat(double *corners, int moved_corner)
                         } else {//no contact, but close
 
                             double sqdistance_cells = sqdistance(current_xmachine_cell2d4->x,current_xmachine_cell2d4->y,cellposition_message->x,cellposition_message->y);
-                            attraction_vector[0] += (cellposition_message->x - current_xmachine_cell2d4->x) / sqdistance_cells;
-                            attraction_vector[1] += (cellposition_message->y - current_xmachine_cell2d4->y) / sqdistance_cells;
+                            attraction_vector[0] += cof_attraction_alpha[TYPE][cellposition_message->type] * (cellposition_message->x - current_xmachine_cell2d4->x) / sqdistance_cells;
+                            attraction_vector[1] += cof_attraction_alpha[TYPE][cellposition_message->type] * (cellposition_message->y - current_xmachine_cell2d4->y) / sqdistance_cells;
 
                         }
 
@@ -780,8 +780,6 @@ double calc_H_contact_sat(double *corners, int moved_corner)
     FINISH_CELLPOSITION_MESSAGE_LOOP
 
     //move cell according to attraction:
-    attraction_vector[0] *= cof_attraction_alpha[TYPE];
-    attraction_vector[1] *= cof_attraction_alpha[TYPE];
     if (attraction_vector[0] >= 0.0007) {attraction_vector[0] = 0.0007;}
     if (attraction_vector[1] >= 0.0007) {attraction_vector[1] = 0.0007;}
     move_all_corners_by_vector(corners,attraction_vector);
