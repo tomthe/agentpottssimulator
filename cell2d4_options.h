@@ -14,9 +14,9 @@
 
 #define r 6.8
 
-double cof_move_step_size[] = {0.09,0.09,0.0,0.01};
+double cof_move_step_size[] = {0.15,0.15,0.0,0.01};
 int cof_move_random_extra_probability[] = {10,10,0};
-double cof_push_alpha[] = {0.1,0.1,0.0};
+double cof_push_alpha[] = {0.01,0.01,0.0};
 double cof_attraction_alpha[] = {0.0,0.0,0.0};
 
 int cof_percent_of_cells_that_should_move_in_one_ts[] = {40,40,50};
@@ -26,7 +26,7 @@ double cof_volume_target[] = {5.0,5.0,0.5};
 double cof_volume_alpha[] = {15.0,15.0,1.0};
 
 int cof_surface_do_calc[] = {1,1,0};
-double cof_surface_target[] = {9.0,9.0,6.0};
+double cof_surface_target[] = {6.0,6.0,6.0};
 double cof_surface_alpha[] = {2.0,1.0,3.0};
 
 int cof_convex_do_calc[] = {0,1,1};
