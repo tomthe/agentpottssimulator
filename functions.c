@@ -40,7 +40,7 @@ int movecornersandcalculateenergy()
             copy_array_to_array(CORNERS,corners2,N_CORNERS*2);
 
             //choose which of the corners should move and  move this corner
-            //print_positions(points2);
+            //print_positions(CORNERS);
             //moved_corner = choose_and_move_one_of_4_corners(corners2);
             moved_corner = choose_and_move_some_corners(corners2);
             //print_positions(points2);

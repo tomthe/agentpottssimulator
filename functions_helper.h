@@ -119,6 +119,15 @@ int choose_and_move_some_corners(double *corners)
     return middle_point; //moved_corner: the one in the middle
 }
 
+void move_all_corners_by_vector(double *corners, double vector[])
+{
+    for (int i_corner=0; i_corner<N_CORNERS;i_corner++)
+    {
+        corners[i_corner*2] += vector[0];
+        corners[i_corner*2+1] += vector[1];
+    }
+}
+
 void get_divide_cell_new_corner_positions(double corners_old[],double corners_new1[],double corners_new2[])
 {
     copy_array_to_array(corners_old,corners_new1,N_CORNERS*2);
@@ -693,11 +702,11 @@ double calc_H_contact_sat(double *corners, int moved_corner)
     double H_contact = 0;
     double contact_length,contact_length_total = 0;
     double H_contact_length = 0.0;
-    double overlap_temp, overlap=0, corner_overlap;
+    double overlap_temp, overlap=0;// corner_overlap;
     //double corner_overlap_status[N_CORNERS] = {0,0,0,0};
     double mtv[2];
     double repelling_vector[2];
-    int n_near_corners=0;
+    //int n_near_corners=0;
     //for every near other_cell:
       //for every corner of points:
         //check if corner is inside other_cell
@@ -719,21 +728,21 @@ double calc_H_contact_sat(double *corners, int moved_corner)
 
                 //n_near_corners += get_number_of_same_corners(corners,cellposition_message->corners);
 
-                //printf(" (overlap_temp: %5.3f", overlap_temp);
+                //printf("\n ju4 overlap_temp: %5.3f", overlap_temp);
                 //print_positions(cellposition_message->corners);
                 if (overlap_temp > 0)
                 {
                     overlap +=overlap_temp;
-
+                    //printf("\n jhr4 overlap_temp: %5.3f", overlap_temp);
                     if (overlap_temp > cof_contact_depth[TYPE]) {
                         //big intersection
-                        //printf(" 88overlap_temp_big: %5.3f", overlap_temp);
+                        //printf("\n j88overlap_temp_big: %5.3f", overlap_temp);
                         H_contact += overlap_temp * cof_contact_intersection[TYPE][cellposition_message->type];
                         get_repelling_vector(corners,cellposition_message->corners,0.1,repelling_vector);
                         add_repulsion_message(cellposition_message->id, repelling_vector, TYPE);
 
+                        //printf("\n Contact-big ! H: %5.3f",H_contact);
                         break;
-                        //printf("Contact-big ! H: %5.3f\n",H_contact);
                         //send repellation-message
                     } else {
                         //small intersection --> contact
@@ -741,18 +750,14 @@ double calc_H_contact_sat(double *corners, int moved_corner)
                         //printf("Contact-smal! H: %5.3f\n",H_contact);
                         //printf("\n-----------------contaaaaaaaa????????????????????????: %f, %f", H_contact,H_contact_length);
 
+                        //printf("\n ee6 overlap_temp: %5.3f", overlap_temp);
                         contact_length = lineSegmentIntersection_Corners_intersection_length(corners,cellposition_message->corners);
+                        //printf("\n et6 overlap_temp: %5.3f", contact_length);
                         if (contact_length>0.0){
                             contact_length_total += contact_length;
                             //todo: check if this is correct
                             H_contact_length += contact_length * cof_contact_edge[TYPE][cellposition_message->type];
-                            //printf("\n-----------------contaaaaaaaaaaaaaaaaaaact!!!!!jo: %f, %f", H_contact,H_contact_length);
-                        } else {//no contact, but close
-
-                            double sqdistance_cells = sqdistance(current_xmachine_cell2d4->x,current_xmachine_cell2d4->y,cellposition_message->x,cellposition_message->y);
-                            attraction_vector[0] += cof_attraction_alpha[TYPE][cellposition_message->type] * (cellposition_message->x - current_xmachine_cell2d4->x) / sqdistance_cells;
-                            attraction_vector[1] += cof_attraction_alpha[TYPE][cellposition_message->type] * (cellposition_message->y - current_xmachine_cell2d4->y) / sqdistance_cells;
-
+                            //printf("\n---rt3--------------contaaaaaaaaaaaaaaaaaaact!!!!!jo: %f, %f", H_contact,H_contact_length);
                         }
 
                         /*
@@ -769,6 +774,14 @@ double calc_H_contact_sat(double *corners, int moved_corner)
                         */
                     }
 
+                } else {//no contact, but close
+
+                    //printf("\n-gre4---------------no contaaaaaaaaaaaaaaaaaaact!!!!!jo: %f, %f", H_contact,H_contact_length);
+                    double sqdistance_cells = sqdistance(current_xmachine_cell2d4->x,current_xmachine_cell2d4->y,cellposition_message->x,cellposition_message->y);
+                    if(sqdistance_cells > 1.0){
+                      attraction_vector[0] += cof_attraction_alpha[TYPE][cellposition_message->type] * (cellposition_message->x - current_xmachine_cell2d4->x);// / sqdistance_cells;
+                      attraction_vector[1] += cof_attraction_alpha[TYPE][cellposition_message->type] * (cellposition_message->y - current_xmachine_cell2d4->y);// / sqdistance_cells;
+                    }
                 }
             }
         }
@@ -782,15 +795,17 @@ double calc_H_contact_sat(double *corners, int moved_corner)
     //move cell according to attraction:
     if (attraction_vector[0] >= 0.0007) {attraction_vector[0] = 0.0007;}
     if (attraction_vector[1] >= 0.0007) {attraction_vector[1] = 0.0007;}
+    //printf("\nh9 H_contact: %f, %f", H_contact,H_contact_length);
     move_all_corners_by_vector(corners,attraction_vector);
 
     double H_signal=0;
     double sqdist, attraction;
+    //printf("\nl03 H_contact: %f, %f", H_contact,H_contact_length);
 
     START_SIGNALPOSITION_MESSAGE_LOOP
         //printf("signalposloooop.... %f \n", signalposition_message->x);
         sqdist = sqdistance(corners[moved_corner*2],corners[moved_corner*2+1],signalposition_message->x,signalposition_message->y);
-        if (sqdist < 25.0)
+        if (sqdist < 25.0 && sqdist >0.5)
         {
             attraction = cof_cell_signal[TYPE][signalposition_message->type];
             H_signal += attraction / sqrt(sqdist);
@@ -843,13 +858,4 @@ double calculate_deltaH_interactions(double *corners2, double *corners1, int mov
     }
     //printf("|| H1: %4.2f; Hc2: %4.2f ||",H_contact1,H_contact2);
     return H_contact2-H_contact1;
-}
-
-void move_all_corners_by_vector(double *corners, double vector[])
-{
-    for (int i_corner=0; i_corner<N_CORNERS;i_corner++)
-    {
-        corners[i_corner*2] += vector[0];
-        corners[i_corner*2+1] += vector[1];
-    }
 }
