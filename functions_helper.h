@@ -635,6 +635,7 @@ void get_repelling_vector(double corners1[], double corners2[], double overlap, 
     //printf("   ((over rep1(%5.3f,%5.3f); ", rep1[0],rep1[1]);
 }
 
+// deprecated:
 double calc_H_contact(double *corners)
 {
     double H_contact = cof_contact_medium[TYPE];
@@ -711,9 +712,7 @@ double calc_H_contact_sat(double *corners, int moved_corner)
         {
             if ((cellposition_message->y > (current_xmachine_cell2d4->y - r)) && (cellposition_message->y < (current_xmachine_cell2d4->y + r)))
             {
-                double sqdistance_cells = sqdistance(current_xmachine_cell2d4->x,current_xmachine_cell2d4->y,cellposition_message->x,cellposition_message->y);
-                attraction_vector[0] += (cellposition_message->x - current_xmachine_cell2d4->x) / sqdistance_cells;
-                attraction_vector[1] += (cellposition_message->y - current_xmachine_cell2d4->y) / sqdistance_cells;
+
 
                 // sophisticated intersection-test:
                 overlap_temp = get_intersect_and_mtv(corners,cellposition_message->corners,N_CORNERS,mtv);
@@ -748,6 +747,12 @@ double calc_H_contact_sat(double *corners, int moved_corner)
                             //todo: check if this is correct
                             H_contact_length += contact_length * cof_contact_edge[TYPE][cellposition_message->type];
                             //printf("\n-----------------contaaaaaaaaaaaaaaaaaaact!!!!!jo: %f, %f", H_contact,H_contact_length);
+                        } else {//no contact, but close
+
+                            double sqdistance_cells = sqdistance(current_xmachine_cell2d4->x,current_xmachine_cell2d4->y,cellposition_message->x,cellposition_message->y);
+                            attraction_vector[0] += (cellposition_message->x - current_xmachine_cell2d4->x) / sqdistance_cells;
+                            attraction_vector[1] += (cellposition_message->y - current_xmachine_cell2d4->y) / sqdistance_cells;
+
                         }
 
                         /*
