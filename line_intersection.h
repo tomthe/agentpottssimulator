@@ -138,7 +138,7 @@ int lineSegmentIntersection_Corners(double corners1[], int i_line1, double corne
 double lineSegmentIntersection_Corners_intersection_length(double corners1[],double corners2[]){
   int i_line1,i_line2, i_crosspoint=0;
   double crosspoint_temp[2];
-  double crosspoints_all[N_CORNERS*2];
+  double crosspoints_all[N_CORNERS*4];
 
   //for every line segment of cell1:
   for (i_line1 = 0; i_line1<N_CORNERS; i_line1++){
@@ -166,7 +166,7 @@ double lineSegmentIntersection_Corners_intersection_length(double corners1[],dou
 
 
   if (i_crosspoint > 0){
-    //printf("\n exactly so many crosspoints::::::::::----------------------%d distance: %f \n",i_crosspoint,distance(crosspoints[0],crosspoints[1],crosspoints[2],crosspoints[3]));
+    //printf("\n exactly so many crosspoints::::::::::----------------------%d distance: %f \n",i_crosspoint,distance(crosspoints_all[0],crosspoints_all[1],crosspoints_all[2],crosspoints_all[3]));
     if (i_crosspoint==2){
       return distance(crosspoints_all[0],crosspoints_all[1],crosspoints_all[2],crosspoints_all[3]);
     } else {
