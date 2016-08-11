@@ -142,7 +142,7 @@ int cell_functions()
         //printf("        -add signalagent...  .\n");
         //add_signalagent_agent(ID,TYPE,X,Y,AMOUNT,FADE,SPEED,REMAINDERLIFE);
         int ic = rand() % N_CORNERS; //choose a random corner
-        add_signalagent_agent(rand(),TYPE,CORNERS[ic*2],CORNERS[ic*2+1],2.0,0.999,cof_signal_speed[TYPE],50);
+        add_signalagent_agent(rand(),TYPE,CORNERS[ic*2],CORNERS[ic*2+1],2.0,0.99999,cof_signal_speed[TYPE],cof_signal_maxage[TYPE]);
     }
 
 
