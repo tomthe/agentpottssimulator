@@ -27,7 +27,7 @@ double cof_volume_alpha[] = {10.0,10.0,1.0};
 
 int cof_surface_do_calc[] = {1,1,0};
 double cof_surface_target[] = {9.0,9.0,6.0};
-double cof_surface_alpha[] = {2.0,1.0,3.0};
+double cof_surface_alpha[] = {2.0,3.0,3.0};
 
 int cof_convex_do_calc[] = {1,1,1};
 //double cof_convex_alpha[] = {2.0,2.0,2.0};
@@ -39,7 +39,7 @@ double cof_contact_alpha[] = {20.0,20.0,9.0};
 double cof_contact_distance[] = {0.4,0.4,0.1}; //deprecated
 double cof_contact_medium[] = {5.0,0.0,1.0};
 double cof_contact_depth[] = {0.6,0.6,0.6,0.6};
-double cof_contact_edge[n_cell_types][n_cell_types] = {{-25.5,-1.0,-5.0},{-1.0,-55.5,55},{0.0,0.0,0.0}};
+double cof_contact_edge[n_cell_types][n_cell_types] = {{-25.5,-1.0,-5.0},{-1.0,-35.5,55},{0.0,0.0,0.0}};
 double cof_contact_intersection[n_cell_types][n_cell_types] = {{1.0,1.0,10.0},{1.0,1.0,10.0},{52.0,52.0,52.0}};
 
 int cof_signal_release_propab[] = {-1,-1,-1,-1};
