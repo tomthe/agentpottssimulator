@@ -10,11 +10,11 @@
 
 #define cof_use_hamiltonian 1
 
-#define cof_T 0.5
+#define cof_T 10
 
 #define r 6.8
 
-double cof_move_step_size[] = {0.1,0.1,0.0,0.01};
+double cof_move_step_size[] = {0.1,0.5,0.0,0.01};
 int cof_move_random_extra_probability[] = {10,10,0};
 double cof_push_alpha[] = {0.5,0.2,0.0};
 double cof_attraction_alpha[n_cell_types][n_cell_types] ={{0.0,0.0,0.0}, {0.0,0.0,0.0},{0.0,0.0,0.0}};
