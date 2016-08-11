@@ -37,9 +37,9 @@ double cof_straight_hull_alpha[] = {200.0,100.0,1};
 int cof_contact_do_calc[] = {1,1,1};
 double cof_contact_alpha[] = {20.0,20.0,9.0};
 double cof_contact_distance[] = {0.4,0.4,0.1}; //deprecated
-double cof_contact_medium[] = {10.0,2.0,1.0};
+double cof_contact_medium[] = {6.0,2.0,1.0};
 double cof_contact_depth[] = {0.6,0.6,0.6,0.6};
-double cof_contact_edge[n_cell_types][n_cell_types] = {{-25.5,-3.0,-5.0},{-6.0,-35.5,55},{0.0,0.0,0.0}};
+double cof_contact_edge[n_cell_types][n_cell_types] = {{-4,-15.0,-5.0},{-15.0,-4,55},{0.0,0.0,0.0}};
 double cof_contact_intersection[n_cell_types][n_cell_types] = {{1.0,1.0,10.0},{1.0,1.0,10.0},{52.0,52.0,52.0}};
 
 int cof_signal_release_propab[] = {-1,-1,-1,-1};
