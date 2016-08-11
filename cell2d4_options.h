@@ -39,10 +39,11 @@ double cof_contact_alpha[] = {20.0,20.0,9.0};
 double cof_contact_distance[] = {0.4,0.4,0.1}; //deprecated
 double cof_contact_medium[] = {6.0,2.0,1.0};
 double cof_contact_depth[] = {0.6,0.6,0.6,0.6};
-double cof_contact_edge[n_cell_types][n_cell_types] = {{-4,-15.0,-5.0},{-15.0,-4,55},{0.0,0.0,0.0}};
+double cof_contact_edge[n_cell_types][n_cell_types] = {{-14,-5.0,-5.0},{-5.0,-14,55},{0.0,0.0,0.0}};
 double cof_contact_intersection[n_cell_types][n_cell_types] = {{1.0,1.0,10.0},{1.0,1.0,10.0},{52.0,52.0,52.0}};
 
-int cof_signal_release_propab[] = {-1,-1,-1,-1};
+int cof_signal_release_propab[] = {100,-1,-1,-1};
+double cof_signal_speed[] = {0.1,0.2,0.3};
 double cof_cell_signal[n_cell_types][n_cell_types] = {{-10.0,0.0,0.0},{1.0,-10.0,0.0},{-1.0,2.0,0.0}};
 
 //death rate for each cell-type. -1: no death; n: death after ca n timesteps

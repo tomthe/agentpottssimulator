@@ -22,7 +22,7 @@ int outputsignalposition()
 int moveandadjustsignal()
 {
 
-     printf("        -,pveamdadjustsignal.....  %d, %d, xy:(%f,%f), %f,.\n",SID,STYPE,X,Y,AMOUNT);
+     //printf("        -,pveamdadjustsignal.....  %d, %d, xy:(%f,%f), %f,.\n",SID,STYPE,X,Y,AMOUNT);
     //adjust the signal-agent variables:
 
     //remaining lifespan:
