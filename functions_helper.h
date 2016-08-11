@@ -697,7 +697,7 @@ int get_number_of_same_corners(double corners1[], double corners2[])
 }
 
 
-double calc_H_contact_sat(double *corners, int moved_corner)
+double calc_H_contact_sat(double *corners, int moved_corner, double repulsion_vector[])
 {
     double H_contact = 0;
     double contact_length,contact_length_total = 0;
@@ -705,7 +705,9 @@ double calc_H_contact_sat(double *corners, int moved_corner)
     double overlap_temp, overlap=0;// corner_overlap;
     //double corner_overlap_status[N_CORNERS] = {0,0,0,0};
     double mtv[2];
-    double repelling_vector[2];
+    double repelling_vector[2] ={0.0,0.0};
+    repulsion_vector[0] = 0.0;
+    repulsion_vector[1] = 0.0;
     //int n_near_corners=0;
     //for every near other_cell:
       //for every corner of points:
@@ -739,7 +741,10 @@ double calc_H_contact_sat(double *corners, int moved_corner)
                         //printf("\n j88overlap_temp_big: %5.3f", overlap_temp);
                         H_contact += overlap_temp * cof_contact_intersection[TYPE][cellposition_message->type];
                         get_repelling_vector(corners,cellposition_message->corners,0.1,repelling_vector);
-                        add_repulsion_message(cellposition_message->id, repelling_vector, TYPE);
+                        repulsion_vector[0] -= repelling_vector[0] * cof_push_alpha[TYPE];
+                        repulsion_vector[1] -= repelling_vector[1] * cof_push_alpha[TYPE];
+
+                        //add_repulsion_message(cellposition_message->id, repelling_vector, TYPE);
 
                         //printf("\n Contact-big ! H: %5.3f",H_contact);
                         break;
@@ -791,6 +796,11 @@ double calc_H_contact_sat(double *corners, int moved_corner)
          * different energies (-levels), depending on overlap;
          * */
     FINISH_CELLPOSITION_MESSAGE_LOOP
+
+
+    //move cell according to repulsion:
+    move_all_corners_by_vector(corners,repulsion_vector);
+
 
     //move cell according to attraction:
     if (attraction_vector[0] >= 0.0007) {attraction_vector[0] = 0.0007;}
@@ -849,13 +859,20 @@ double calculate_deltaH_interactions(double *corners2, double *corners1, int mov
 {
     //double deltaH = 0;
     double H_contact1, H_contact2;
-
+    double repulsion_vector1[2] = {0.0,0.0};
+    double repulsion_vector2[2] = {0.0,0.0};
 
     if (cof_contact_do_calc[TYPE])
     {
-        H_contact1 = calc_H_contact_sat(corners1, moved_corner);
-        H_contact2 = calc_H_contact_sat(corners2, moved_corner);
+        H_contact1 = calc_H_contact_sat(corners1, moved_corner,repulsion_vector1);
+        H_contact2 = calc_H_contact_sat(corners2, moved_corner,repulsion_vector2);
+        if(H_contact1>H_contact2){
+          move_all_corners_by_vector(corners2,repulsion_vector2);
+        }else{
+          move_all_corners_by_vector(corners1,repulsion_vector1);
+        }
     }
+
     //printf("|| H1: %4.2f; Hc2: %4.2f ||",H_contact1,H_contact2);
     return H_contact2-H_contact1;
 }
