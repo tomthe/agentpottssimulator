@@ -6,7 +6,7 @@
 //#include "cell2d4_options.h"
 
 #define sqdistance(x1,y1,x2,y2) (((x1-x2)*(x1-x2)+(y1-y2)*(y1-y2)))
-
+#define PI 3.141592653589793238
 
 void copy_array_to_array(double *array1, double *array2, int n)
 {
@@ -92,10 +92,10 @@ int choose_and_move_one_of_4_corners(double *corners)
 }
 
 /** move 1...N_CORNERS/2 corners in the same random direction
- *
+ * Deprecated
  * not completly anisotrop!
  */
-int choose_and_move_some_corners(double *corners)
+int choose_and_move_some_corners_old(double *corners)
 {
 
     double dx = rand_double_m_to_n(-(cof_move_step_size[TYPE]),cof_move_step_size[TYPE]);
@@ -114,10 +114,41 @@ int choose_and_move_some_corners(double *corners)
         }
         i_corner = (i + start_corner) % N_CORNERS;
         corners[i_corner*2] += dx * factor;
-        corners[i_corner*2+1] += dy;
+        corners[i_corner*2+1] += dy * factor;
     }
     return middle_point; //moved_corner: the one in the middle
 }
+
+/** move 1...N_CORNERS/2 corners in the same random direction
+ */
+int choose_and_move_some_corners(double *corners)
+{
+
+    double rd = rand_double_m_to_n(0,cof_move_step_size[TYPE]);
+    double angle = rand_double_m_to_n(0, 2 * PI);
+
+    double dx = cos(angle) * rd;
+    double dy = sin(angle) * rd;
+    int start_corner = rand() % N_CORNERS;
+    int number_of_corners = rand() % (N_CORNERS/2);
+    int middle_point = (start_corner + number_of_corners/2) % N_CORNERS;
+    int i_corner;
+    double factor = 0.0;
+    for(int i=0;i<number_of_corners;i++)
+    {
+        if (i<=number_of_corners/2){
+            factor += 2.0/(float)number_of_corners;
+        } else {
+            factor -= 2.0/(float)number_of_corners;
+        }
+        i_corner = (i + start_corner) % N_CORNERS;
+        corners[i_corner*2] += dx * factor;
+        corners[i_corner*2+1] += dy * factor;
+    }
+    //printf("choose_and_move_some_corners: %f, %f\n",  dx,dy);
+    return middle_point; //moved_corner: the one in the middle
+}
+
 
 void move_all_corners_by_vector(double *corners, double vector[])
 {
