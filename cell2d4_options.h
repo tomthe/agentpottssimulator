@@ -33,7 +33,7 @@ double cof_surface_alpha[] = {2.0,3.0,3.0};
 int cof_convex_do_calc[] = {1,1,1};
 //double cof_convex_alpha[] = {2.0,2.0,2.0};
 int cof_straight_hull_do_calc[] = {1,1,1};
-double cof_straight_hull_alpha[] = {100.0,75.0,1};
+double cof_straight_hull_alpha[] = {30.0,75.0,1};
 
 int cof_contact_do_calc[] = {1,1,1};
 double cof_contact_alpha[] = {40.0,40.0,9.0};
