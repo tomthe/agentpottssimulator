@@ -41,7 +41,7 @@ double cof_contact_distance[] = {0.4,0.4,0.1}; //deprecated
 double cof_contact_medium[] = {2.0,2.0,1.0};
 double cof_contact_depth[] = {0.6,0.6,0.6,0.6};
 double cof_contact_edge[n_cell_types][n_cell_types] = {{-26,-5.0,-5.0},{-5.0,-26,55},{0.0,0.0,0.0}};
-double cof_contact_intersection[n_cell_types][n_cell_types] = {{15.0,15.0,10.0},{15.0,15.0,10.0},{52.0,52.0,52.0}};
+double cof_contact_intersection[n_cell_types][n_cell_types] = {{85.0,55.0,10.0},{55.0,85.0,10.0},{52.0,52.0,52.0}};
 
 int cof_signal_release_propab[] = {100,200,-1,-1};
 double cof_signal_speed[] = {0.3,0.2,0.3};
