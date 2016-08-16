@@ -11,7 +11,7 @@
 
 #define cof_use_hamiltonian 1
 
-#define cof_T 1
+#define cof_T 0.5
 
 #define r 6.8
 
@@ -43,7 +43,7 @@ double cof_contact_depth[] = {0.6,0.6,0.6,0.6};
 double cof_contact_edge[n_cell_types][n_cell_types] = {{-26,-11.0,-5.0},{-11.0,-26,55},{0.0,0.0,0.0}};
 double cof_contact_intersection[n_cell_types][n_cell_types] = {{25.0,35.0,10.0},{45.0,35.0,10.0},{52.0,52.0,52.0}};
 
-int cof_signal_release_propab[] = {100,200,-1,-1};
+int cof_signal_release_propab[] = {-1,-1,-1,-1};
 double cof_signal_speed[] = {0.3,0.2,0.3};
 int cof_signal_maxage[] = {200,250,3};
 double cof_cell_signal[n_cell_types][n_cell_types] = {{-20.0,-1.0,0.0},{-1.0,-20.0,0.0},{-1.0,2.0,0.0}};
