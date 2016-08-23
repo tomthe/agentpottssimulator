@@ -35,10 +35,10 @@ if acount < 2:
 print "Writing to file %s ... " % outfile
 
 do_stiff_edge=False
-n_corners = 10
-r = 1.0
-spacing = r * 2.0
-nix, niy = 8,8
+n_corners = 12
+r = 0.60
+spacing = r * 4.0
+nix, niy = 14,14
 
 f = open(outfile, "w")
 f.write("<states>\n   <itno>0</itno>\n")
