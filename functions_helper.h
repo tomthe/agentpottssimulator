@@ -172,11 +172,11 @@ void get_divide_cell_new_corner_positions(double corners_old[],double corners_ne
     d0y = (corners_old[0+1] + corners_old[(N_CORNERS-1)*2+1]) /2.0;
 
 
-    //define the new point dm: on opposit side of d0:
     if (N_CORNERS%2==0)
     {
-        //printf("\ndivide_cell! inside ncorners is even");
+        printf("\n eh5 divide_cell! inside ncorners is even");
         km = N_CORNERS / 2;
+        //define the new point dm: on opposit side of d0:
         dmx = (corners_old[(km-1)*2] + corners_old[(km)*2]) / 2.0;
         dmy = (corners_old[(km-1)*2+1] + corners_old[(km)*2+1]) / 2.0;
 /*
@@ -194,7 +194,9 @@ void get_divide_cell_new_corner_positions(double corners_old[],double corners_ne
 
             x = d0x + (dmx-d0x) * (float)(i) / (float)(n_middle_points-1);
             y = d0y + (dmy-d0y) * (float)(i) / (float)(n_middle_points-1);
+            // (dm-d0)--> vektor from dm pointing to d0
             // (N_CORNERS/2+1) + i;
+
             corners_new1[i_corner1*2] = x;
             corners_new1[i_corner1*2+1] = y;
             corners_new2[i_corner2*2] = x;
