@@ -143,8 +143,9 @@ def pointstring_to_positions(cell_string):
 	cells = cell_string.split(",")
 	corners = []
 	for i in xrange(0,len(cells),2):
-		if(float(cells[i])!=0 and float(cells[i+1])!=0):
-			corners.append([float(cells[i]),float(cells[i+1])])
+		if(i<N_CORNERS*2):
+			if(float(cells[i])!=0 and float(cells[i+1])!=0):
+				corners.append([float(cells[i]),float(cells[i+1])])
 
 	#print "corners: ",corners, ";  len(cells): ",len(cells),len(cells)/2
 	return corners
@@ -226,5 +227,5 @@ def just_code():
 #test_draw()
 #test_onefile()
 import sys
-start, stop, step  = map(int, sys.argv[1:])
+start, stop, step, N_CORNERS  = map(int, sys.argv[1:])
 read_and_paint_many_timesteps(start,stop,step)
