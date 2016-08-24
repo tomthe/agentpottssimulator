@@ -38,7 +38,7 @@ do_stiff_edge=False
 n_corners = 12
 r = 0.60
 spacing = r * 4.0
-nix, niy = 14,14
+nix, niy = 4,4
 
 f = open(outfile, "w")
 f.write("<states>\n   <itno>0</itno>\n")

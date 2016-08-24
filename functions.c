@@ -109,9 +109,9 @@ int cell_functions()
         //Verteilungsfunktion der Normalverteilung:
         //mu: erwartungswert; sqrt2Sigmasquare: squareroot(2*Sigma**2)
         double p_now =  0.5 /sqrt2Sigmasquare * (1 + erf(((double)AGE-(double)cof_divide_rate[TYPE])/sqrt2Sigmasquare));
-        if (p_now>0.44){
+        /*if (p_now>0.44){
             printf("\n| %4.2f; %d; %d |",p_now,cof_divide_rate[TYPE],AGE);
-        }
+        }*/
         //double p = ((double)AGE * AGE / (cof_divide_rate[TYPE] * cof_divide_rate[TYPE])) / cof_divide_rate[TYPE];
         if (((double)rand() / (double)RAND_MAX) < p_now)
         {
