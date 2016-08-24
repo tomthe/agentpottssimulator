@@ -204,6 +204,7 @@ void get_divide_cell_new_corner_positions(double corners_old[],double corners_ne
     else
     {
         //not implemented yet for odd numbers of corners...!!todo
+        printf("\nget_divide_cell_new_corner_positions is not implemented for odd N_CORNERS! Check that!");
         km = N_CORNERS / 2;
         dmx = corners_old[(km)*2];
         dmy = corners_old[(km)*2+1];
