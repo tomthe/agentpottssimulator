@@ -17,10 +17,10 @@
 
 double cof_move_step_size[] = {0.12,0.06,0.0,0.01};
 int cof_move_random_extra_probability[] = {10,10,0};
-double cof_push_alpha[] = {0.6,0.1,0.0};
+double cof_push_alpha[] = {0.6,0.03,0.0};
 double cof_attraction_alpha[n_cell_types][n_cell_types] ={{0.0,0.0,0.0}, {0.00,0.0,0.0},{0.0,0.0,0.0}};
 
-int cof_percent_of_cells_that_should_move_in_one_ts[] = {40,20,50};
+int cof_percent_of_cells_that_should_move_in_one_ts[] = {60,12,50};
 
 int cof_volume_do_calc[] = {1,1,1};
 double cof_volume_target[] = {5.0,4.0,0.5};
@@ -40,7 +40,7 @@ double cof_contact_alpha[] = {10.0,10.0,9.0};
 double cof_contact_distance[] = {0.4,0.4,0.1}; //deprecated
 double cof_contact_medium[] = {0.0,0.0,1.0};
 double cof_contact_depth[] = {0.5,0.4,0.6,0.6};
-double cof_contact_edge[n_cell_types][n_cell_types] = {{2.0,-4.0,-5.0},{-16.0,-16,55},{0.0,0.0,0.0}};
+double cof_contact_edge[n_cell_types][n_cell_types] = {{2.0,-1.0,-5.0},{-8.0,-16,55},{0.0,0.0,0.0}};
 double cof_contact_intersection[n_cell_types][n_cell_types] = {{2.0,2.0,10.0},{1.0,1.0,10.0},{52.0,52.0,52.0}};
 
 int cof_signal_release_propab[] = {-1,-1,-1,-1};
