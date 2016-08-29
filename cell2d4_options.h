@@ -11,7 +11,7 @@
 
 #define cof_use_hamiltonian 1
 
-#define cof_T 0.1
+#define cof_T 0.2
 
 #define r 6.8
 
@@ -44,10 +44,10 @@ double cof_contact_edge[n_cell_types][n_cell_types] = {{2.0,-1.0,-5.0},{-8.0,-16
 double cof_contact_intersection[n_cell_types][n_cell_types] = {{2.0,2.0,10.0},{1.0,1.0,10.0},{52.0,52.0,52.0}};
 
 int cof_signal_release_propab[] = {50,-1,-1,-1};
-double cof_signal_speed[] = {0.4,0.4,0.3};
+double cof_signal_speed[] = {0.3,0.4,0.3};
 int cof_signal_maxage[] = {300,100,3};
-double cof_cell_signal[n_cell_types][n_cell_types] = {{5.0,0.0,0.0},{0.0,-2.0,0.0},{-1.0,2.0,0.0}};
+double cof_cell_signal[n_cell_types][n_cell_types] = {{10.0,0.0,0.0},{0.0,-2.0,0.0},{-1.0,2.0,0.0}};
 
 //death rate for each cell-type. -1: no death; n: death after ca n timesteps
-long int cof_death_rate[] = {-1,-1,-1};
+long int cof_death_rate[] = {4000,-1,-1};
 long int cof_divide_rate[] = {1000,-1,-1};
