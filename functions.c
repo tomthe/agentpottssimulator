@@ -127,7 +127,7 @@ int cell_functions()
 
     //random cell-death:
 
-    if ((cof_death_rate[TYPE]!=-1))
+    if (cof_death_rate[TYPE] != -1)
     {
         //double p = ((double)AGE * AGE / (cof_death_rate[TYPE] * cof_death_rate[TYPE])) / cof_death_rate[TYPE];
         double p_now = 0.5  /sqrt2Sigmasquare * (1 + erf(((double)AGE-(double)cof_death_rate[TYPE])/sqrt2Sigmasquare));
