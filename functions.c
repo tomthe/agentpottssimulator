@@ -101,7 +101,7 @@ int cell_functions()
 {
     //increase age by one timestep:
     AGE++;
-    
+
     //stochastic_
     if (cof_divide_rate[TYPE] != -1)
     {
@@ -118,7 +118,9 @@ int cell_functions()
             printf("        -celldivision.  type: %d; age: %d; divide-rate: %d  p_now: %5.3f \n",TYPE,AGE,cof_divide_rate[TYPE],p_now);
             asymettric_stem_cell_division(1);
             if((rand() % 1000) < 15){
+              rotate_cell_by_random_corners(CORNERS);
               divide_cell(CORNERS,0);
+              rotate_cell_by_random_corners(CORNERS);
             }
             //stochastic_stem_cell_division(1);
         }

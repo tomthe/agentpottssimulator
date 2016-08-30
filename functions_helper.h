@@ -249,7 +249,7 @@ void get_middle_point(double corners[], double middle_point[])
 
 void divide_cell(double corners[], int cell_type)
 {
-    rotate_cell_by_random_corners(corners);
+    //rotate_cell_by_random_corners(corners);
     //print_positions(corners);
     double corners1[N_CORNERS*2],corners2[N_CORNERS*2];
     get_divide_cell_new_corner_positions(corners,corners1,corners2);
