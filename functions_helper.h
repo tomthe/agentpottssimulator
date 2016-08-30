@@ -222,7 +222,7 @@ void rotate_cell_by_corners(double corners[], int n_rotate_corners){
     double corners_temp[N_CORNERS*2];
     for(int ic =0; ic<N_CORNERS*2; ic++){
       //printf("\n gr7 rotate cell! ---%d- %d",ic,(ic+n_rotate_corners)%(N_CORNERS*2));
-      corners_temp[(ic+n_rotate_corners)%(N_CORNERS*2)] = corners[ic];
+      corners_temp[(ic+(2*n_rotate_corners))%(N_CORNERS*2)] = corners[ic];
     }
     copy_array_to_array(corners_temp,corners,N_CORNERS*2);
 }
