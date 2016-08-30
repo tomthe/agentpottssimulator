@@ -8,6 +8,11 @@
 #define sqdistance(x1,y1,x2,y2) (((x1-x2)*(x1-x2)+(y1-y2)*(y1-y2)))
 #define PI 3.141592653589793238
 
+
+/*
+deep copy array1 to array2
+n: size of array
+ */
 void copy_array_to_array(double *array1, double *array2, int n)
 {
     for(int i=0; i<n;i++)
@@ -213,6 +218,20 @@ void get_divide_cell_new_corner_positions(double corners_old[],double corners_ne
     }
 }
 
+void rotate_cell_by_corners(double corners[], int n_rotate_corners){
+    double corners_temp[N_CORNERS*2];
+    for(int ic =0; ic<N_CORNERS*2; ic++){
+      //printf("\n gr7 rotate cell! ---%d- %d",ic,(ic+n_rotate_corners)%(N_CORNERS*2));
+      corners_temp[(ic+n_rotate_corners)%(N_CORNERS*2)] = corners[ic];
+    }
+    copy_array_to_array(corners_temp,corners,N_CORNERS*2);
+}
+
+void rotate_cell_by_random_corners(double corners[]){
+    int n = (int) (rand() % N_CORNERS);
+    rotate_cell_by_corners(corners, n);
+}
+
 void get_middle_point(double corners[], double middle_point[])
 {
     middle_point[0] = 0.0;
@@ -230,6 +249,7 @@ void get_middle_point(double corners[], double middle_point[])
 
 void divide_cell(double corners[], int cell_type)
 {
+    rotate_cell_by_random_corners(corners);
     //print_positions(corners);
     double corners1[N_CORNERS*2],corners2[N_CORNERS*2];
     get_divide_cell_new_corner_positions(corners,corners1,corners2);
@@ -253,7 +273,6 @@ int divide_cell_random(int propability_fraction)
         }
     return 0;
 }
-
 
 int asymettric_stem_cell_division(int propability_fraction){
     if (TYPE==0)
