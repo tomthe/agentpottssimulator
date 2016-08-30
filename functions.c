@@ -101,7 +101,7 @@ int cell_functions()
 {
     //increase age by one timestep:
     AGE++;
-
+    
     //stochastic_
     if (cof_divide_rate[TYPE] != -1)
     {

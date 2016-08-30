@@ -49,5 +49,5 @@ int cof_signal_maxage[] = {300,100,3};
 double cof_cell_signal[n_cell_types][n_cell_types] = {{10.0,0.0,0.0},{0.0,-2.0,0.0},{-1.0,2.0,0.0}};
 
 //death rate for each cell-type. -1: no death; n: death after ca n timesteps
-long int cof_death_rate[] = {15000,45000,-1};
+long int cof_death_rate[] = {15000,145000,-1};
 long int cof_divide_rate[] = {1000,-1,-1};
