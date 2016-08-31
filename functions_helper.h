@@ -218,10 +218,16 @@ void get_divide_cell_new_corner_positions(double corners_old[],double corners_ne
     }
 }
 
+
+/**
+ * rotate the position of the corner points by n_rotate_corners.
+ * @param corners          corners
+ * @param n_rotate_corners must be positive. to rotate in negative direction, use N_CORNERS - n
+ */
 void rotate_cell_by_corners(double corners[], int n_rotate_corners){
     double corners_temp[N_CORNERS*2];
     for(int ic =0; ic<N_CORNERS*2; ic++){
-      //printf("\n gr7 rotate cell! ---%d- %d",ic,(ic+n_rotate_corners)%(N_CORNERS*2));
+    //printf("\n gr7 rotate cell! -new: %d; ic:%d; n_rotate: %d, new2:%d",(ic+(2*n_rotate_corners))%(N_CORNERS*2),ic,n_rotate_corners,(2*N_CORNERS+ic+(2*n_rotate_corners))%(N_CORNERS*2));
       corners_temp[(ic+(2*n_rotate_corners))%(N_CORNERS*2)] = corners[ic];
     }
     copy_array_to_array(corners_temp,corners,N_CORNERS*2);

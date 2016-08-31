@@ -85,9 +85,10 @@ def paint_one_timestep(cells,cell_types,signals_pos,filename):
 		#              fill=(255,255,255,127),outline=(255,255,255,255))
 		#back.paste(poly,mask=poly)
 		i+=1
+
 	for signal in signals_pos:
 		x,y = sim_coord_2_paint_coord(signal)
-		r = 2
+		r = 1
 		pdraw.ellipse((x-r, y-r, x+r, y+r), fill=(211,211,255))
 
 	pdraw.rectangle([sim_coord_2_paint_coord((0,0)),sim_coord_2_paint_coord((1.0,1.0))],fill=(180,180,180))

@@ -115,14 +115,16 @@ int cell_functions()
         //double p = ((double)AGE * AGE / (cof_divide_rate[TYPE] * cof_divide_rate[TYPE])) / cof_divide_rate[TYPE];
         if (((double)rand() / (double)RAND_MAX) < p_now)
         {
-            printf("        -celldivision.  type: %d; age: %d; divide-rate: %d  p_now: %5.3f \n",TYPE,AGE,cof_divide_rate[TYPE],p_now);
+          if((rand() % 1000) < 25){ //sometimes produce a new stem-cell
+            //rotate_cell_by_random_corners(CORNERS);
+            rotate_cell_by_corners(CORNERS,N_CORNERS-1);
+            divide_cell(CORNERS,0);
+            //rotate cell away from
+            rotate_cell_by_corners(CORNERS,2);
+          } else {
+            printf(" - rl5 -celldivision.  type: %d; age: %d; divide-rate: %d  p_now: %5.3f \n",TYPE,AGE,cof_divide_rate[TYPE],p_now);
             asymettric_stem_cell_division(1);
-            if((rand() % 1000) < 15){
-              //rotate_cell_by_random_corners(CORNERS);
-              rotate_cell_by_corners(CORNERS,2);
-              divide_cell(CORNERS,0);
-              rotate_cell_by_corners(CORNERS,-4);
-            }
+          }
             //stochastic_stem_cell_division(1);
         }
     }
