@@ -2,6 +2,9 @@
 
 This is the repository for the agent-potts-simulator.
 
+![Angiogenesis](./doc/angio1.png)
+![Angiogenesis](./doc/angio2_big.png)
+
 ## Installation and first run
 
 For windows:
